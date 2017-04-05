@@ -9,7 +9,8 @@
 #include <vector.h>
 #include <sting.h>
 
-using std::vector, std::string;
+using std::vector;
+using std::string;
 
 class SubtitleIO {
 private:

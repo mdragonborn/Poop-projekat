@@ -8,12 +8,18 @@
 using std::ostream;
 
 class mvtime {
+protected:
+    virtual void assign(mvtime newval)=0;
 public:
     enum dir{LEFT, RIGHT};
     virtual string toString()=0;
     virtual shift(int dipsplacement, dir direction)=0;
     friend ostream& operator<<(ostream& os, mvtime& mv){
         os << mv.toString(); return os;
+    }
+    mvtime& operator=(mvtime newval){
+        assign(newval);
+        return *this;
     }
 };
 

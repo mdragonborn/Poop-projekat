@@ -7,7 +7,6 @@
 
 
 class SubtitleApp {
-    SubtitleIO *
 public:
     int main_app(); // main menu
 };
