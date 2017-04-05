@@ -14,14 +14,19 @@ private:
     mvtime time_;
     string content_;
 public:
-    Subtitle(mvtime time, string content){
-        time_=time;
-        content_=content;
-    }
+    Subtitle(mvtime time, string content):content_(content), time_(time){}; //vidi ovde sa ovim polimorfizmom sta ces
     Subtitle& shiftTime(int disp, dir direction){
         time_.shift(disp, direction);
         return *this;
     }
+    Subtitle& changeContent(string newContent){
+        content_=newContent;
+        return *this;
+    }
+    string getContent() const {
+        return content_;
+    }
+
 };
 
 
