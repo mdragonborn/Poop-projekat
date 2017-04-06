@@ -5,11 +5,13 @@
 #ifndef POOP_MVTIME_H
 #define POOP_MVTIME_H
 
+#include <string>
+
 using std::ostream;
+using std::string;
 
 class mvtime {
 protected:
-    virtual void assign(mvtime newval)=0;
 public:
     enum dir{LEFT, RIGHT};
     virtual string toString()=0;
@@ -17,10 +19,7 @@ public:
     friend ostream& operator<<(ostream& os, mvtime& mv){
         os << mv.toString(); return os;
     }
-    mvtime& operator=(mvtime newval){
-        assign(newval);
-        return *this;
-    }
+    virtual void assign(mvtime * newval)=0;
 };
 
 //izvesti za svaki format vremena

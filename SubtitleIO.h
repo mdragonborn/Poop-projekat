@@ -6,8 +6,8 @@
 #define POOP_SUBTITLEIO_H
 
 #include "Subtitle.h"
-#include <vector.h>
-#include <sting.h>
+#include <vector>
+#include <string>
 #include <iterator>
 
 using std::vector;
@@ -19,11 +19,11 @@ private:
     string filename;
     FILE source_file; //FILE ili string? da li drzati fajl sve vreme otvorenim tak oda druge aplikacije ne mogu da ga diraju?
 public:
-    typedef vector<Subtitle>::iterator SubtitleIter;
+    typedef std::vector<Subtitle>::const_iterator SubtitleIter;
     SubtitleIO(string source_path):filename(source_path){};
     virtual SubtitleIO& merge_title()=0; //args?
     virtual SubtitleIO& split_title()=0; //args?
-    virtual SubtitleIO& shift_title(mvtime start, mvtime end, int disp)=0;
+    virtual SubtitleIO& shift_title(mvtime * start, mvtime * end, int disp)=0;
     string fileName()const{
         return filename;
     }

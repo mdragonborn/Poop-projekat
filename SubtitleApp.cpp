@@ -23,6 +23,8 @@ static void SubtitleApp::initListingOptions(){
     listingOptions->insert(H, &listing_help_print);
     listingOptions->insert(E, &mergeTitles);
     listingOptions->insert(D, &splitTitle);
+    listingOptions->insert(I, &insertTitle);
+    listingOptions->insert(R, &removeTitle);
     return;
 }
 
