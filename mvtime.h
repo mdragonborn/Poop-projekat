@@ -13,13 +13,19 @@ using std::string;
 class mvtime {
 protected:
 public:
-    enum dir{LEFT, RIGHT};
-    virtual string toString()=0;
-    virtual shift(int dipsplacement, dir direction)=0;
-    friend ostream& operator<<(ostream& os, mvtime& mv){
+    struct mvtimeRange{
+        mvtime startTime;
+        mvtime endTime;
+        mvtimeRange(mvtime start, mvtime end){
+            startTime=start;
+            endTime=end;
+        }
+    };
+    string toString();
+    shift(int displacement);
+    ostream& operator<<(ostream& os, mvtime& mv){
         os << mv.toString(); return os;
     }
-    virtual void assign(mvtime * newval)=0;
 };
 
 //izvesti za svaki format vremena
