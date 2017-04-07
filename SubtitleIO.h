@@ -10,17 +10,41 @@
 #include <string>
 #include <iterator>
 
-using std::vector;
-using std::string;
+//using std::vector;
+//using std::string;
 
-class SubtitleIO {
+template <class Format> class SubtitleIO{
 protected:
-    SubtitleIO();
-    static SubtitleIO * instance_;
+    static Format * instance_= nullptr;
 public:
-    virtual static SubtitleIO * createObject()=0;
-
+    static Format * createObject(){
+        if (!instance_)
+            instance_=new Format();
+        return instance_;
+    };
+    virtual Subtitle * loadSubtitle(); //vidi implementaciono kako ti odgovara
+    virtual bool export(string path, Subtitle& subtitle)=0;
 };
+
+class SubRipIO: public SubtitleIO<SubRipIO>{
+private:
+    SubipIO():{};
+};
+//static SubRipIO * SubRipIO::instance_=nullptr;
+
+
+class MicroDVDIO: public SubtitleIO{
+private:
+    SubipIO():{};
+};
+//static MicroDVDIO * MicroDVDIO::instance_=nullptr;
+
+
+class MplayerIO: public SubtitleIO{
+private:
+    SubipIO():{};
+};
+//static MplayerIO * MplayerIO::instance_=nullptr;
 
 
 #endif //POOP_SUBTITLEIO_H
