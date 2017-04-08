@@ -5,6 +5,11 @@
 #include "SubtitleIO.h"
 #include <regex>
 
+SingletonClass<SubRipIO>::instance_=nullptr;
+SingletonClass<MicroDVDIO>::instance_= nullptr;
+SingletonClass<MplayerIO>::instance_=nullptr;
+
+
 Subtitles * SubtitleIO::loadSubtitles(string file_path){
     ifstream inputStream;
     try{

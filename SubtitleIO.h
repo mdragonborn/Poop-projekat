@@ -19,6 +19,11 @@ using std::queue;
 using std::exception;
 using std::ifstream;
 
+//Exceptions
+class FailedToOpenFile: public exception{};
+class ParsingError: public exception{};
+class TooBadFile: public exception{};
+
 template <class Format> class SingletonClass{
 protected:
     static Format * instance_;
@@ -29,11 +34,6 @@ public:
         return instance_;
     };
 };
-
-
-class FailedToOpenFile: public exception{};
-class ParsingError: public exception{};
-class TooBadFile: public exception{};
 
 class SubtitleIO{
 protected:
@@ -57,8 +57,7 @@ public:
 
 class SubRipIO: public SingletonClass<SubRipIO>, public SubtitleIO{
 private:
-    friend SingletonClass<SubRipIO>;
-    SubRipIO(){instance_=this;};
+    SubRipIO(){};
     virtual bool handleInputError(inputError& inpError);
 public:
     virtual string getInputData(ifstream& file);
@@ -66,11 +65,12 @@ public:
     virtual string getExportString(Subtitle& sub);
 };
 
+
 class MicroDVDIO: public SingletonClass<MicroDVDIO>, public SubtitleIO{
 private:
     mvTime lastTime;
     friend SingletonClass<MicroDVDIO>;
-    MicroDVDIO(){instance_=this;};
+    MicroDVDIO(){};
     virtual bool handleInputError(inputError& inpError);
 public:
     virtual string getInputData(ifstream& file);
@@ -83,7 +83,7 @@ class MplayerIO: public SingletonClass<MplayerIO>, public SubtitleIO{
 private:
     mvTime lastTime;
     double fps; //??????
-    MplayerIO(){instance_=this;};
+    MplayerIO(){};
     virtual bool handleInputError(inputError& inpError);
     friend SingletonClass<MplayerIO>;
 public:
@@ -91,4 +91,6 @@ public:
     virtual Subtitle * parseInputData(string inputData);
     virtual string getExportString(Subtitle& sub);
 };
+
+
 #endif //POOP_SUBTITLEIO_H
