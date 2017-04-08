@@ -3,6 +3,7 @@
 //
 
 #include "SubtitleIO.h"
+#include <regex>
 
 Subtitles * SubtitleIO::loadSubtitles(string file_path){
     ifstream inputStream;
@@ -72,7 +73,8 @@ string MicroDVDIO::getInputData(ifstream& file){
 }
 
 Subtitle * MicroDVDIO::parseInputData(string inputData){
-    //regex za parsianje
+    if (!regex_match(string, regex("{\\d+}{\\d+}.*$"))) throw ParsingError();
+
 }
 
 string MicroDVDIO::getExportString(Subtitle& sub){

@@ -6,6 +6,8 @@
 #define POOP_SUBTITLES_H
 
 #include "Subtitle.h"
+#include <vector>
+using std::vector;
 
 class Subtitles {
 private:
@@ -14,9 +16,7 @@ private:
     FILE source_file; //FILE ili string? da li drzati fajl sve vreme otvorenim tak oda druge aplikacije ne mogu da ga diraju?
     void append(mvTimeRange time, string content);
 public:
-    Subtitles():{
-
-    };
+    Subtitles(){};
     void insertNew(Subtitle subt);
     void alterAtTime(mvTimeRange time);
     Subtitle& getSubtitleAtTime(mvTimeRange time);

@@ -10,9 +10,10 @@
 
 using std::ostream;
 using std::string;
+using std::exception;
 
-class ImpossibleTimeRange: public Exception{};
-class NegativeTime: public Exception{};
+class ImpossibleTimeRange: public exception{};
+class NegativeTime: public exception{};
 
 class mvTime {
 protected:
@@ -22,17 +23,14 @@ public:
     mvTime(int hour=0, int minute=0, int second=0, int millisec=0) {
         millisec_ = millisec % milliMod;
         second_ = (second + millisec / milliMod) % secondMod;
-        minute_ = (minute + (second + millisec / milliMod) / secondMod) % minutueMod;
-        hour_ = hour + (minute + (second + millisec / milliMod) / secondMod) / minutueMod;
+        minute_ = (minute + (second + millisec / milliMod) / secondMod) % minuteMod;
+        hour_ = hour + (minute + (second + millisec / milliMod) / secondMod) / minuteMod;
     }
     mvTime operator+(mvTime t2);
     mvTime operator+(double sec);
     mvTime operator-(mvTime t2);
     mvTime operator-(double sec);
-    bool operator>(mvtime t2);
-    ostream& operator<<(ostream& os, mvtime& mv){
-        os << mv.toString(); return os;
-    }
+    bool operator>(mvTime t2);
 };
 
 class mvTimeRange{

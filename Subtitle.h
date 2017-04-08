@@ -15,8 +15,8 @@ private:
     string content_;
 public:
     Subtitle(mvTimeRange time, string content):content_(content), time_(time){}; //vidi ovde sa ovim polimorfizmom sta ces
-    Subtitle& shiftTime(int disp){
-        time_->shift(disp);
+    Subtitle& shiftTime(int disp, mvTimeRange::dir direction){
+        time_.shift(disp, direction);
         return *this;
     }
     Subtitle& setTime(mvTimeRange time){

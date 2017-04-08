@@ -13,7 +13,11 @@
   <component name="ChangeListManager">
     <list default="true" id="191fd960-9da9-4c56-b257-c131f2e05e14" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mvtime.cpp" afterPath="$PROJECT_DIR$/mvtime.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Subtitle.h" afterPath="$PROJECT_DIR$/Subtitle.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SubtitleApp.h" afterPath="$PROJECT_DIR$/SubtitleApp.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SubtitleIO.cpp" afterPath="$PROJECT_DIR$/SubtitleIO.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SubtitleIO.h" afterPath="$PROJECT_DIR$/SubtitleIO.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Subtitles.h" afterPath="$PROJECT_DIR$/Subtitles.h" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mvtime.h" afterPath="$PROJECT_DIR$/mvtime.h" />
     </list>
     <ignored path="poop.iws" />
@@ -55,16 +59,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SubtitleApp.h" pinned="false" current-in-tab="false">
+      <file leaf-file-name="SubtitleApp.h" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/SubtitleApp.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="304">
-              <caret line="50" column="15" selection-start-line="50" selection-start-column="15" selection-end-line="50" selection-end-column="15" />
+            <state relative-caret-position="329">
+              <caret line="66" column="0" selection-start-line="66" selection-start-column="0" selection-end-line="66" selection-end-column="0" />
               <folding>
                 <element signature="e#98#116#0" expanded="true" />
-                <element signature="e#493#552#0" expanded="false" />
-                <element signature="e#557#617#0" expanded="false" />
-                <element signature="e#1182#1462#0" expanded="false" />
+                <element signature="e#1186#1466#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -73,12 +75,12 @@
       <file leaf-file-name="SubtitleIO.h" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/SubtitleIO.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="695">
-              <caret line="87" column="26" selection-start-line="87" selection-start-column="26" selection-end-line="87" selection-end-column="26" />
+            <state relative-caret-position="204">
+              <caret line="49" column="16" selection-start-line="49" selection-start-column="16" selection-end-line="49" selection-end-column="16" />
               <folding>
                 <element signature="e#96#118#0" expanded="true" />
-                <element signature="e#284#298#0" expanded="true" />
-                <element signature="e#669#807#1" expanded="false" />
+                <element signature="e#327#341#0" expanded="true" />
+                <element signature="e#704#842#1" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -87,10 +89,18 @@
       <file leaf-file-name="SubtitleIO.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/SubtitleIO.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="96" column="49" selection-start-line="96" selection-start-column="49" selection-end-line="96" selection-end-column="49" />
+            <state relative-caret-position="125">
+              <caret line="5" column="16" selection-start-line="5" selection-start-column="16" selection-end-line="5" selection-end-column="16" />
               <folding>
-                <element signature="e#1098#1371#0" expanded="false" />
+                <element signature="e#43#66#0" expanded="true" />
+                <element signature="e#1115#1388#0" expanded="false" />
+                <marker date="1491691005898" expanded="true" signature="140:1113" placeholder="{...}" />
+                <marker date="1491691005898" expanded="true" signature="1463:1659" placeholder="{...}" />
+                <marker date="1491691005898" expanded="true" signature="1714:1742" placeholder="{...}" />
+                <marker date="1491691005898" expanded="true" signature="1791:1795" placeholder="{...}" />
+                <marker date="1491691005898" expanded="true" signature="1873:1940" placeholder="{...}" />
+                <marker date="1491691005898" expanded="true" signature="1997:2079" placeholder="{...}" />
+                <marker date="1491691005898" expanded="true" signature="2130:2134" placeholder="{...}" />
               </folding>
             </state>
           </provider>
@@ -99,20 +109,19 @@
       <file leaf-file-name="mvtime.h" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mvtime.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4">
-              <caret line="28" column="33" selection-start-line="28" selection-start-column="33" selection-end-line="28" selection-end-column="33" />
+            <state relative-caret-position="134">
+              <caret line="32" column="30" selection-start-line="32" selection-start-column="30" selection-end-line="32" selection-end-column="30" />
               <folding>
                 <element signature="e#88#105#0" expanded="true" />
-                <element signature="e#402#752#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="mvtime.cpp" pinned="false" current-in-tab="true">
+      <file leaf-file-name="mvtime.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mvtime.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="129">
+            <state relative-caret-position="250">
               <caret line="32" column="59" selection-start-line="32" selection-start-column="59" selection-end-line="32" selection-end-column="59" />
               <folding>
                 <element signature="e#0#2#0" expanded="false" />
@@ -135,13 +144,12 @@
       <file leaf-file-name="Subtitle.h" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Subtitle.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="551">
-              <caret line="32" column="2" selection-start-line="32" selection-start-column="2" selection-end-line="32" selection-end-column="2" />
+            <state relative-caret-position="345">
+              <caret line="17" column="47" selection-start-line="17" selection-start-column="47" selection-end-line="17" selection-end-column="47" />
               <folding>
                 <element signature="e#92#111#0" expanded="true" />
-                <element signature="e#537#637#0" expanded="false" />
-                <element signature="e#642#700#0" expanded="false" />
-                <marker date="1491637120355" expanded="true" signature="167:702" placeholder="{...}" />
+                <element signature="e#575#675#0" expanded="false" />
+                <element signature="e#680#738#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -150,12 +158,10 @@
       <file leaf-file-name="Subtitles.h" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Subtitles.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="695">
-              <caret line="34" column="0" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
+            <state relative-caret-position="184">
+              <caret line="18" column="16" selection-start-line="18" selection-start-column="16" selection-end-line="18" selection-end-column="16" />
               <folding>
-                <marker date="1491637120335" expanded="true" signature="133:745" placeholder="{...}" />
-                <marker date="1491637120335" expanded="false" signature="637:677" placeholder="{...}" />
-                <marker date="1491637120335" expanded="false" signature="705:743" placeholder="{...}" />
+                <element signature="e#94#115#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -172,14 +178,14 @@
         <option value="$PROJECT_DIR$/SubtitleIterator.cpp" />
         <option value="$PROJECT_DIR$/main.cpp" />
         <option value="$PROJECT_DIR$/SubtitleApp.cpp" />
-        <option value="$PROJECT_DIR$/SubtitleApp.h" />
-        <option value="$PROJECT_DIR$/Subtitles.h" />
-        <option value="$PROJECT_DIR$/Subtitle.h" />
-        <option value="$PROJECT_DIR$/SubtitleIO.cpp" />
-        <option value="$PROJECT_DIR$/SubtitleIO.h" />
         <option value="$PROJECT_DIR$/mvtime.h.cpp" />
-        <option value="$PROJECT_DIR$/mvtime.h" />
         <option value="$PROJECT_DIR$/mvtime.cpp" />
+        <option value="$PROJECT_DIR$/SubtitleIO.cpp" />
+        <option value="$PROJECT_DIR$/mvtime.h" />
+        <option value="$PROJECT_DIR$/Subtitle.h" />
+        <option value="$PROJECT_DIR$/Subtitles.h" />
+        <option value="$PROJECT_DIR$/SubtitleIO.h" />
+        <option value="$PROJECT_DIR$/SubtitleApp.h" />
       </list>
     </option>
   </component>
@@ -487,7 +493,14 @@
       <option name="project" value="LOCAL" />
       <updated>1491598565035</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="mvTimeRange shiftovanje - nista jos nije testirano">
+      <created>1491687506464</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1491687506464</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -532,16 +545,11 @@
     <MESSAGE value="Kostur sa preciscenim greskama" />
     <MESSAGE value="Sve je bilo pogresno" />
     <MESSAGE value="Sve je bilo pogresno 2&#10;" />
-    <option name="LAST_COMMIT_MESSAGE" value="Sve je bilo pogresno 2&#10;" />
+    <MESSAGE value="mvTimeRange shiftovanje - nista jos nije testirano" />
+    <option name="LAST_COMMIT_MESSAGE" value="mvTimeRange shiftovanje - nista jos nije testirano" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/main.cpp</url>
-          <line>6</line>
-        </line-breakpoint>
-      </breakpoints>
       <option name="time" value="1" />
     </breakpoint-manager>
     <watches-manager />
@@ -603,9 +611,7 @@
         <state relative-caret-position="695">
           <caret line="34" column="0" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
           <folding>
-            <marker date="1491637120335" expanded="true" signature="133:745" placeholder="{...}" />
-            <marker date="1491637120335" expanded="false" signature="637:677" placeholder="{...}" />
-            <marker date="1491637120335" expanded="false" signature="705:743" placeholder="{...}" />
+            <element signature="e#94#115#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -616,9 +622,8 @@
           <caret line="32" column="2" selection-start-line="32" selection-start-column="2" selection-end-line="32" selection-end-column="2" />
           <folding>
             <element signature="e#92#111#0" expanded="true" />
-            <element signature="e#537#637#0" expanded="false" />
-            <element signature="e#642#700#0" expanded="false" />
-            <marker date="1491637120355" expanded="true" signature="167:702" placeholder="{...}" />
+            <element signature="e#575#675#0" expanded="false" />
+            <element signature="e#680#738#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -629,8 +634,8 @@
           <caret line="87" column="26" selection-start-line="87" selection-start-column="26" selection-end-line="87" selection-end-column="26" />
           <folding>
             <element signature="e#96#118#0" expanded="true" />
-            <element signature="e#284#298#0" expanded="true" />
-            <element signature="e#669#807#1" expanded="false" />
+            <element signature="e#327#341#0" expanded="true" />
+            <element signature="e#704#842#1" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -649,9 +654,7 @@
           <caret line="50" column="15" selection-start-line="50" selection-start-column="15" selection-end-line="50" selection-end-column="15" />
           <folding>
             <element signature="e#98#116#0" expanded="true" />
-            <element signature="e#493#552#0" expanded="false" />
-            <element signature="e#557#617#0" expanded="false" />
-            <element signature="e#1182#1462#0" expanded="false" />
+            <element signature="e#1186#1466#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -661,7 +664,15 @@
         <state relative-caret-position="360">
           <caret line="96" column="37" selection-start-line="96" selection-start-column="37" selection-end-line="96" selection-end-column="37" />
           <folding>
-            <element signature="e#1098#1371#0" expanded="false" />
+            <element signature="e#43#66#0" expanded="true" />
+            <element signature="e#1115#1388#0" expanded="false" />
+            <marker date="1491691005898" expanded="true" signature="140:1113" placeholder="{...}" />
+            <marker date="1491691005898" expanded="true" signature="1463:1659" placeholder="{...}" />
+            <marker date="1491691005898" expanded="true" signature="1714:1742" placeholder="{...}" />
+            <marker date="1491691005898" expanded="true" signature="1791:1795" placeholder="{...}" />
+            <marker date="1491691005898" expanded="true" signature="1873:1940" placeholder="{...}" />
+            <marker date="1491691005898" expanded="true" signature="1997:2079" placeholder="{...}" />
+            <marker date="1491691005898" expanded="true" signature="2130:2134" placeholder="{...}" />
           </folding>
         </state>
       </provider>
@@ -672,7 +683,6 @@
           <caret line="43" column="4" selection-start-line="43" selection-start-column="4" selection-end-line="47" selection-end-column="41" />
           <folding>
             <element signature="e#88#105#0" expanded="true" />
-            <element signature="e#402#752#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -753,88 +763,37 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="25">
-          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SubtitleApp.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="304">
-          <caret line="50" column="15" selection-start-line="50" selection-start-column="15" selection-end-line="50" selection-end-column="15" />
-          <folding>
-            <element signature="e#98#116#0" expanded="true" />
-            <element signature="e#493#552#0" expanded="false" />
-            <element signature="e#557#617#0" expanded="false" />
-            <element signature="e#1182#1462#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SubtitleIO.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="695">
-          <caret line="87" column="26" selection-start-line="87" selection-start-column="26" selection-end-line="87" selection-end-column="26" />
-          <folding>
-            <element signature="e#96#118#0" expanded="true" />
-            <element signature="e#284#298#0" expanded="true" />
-            <element signature="e#669#807#1" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Subtitles.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="695">
-          <caret line="34" column="0" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
-          <folding>
-            <marker date="1491637120335" expanded="true" signature="133:745" placeholder="{...}" />
-            <marker date="1491637120335" expanded="false" signature="637:677" placeholder="{...}" />
-            <marker date="1491637120335" expanded="false" signature="705:743" placeholder="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Subtitle.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="551">
-          <caret line="32" column="2" selection-start-line="32" selection-start-column="2" selection-end-line="32" selection-end-column="2" />
-          <folding>
-            <element signature="e#92#111#0" expanded="true" />
-            <element signature="e#537#637#0" expanded="false" />
-            <element signature="e#642#700#0" expanded="false" />
-            <marker date="1491637120355" expanded="true" signature="167:702" placeholder="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/SubtitleIO.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="96" column="49" selection-start-line="96" selection-start-column="49" selection-end-line="96" selection-end-column="49" />
+        <state relative-caret-position="125">
+          <caret line="5" column="16" selection-start-line="5" selection-start-column="16" selection-end-line="5" selection-end-column="16" />
           <folding>
-            <element signature="e#1098#1371#0" expanded="false" />
+            <element signature="e#43#66#0" expanded="true" />
+            <element signature="e#1115#1388#0" expanded="false" />
+            <marker date="1491691005898" expanded="true" signature="140:1113" placeholder="{...}" />
+            <marker date="1491691005898" expanded="true" signature="1463:1659" placeholder="{...}" />
+            <marker date="1491691005898" expanded="true" signature="1714:1742" placeholder="{...}" />
+            <marker date="1491691005898" expanded="true" signature="1791:1795" placeholder="{...}" />
+            <marker date="1491691005898" expanded="true" signature="1873:1940" placeholder="{...}" />
+            <marker date="1491691005898" expanded="true" signature="1997:2079" placeholder="{...}" />
+            <marker date="1491691005898" expanded="true" signature="2130:2134" placeholder="{...}" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/mvtime.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4">
-          <caret line="28" column="33" selection-start-line="28" selection-start-column="33" selection-end-line="28" selection-end-column="33" />
+        <state relative-caret-position="134">
+          <caret line="32" column="30" selection-start-line="32" selection-start-column="30" selection-end-line="32" selection-end-column="30" />
           <folding>
             <element signature="e#88#105#0" expanded="true" />
-            <element signature="e#402#752#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/mvtime.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="129">
+        <state relative-caret-position="250">
           <caret line="32" column="59" selection-start-line="32" selection-start-column="59" selection-end-line="32" selection-end-column="59" />
           <folding>
             <element signature="e#0#2#0" expanded="false" />
@@ -849,6 +808,59 @@
             <element signature="e#2136#2291#0" expanded="false" />
             <element signature="e#2293#2440#0" expanded="false" />
             <element signature="e#2442#2619#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Subtitle.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="17" column="47" selection-start-line="17" selection-start-column="47" selection-end-line="17" selection-end-column="47" />
+          <folding>
+            <element signature="e#92#111#0" expanded="true" />
+            <element signature="e#575#675#0" expanded="false" />
+            <element signature="e#680#738#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Subtitles.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="184">
+          <caret line="18" column="16" selection-start-line="18" selection-start-column="16" selection-end-line="18" selection-end-column="16" />
+          <folding>
+            <element signature="e#94#115#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SubtitleIO.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="49" column="16" selection-start-line="49" selection-start-column="16" selection-end-line="49" selection-end-column="16" />
+          <folding>
+            <element signature="e#96#118#0" expanded="true" />
+            <element signature="e#327#341#0" expanded="true" />
+            <element signature="e#704#842#1" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="25">
+          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SubtitleApp.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="329">
+          <caret line="66" column="0" selection-start-line="66" selection-start-column="0" selection-end-line="66" selection-end-column="0" />
+          <folding>
+            <element signature="e#98#116#0" expanded="true" />
+            <element signature="e#1186#1466#0" expanded="false" />
           </folding>
         </state>
       </provider>

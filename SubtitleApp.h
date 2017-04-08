@@ -30,10 +30,10 @@ private:
     static map<int, void(*)()> * listingOptions;
     static SubtitleIO::SubtitleIter begin, iter, end;
     static void goBack(){
-        if(iter!=begin) iter--;
+        //if(iter!=begin) iter--;
     }
     static void goForward(){
-        if(iter!=end) iter++;
+        //if(iter!=end) iter++;
     }
     static void insertTitle();
     static void removeTitle();
@@ -64,6 +64,6 @@ public:
     }
 };
 
-static map<int, void(*)()> * SubtitleApp::listingOptions=nullptr;
+map<int, void(*)()> * SubtitleApp::listingOptions=nullptr;
 
 #endif //POOP_SUBTITLEAPP_H
