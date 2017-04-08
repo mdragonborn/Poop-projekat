@@ -34,10 +34,18 @@ public:
 class mvTimeRange{
     mvTime startTime;
     mvTime endTime;
+public:
+    enum dir{FWD, BACK};
     mvTimeRange(mvTime start, mvTime end){
         startTime=start;
         endTime=end;
     }
+    mvTimeRange& shift(mvTime disp, dir direction);
+    mvTimeRange& shiftStart(mvTime disp, dir direction);
+    mvTimeRange& shiftEnd(mvTime disp, dir direction);
+    mvTimeRange& setStart(mvTime newStart);
+    mvTimeRange& setEnd(mvTime newEnd);
+    bool checkOverlap(mvTimeRange range);
 };
 //izvesti za svaki format vremena
 

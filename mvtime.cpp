@@ -29,3 +29,15 @@ bool mvTime::operator>(mvtime t2){
             else if (millisec_>t2.millisec_) return true;
             else return false;
 }
+
+mvTimeRange& mvTimeRange::shift(mvTime disp, dir direction);
+
+mvTimeRange& mvTimeRange::shiftStart(mvTime disp, dir direction);
+
+mvTimeRange& mvTimeRange::shiftEnd(mvTime disp, dir direction);
+
+mvTimeRange& mvTimeRange::setStart(mvTime newStart);
+
+mvTimeRange& mvTimeRange::setEnd(mvTime newEnd);
+
+bool mvTimeRange::checkOverlap(mvTimeRange range);

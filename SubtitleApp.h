@@ -47,6 +47,7 @@ private:
         <<endl<<"Navigacija W-S/Strelice"
         <<endl<<"Q - kraj rada"<<endl;
         while(!_kbhit());
+        _getch();
         return;
     }
     static void initListingOptions();
@@ -63,6 +64,6 @@ public:
     }
 };
 
-static map<int, void(*)()> * listingOptions=nullptr;
+static map<int, void(*)()> * SubtitleApp::listingOptions=nullptr;
 
 #endif //POOP_SUBTITLEAPP_H
