@@ -12,12 +12,12 @@ mvTime mvTime::operator+(double sec){
 }
 mvTime mvTime::operator-(mvTime t2){
     mvtime temp(hour_-t2.hour_, minute_-t2.hour_, second_-t2.second_, millisec_-t2.millisec_);
-    if(temp.hour_<0 || temp.minute_<0 || temp.second_<0 || millisec_<0) return mvtime();
+    if(temp.hour_<0 || temp.minute_<0 || temp.second_<0 || millisec_<0) throw new NegativeTime();
     else return temp;
 }
 mvTime mvTime::operator-(double sec){
     mvTime temp(hour_, minute_, second_-sec/1, millisec_-sec%1);
-    if(temp.hour_<0 || temp.minute_<0 || temp.second_<0 || millisec_<0) return mvtime();
+    if(temp.hour_<0 || temp.minute_<0 || temp.second_<0 || millisec_<0) throw new NegativeTime();
     else return temp;
 }
 bool mvTime::operator>(mvtime t2){
@@ -30,14 +30,59 @@ bool mvTime::operator>(mvtime t2){
             else return false;
 }
 
-mvTimeRange& mvTimeRange::shift(mvTime disp, dir direction);
+mvTimeRange& mvTimeRange::shift(mvTime disp, dir direction){
+    mvTime tempEnd, tempStart;
+    if(direction==FWD){
+        endTime=endTime+disp;
+        startTime=startTime+disp;
+    }
+    else{
+        try{
+            tempEnd=endTime-disp;
+            tempStart=startTime-disp;
+        }catch(NegativeTime) { throw; }
+        endTime=tempEnd;
+        startTime=tempStart;
+    }
+    return *this;
+}
 
-mvTimeRange& mvTimeRange::shiftStart(mvTime disp, dir direction);
+mvTimeRange& mvTimeRange::shiftStart(mvTime disp, dir direction){
+    if(direction==FWD){
+        startTime=startTime+disp;
+        if(startTime>endTime) throw new ImpossibleTimeRange();
+    } else{
+        try{
+            startTime=startTime-disp;
+        }catch(NegativeTime) { throw; }
+    }
+    return *this;
+}
 
-mvTimeRange& mvTimeRange::shiftEnd(mvTime disp, dir direction);
+mvTimeRange& mvTimeRange::shiftEnd(mvTime disp, dir direction){
+    if(direction==FWD){
+        endTime=endTime+disp;
+    } else{
+        try{
+            endTime=endTime-disp;
+        } catch(NegativeTime){ throw; }
+        if (startTime>endTime) throw new ImpossibleTimeRange();
+    }
+    return *this;
+}
 
-mvTimeRange& mvTimeRange::setStart(mvTime newStart);
+mvTimeRange& mvTimeRange::setStart(mvTime newStart){
+    if (newStart>endTime) throw new ImpossibleTimeRange();
+    startTime=newStart;
+    return *this;
+}
 
-mvTimeRange& mvTimeRange::setEnd(mvTime newEnd);
+mvTimeRange& mvTimeRange::setEnd(mvTime newEnd){
+    if (startTime>newEnd) throw new ImpossibleTimeRange();
+    endTime=newEnd;
+    return *this;
+}
 
-bool mvTimeRange::checkOverlap(mvTimeRange range);
+bool mvTimeRange::checkOverlap(mvTimeRange range){
+    return (range.startTime>startTime && endTime>range.startTime) || (startTime>range.startTime && range.endTime>startTime);
+};

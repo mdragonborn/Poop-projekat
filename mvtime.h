@@ -6,9 +6,13 @@
 #define POOP_MVTIME_H
 
 #include <string>
+#include <exception>
 
 using std::ostream;
 using std::string;
+
+class ImpossibleTimeRange: public Exception{};
+class NegativeTime: public Exception{};
 
 class mvTime {
 protected:
