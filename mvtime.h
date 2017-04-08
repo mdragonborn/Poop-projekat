@@ -10,24 +10,35 @@
 using std::ostream;
 using std::string;
 
-class mvtime {
+class mvTime {
 protected:
+    int hour_, minute_, second_, millisec_;
+    static const int minuteMod=60, secondMod=60, milliMod=1000;
 public:
-    struct mvtimeRange{
-        mvtime startTime;
-        mvtime endTime;
-        mvtimeRange(mvtime start, mvtime end){
-            startTime=start;
-            endTime=end;
-        }
-    };
-    string toString();
-    shift(int displacement);
+    mvTime(int hour=0, int minute=0, int second=0, int millisec=0) {
+        millisec_ = millisec % milliMod;
+        second_ = (second + millisec / milliMod) % secondMod;
+        minute_ = (minute + (second + millisec / milliMod) / secondMod) % minutueMod;
+        hour_ = hour + (minute + (second + millisec / milliMod) / secondMod) / minutueMod;
+    }
+    mvTime operator+(mvTime t2);
+    mvTime operator+(double sec);
+    mvTime operator-(mvTime t2);
+    mvTime operator-(double sec);
+    bool operator>(mvtime t2);
     ostream& operator<<(ostream& os, mvtime& mv){
         os << mv.toString(); return os;
     }
 };
 
+class mvTimeRange{
+    mvTime startTime;
+    mvTime endTime;
+    mvTimeRange(mvTime start, mvTime end){
+        startTime=start;
+        endTime=end;
+    }
+};
 //izvesti za svaki format vremena
 
 #endif //POOP_MVTIME_H

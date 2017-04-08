@@ -11,15 +11,15 @@ using std::string;
 
 class Subtitle {
 private:
-    mvtime time_;
+    mvTimeRange time_;
     string content_;
 public:
-    Subtitle(mvtime time, string content):content_(content), time_(time){}; //vidi ovde sa ovim polimorfizmom sta ces
+    Subtitle(mvTimeRange time, string content):content_(content), time_(time){}; //vidi ovde sa ovim polimorfizmom sta ces
     Subtitle& shiftTime(int disp){
         time_->shift(disp);
         return *this;
     }
-    Subtitle& setTime(mvtime time){
+    Subtitle& setTime(mvTimeRange time){
         time_=time;
         return *this;
     }

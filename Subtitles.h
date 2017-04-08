@@ -12,12 +12,14 @@ private:
     vector <Subtitle> SubLines;  //mapa?
     string filename;
     FILE source_file; //FILE ili string? da li drzati fajl sve vreme otvorenim tak oda druge aplikacije ne mogu da ga diraju?
-    void append(mvtime time, string content);
+    void append(mvTimeRange time, string content);
 public:
-    Subtitles(FILE source_file);
-    void insertNew(mvtime time, string content);
-    void alterAtTime(mvtime time);
-    Subtitle& getSubtitleAtTime(mvtime time);
+    Subtitles():{
+
+    };
+    void insertNew(Subtitle subt);
+    void alterAtTime(mvTimeRange time);
+    Subtitle& getSubtitleAtTime(mvTimeRange time);
 
     typedef std::vector<Subtitle>::const_iterator SubtitleIter;
     SubtitleIter begin()const{
