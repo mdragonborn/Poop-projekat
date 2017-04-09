@@ -24,15 +24,19 @@ class FailedToOpenFile: public exception{};
 class ParsingError: public exception{};
 class TooBadFile: public exception{};
 
+//TODO Da li je bezbednije da se svaki put brise i realocira instanca?
 template <class Format> class SingletonClass{
 protected:
     static Format * instance_;
 public:
-    static Format * createObject(){
+    static Format * operator new(std::size_t size){
         if (!instance_)
-            instance_=new Format();
+            instance_= new Format();
         return instance_;
     };
+    void operator delete(){
+        delete instance_;
+    }
 };
 
 class SubtitleIO{
@@ -45,6 +49,7 @@ protected:
     };
     virtual bool handleInputError(inputError& inpError)=0;
     bool handleInputErrors(queue<inputError> errorList);
+    SubtitleIO(){};
 public:
     struct SubtitleIter{
         //nesto?
@@ -58,6 +63,7 @@ public:
 class SubRipIO: public SingletonClass<SubRipIO>, public SubtitleIO{
 private:
     SubRipIO(){};
+    friend SingletonClass<SubRipIO>;
     virtual bool handleInputError(inputError& inpError);
 public:
     virtual string getInputData(ifstream& file);
@@ -83,6 +89,7 @@ class MplayerIO: public SingletonClass<MplayerIO>, public SubtitleIO{
 private:
     mvTime lastTime;
     double fps; //??????
+    friend SingletonClass<MplayerIO>;
     MplayerIO(){};
     virtual bool handleInputError(inputError& inpError);
     friend SingletonClass<MplayerIO>;

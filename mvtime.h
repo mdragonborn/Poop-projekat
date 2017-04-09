@@ -31,6 +31,11 @@ public:
     mvTime operator-(mvTime t2);
     mvTime operator-(double sec);
     bool operator>(mvTime t2);
+    bool operator<(mvTime t2);
+    int getHour() const{ return hour_; }
+    int getMinute() const { return minute_; }
+    int getSecond() const { return second_; }
+    int getMilli() const { return millisec_; }
 };
 
 class mvTimeRange{
@@ -48,6 +53,9 @@ public:
     mvTimeRange& setStart(mvTime newStart);
     mvTimeRange& setEnd(mvTime newEnd);
     bool checkOverlap(mvTimeRange range);
+
+    mvTime getStart() const{ return startTime; }
+    mvTime getEnd() const { return endTime; }
 };
 //izvesti za svaki format vremena
 

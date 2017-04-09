@@ -14,8 +14,7 @@ class Subtitles {
 private:
     vector <Subtitle> SubLines;  //mapa?
     string filename;
-    FILE source_file; //FILE ili string? da li drzati fajl sve vreme otvorenim tak oda druge aplikacije ne mogu da ga diraju?
-    void append(mvTimeRange time, string content);
+    void appendSubLine(Subtitle sub);
 public:
     Subtitles(){};
     //Izmene titlova
@@ -28,7 +27,7 @@ public:
     void shiftInRange(mvTimeRange range, mvTime displacement, mvTimeRange::dir direction);
     void mergeWithNext(SubtitleIter current);
     void splitCurrent(SubtitleIter current);
-    
+
     //TODO istrazi ispavnu implementaciju SubtitleIter
     //Navigacija kroz titlove
     typedef std::vector<Subtitle>::const_iterator SubtitleIter;

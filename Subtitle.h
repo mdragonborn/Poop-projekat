@@ -21,6 +21,14 @@ public:
         time_.shift(disp, direction);
         return *this;
     }
+    Subtitle& extendFront(int disp, mvTimeRange::dir direction){
+        time_.shiftStart(disp, diection);
+        return *this;
+    }
+    Subtitle& extendBack(int disp, mvTimeRange::dir direction){
+        time_.shiftEnd(disp,direction);
+        retun *this;
+    }
     Subtitle& setTime(mvTimeRange time){
         time_=time;
         return *this;
@@ -32,6 +40,9 @@ public:
     string getContent() const {
         return content_;
     }
+    mvTimeRange getTime() const {
+        return time_;
+    };
 };
 
 

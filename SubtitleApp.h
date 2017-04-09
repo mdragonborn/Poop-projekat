@@ -28,16 +28,22 @@ using std::endl;
 class SubtitleApp {
 private:
     static map<int, void(*)()> * listingOptions;
-    static SubtitleIO::SubtitleIter begin, iter, end;
+    static Subtitles::SubtitleIter begin, iter, end;
+
+    //Navigacija unutar listSubtitles
+    static void listSubtitles(SubtitleIO& io);
     static void goBack(){
         //if(iter!=begin) iter--;
     }
     static void goForward(){
         //if(iter!=end) iter++;
     }
+
+    //opcije iz menija
     static void insertTitle();
     static void removeTitle();
     static void shiftAll();
+
     static void printListingHelp(){
         cout<<"Opcije: A - pomeranje svih titlova;"
         <<endl<<"R - brisanje trenutnog titla"
@@ -58,7 +64,7 @@ private:
         <<endl<<"0. Kraj programa"
         <<endl;
     }
-    static void listSubtitles(SubtitleIO& io);
+
 public:
     static int main_app(){
         //TODO iskucaj test primer za ovaj bejzik interfejs

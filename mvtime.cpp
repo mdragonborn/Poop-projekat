@@ -29,6 +29,9 @@ bool mvTime::operator>(mvtime t2){
             else if (millisec_>t2.millisec_) return true;
             else return false;
 }
+bool operator<(mvTime t2){
+    return !(t2>*this) && (t2!=*this);
+}
 
 mvTimeRange& mvTimeRange::shift(mvTime disp, dir direction){
     mvTime tempEnd, tempStart;
