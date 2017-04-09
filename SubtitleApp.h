@@ -61,6 +61,7 @@ private:
     static void listSubtitles(SubtitleIO& io);
 public:
     static int main_app(){
+        //TODO iskucaj test primer za ovaj bejzik interfejs
     }
 };
 

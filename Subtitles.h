@@ -9,6 +9,7 @@
 #include <vector>
 using std::vector;
 
+//TODO projektovati Subtitles tako da sve obrade moze da radi sama
 class Subtitles {
 private:
     vector <Subtitle> SubLines;  //mapa?
@@ -17,17 +18,24 @@ private:
     void append(mvTimeRange time, string content);
 public:
     Subtitles(){};
+    //Izmene titlova
     void insertNew(Subtitle subt);
     void alterAtTime(mvTimeRange time);
-    Subtitle& getSubtitleAtTime(mvTimeRange time);
+    void removeSubtitle(SubtitleIter sub); //???
 
+    //vremenska izmena
+    void shiftCurrent(SubtitleIter current, mvTime displacement, mvTimeRange::dir direction);
+    void shiftInRange(mvTimeRange range, mvTime displacement, mvTimeRange::dir direction);
+    void mergeWithNext(SubtitleIter current);
+    void splitCurrent(SubtitleIter current);
+    
+    //TODO istrazi ispavnu implementaciju SubtitleIter
+    //Navigacija kroz titlove
     typedef std::vector<Subtitle>::const_iterator SubtitleIter;
-    SubtitleIter begin()const{
-        return SubLines.begin();
-    }
-    SubtitleIter end()const{
-        return SubLines.end();
-    }
+    SubtitleIter begin()const{ return SubLines.begin(); }
+    SubtitleIter end()const{ return SubLines.end(); }
+    SubtitleIter findClosestTime(mvTime targetTime); //bin search, da li int ili iterator?
+
 };
 
 
