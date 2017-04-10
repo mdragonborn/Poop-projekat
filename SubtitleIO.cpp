@@ -8,10 +8,10 @@
 using namespace std;
 
 //inicijalizacija statickih clanova instanciranih sablona
-SingletonClass<SubRipIO>::instance_=nullptr;
-SingletonClass<MicroDVDIO>::instance_= nullptr;
-SingletonClass<MplayerIO>::instance_=nullptr;
 
+//template SingletonClass<class Format> Format* SingletonClass<Format>::instance_=nullptr;
+//template SingletonClass<MicroDVDIO> SingletonClass<MicroDVDIO>::instance_= nullptr;
+//template SingletonClass<MplayerIO> SingletonClass<MplayerIO>::instance_=nullptr;
 
 Subtitles * SubtitleIO::loadSubtitles(string file_path){
     ifstream inputStream;
@@ -92,6 +92,8 @@ string MicroDVDIO::getExportString(Subtitle& sub){
 bool MicroDVDIO::handleInputError(inputError& inpError){
 
 }
+
+
 //MplayerIO implementation
 
 string MplayerIO::getInputData(ifstream& file){
@@ -115,13 +117,14 @@ Subtitle * MplayerIO::parseInputData(string inputData) {
 
 //TODO exportString MplayerIO
 string MplayerIO::getExportString(Subtitle& sub){
-
+    return "e";
 }
 
 //TODO handle error MplayerIO
 bool MplayerIO::handleInputError(inputError& inpError){
-
+ return false;
 }
+
 
 mvTime MplayerIO::convertFromFps(int input){
     lastTime=input/(fps*1000);
@@ -137,8 +140,3 @@ string MplayerIO::replacePipe(string content){
         if (content[i]=='|') content[i]='\n';
     return content;
 }
-
-Subtitle * MplayerIO::parseInputData(string inputData);
-
-string MplayerIO::getExportString(Subtitle& sub);
-

@@ -33,13 +33,6 @@ public:
     void shiftInRange(mvTimeRange range, mvTime displacement, mvTimeRange::dir direction);
     void mergeWithNext(SubtitleIter current);
     void splitCurrent(SubtitleIter current);
-    typedef std::vector<Subtitle>::const_iterator SubtitleIter;
-    SubtitleIter begin()const{
-        return SubLines.begin();
-    }
-    SubtitleIter end()const{
-        return SubLines.end();
-    }
 };
 
 

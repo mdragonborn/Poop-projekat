@@ -25,22 +25,23 @@ class ParsingError: public exception{};
 class TooBadFile: public exception{};
 
 //TODO Da li je bezbednije da se svaki put brise i realocira instanca?
-template <class Format> class SingletonClass{
-protected:
-    static Format * instance_;
+template <typename Format> class SingletonClass{
 public:
+    static Format * instance_;
+//public:
     static Format * createObject(){
         if (!instance_)
             instance_= new Format();
-        return instance_;
+        return (Format*)instance_;
     };
     void removeObject(void*){
         delete instance_; instance_=nullptr;
     }
     ~SingletonClass(){
-        if (instance_!=nullptr) delete instance_;
+        if (instance_!=nullptr) delete (Format*)instance_;
     };
 };
+
 
 class SubtitleIO{
 protected:
@@ -61,7 +62,6 @@ public:
     virtual Subtitle * parseInputData(string inputData)=0;
     virtual string getExportString(Subtitle& sub)=0;
     Subtitles * loadSubtitles(string file_path);
-    ~SubtitleIO(){};
 };
 
 class SubRipIO: public SingletonClass<SubRipIO>, public SubtitleIO{
@@ -85,7 +85,6 @@ public:
     virtual string getInputData(ifstream& file);
     virtual Subtitle * parseInputData(string inputData);
     virtual string getExportString(Subtitle& sub);
-    ~MicroDVDIO(){};
 };
 
 class MplayerIO: public SingletonClass<MplayerIO>, public SubtitleIO{
@@ -93,16 +92,24 @@ private:
     double fps=25; //??????
     double lastTime;
     friend SingletonClass<MplayerIO>;
-    virtual bool handleInputError(inputError& inpError);
-    //MplayerIO(){ return; };
+    MplayerIO(){
+        lastTime=0;
+    };
+    bool handleInputError(inputError& inpError) override;
 public:
-    virtual string getInputData(ifstream& file);
-    virtual Subtitle * parseInputData(string inputData);
-    virtual string getExportString(Subtitle& sub);
+
+    string getInputData(ifstream& file) override;
+    Subtitle * parseInputData(string inputData) override;
+    string getExportString(Subtitle& sub) override;
     mvTime convertFromFps(int input);
     int convertToFps(mvTime time);
     string replacePipe(string content);
 };
 
+template class SingletonClass<MplayerIO>;
+template class SingletonClass<SubRipIO>;
+template class SingletonClass<MicroDVDIO>;
+
+template<class Format> Format* SingletonClass<Format>::instance_=nullptr;
 
 #endif //POOP_SUBTITLEIO_H
