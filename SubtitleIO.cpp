@@ -64,18 +64,13 @@ string SubRipIO::getInputData(ifstream& file){
     return rtValue;
 }
 
-//TODO parse SubRipIO
 Subtitle * SubRipIO::parseInputData(string inputData){
     //regex za parsianje
 }
 
-//TODO export SubRipIO
 string SubRipIO::getExportString(Subtitle& sub){
 
 }
-
-//TODO handle error SubRipIO
-bool SubRipIO::handleInputError(inputError& inpError);
 
 //MicroDVDIO implementation
 
@@ -85,12 +80,10 @@ string MicroDVDIO::getInputData(ifstream& file){
     return buffer;
 }
 
-//TODO parse MicroDVDIO
 Subtitle * MicroDVDIO::parseInputData(string inputData){
 
 }
 
-//TODO export MicroDVDIO
 string MicroDVDIO::getExportString(Subtitle& sub){
 
 }
@@ -99,7 +92,6 @@ string MicroDVDIO::getExportString(Subtitle& sub){
 bool MicroDVDIO::handleInputError(inputError& inpError){
 
 }
-
 //MplayerIO implementation
 
 string MplayerIO::getInputData(ifstream& file){
@@ -145,3 +137,8 @@ string MplayerIO::replacePipe(string content){
         if (content[i]=='|') content[i]='\n';
     return content;
 }
+
+Subtitle * MplayerIO::parseInputData(string inputData);
+
+string MplayerIO::getExportString(Subtitle& sub);
+

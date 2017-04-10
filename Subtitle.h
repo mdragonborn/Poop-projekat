@@ -9,8 +9,6 @@
 #include <string.h>
 using std::string;
 
-
-//TODO nakon projektovanja Subtitles implementirati sve sto treba u Subtitle
 class Subtitle {
 private:
     mvTimeRange time_;
