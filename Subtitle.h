@@ -22,12 +22,12 @@ public:
         return *this;
     }
     Subtitle& extendFront(int disp, mvTimeRange::dir direction){
-        time_.shiftStart(disp, diection);
+        time_.shiftStart(disp, direction);
         return *this;
     }
     Subtitle& extendBack(int disp, mvTimeRange::dir direction){
         time_.shiftEnd(disp,direction);
-        retun *this;
+        return *this;
     }
     Subtitle& setTime(mvTimeRange time){
         time_=time;

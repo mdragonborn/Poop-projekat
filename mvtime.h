@@ -32,10 +32,17 @@ public:
     mvTime operator-(double sec);
     bool operator>(mvTime t2);
     bool operator<(mvTime t2);
+    friend ostream& operator<<(ostream& os, mvTime mvt){
+        os<<mvt.hour_<<":"<<mvt.minute_<<":"<<mvt.second_<<"."<<mvt.millisec_;
+        return os;
+    }
     int getHour() const{ return hour_; }
     int getMinute() const { return minute_; }
     int getSecond() const { return second_; }
     int getMilli() const { return millisec_; }
+    int toMillisec() const {
+        return millisec_+second_*1000+minute_*60000+ hour_*360000;
+    }
 };
 
 class mvTimeRange{

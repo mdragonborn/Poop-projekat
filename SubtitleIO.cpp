@@ -5,6 +5,9 @@
 #include "SubtitleIO.h"
 #include <regex>
 
+using namespace std;
+
+//inicijalizacija statickih clanova instanciranih sablona
 SingletonClass<SubRipIO>::instance_=nullptr;
 SingletonClass<MicroDVDIO>::instance_= nullptr;
 SingletonClass<MplayerIO>::instance_=nullptr;
@@ -38,7 +41,6 @@ Subtitles * SubtitleIO::loadSubtitles(string file_path){
     if(handleInputErrors(inpErrors)) return newTitles;
     else { delete newTitles; throw new TooBadFile(); }
 }
-
 
 bool SubtitleIO::handleInputErrors(queue<inputError> errorList){
     inputError currentError;
@@ -85,7 +87,6 @@ string MicroDVDIO::getInputData(ifstream& file){
 
 //TODO parse MicroDVDIO
 Subtitle * MicroDVDIO::parseInputData(string inputData){
-    if (!regex_match(string, regex("{\\d+}{\\d+}.*$"))) throw ParsingError();
 
 }
 
@@ -95,7 +96,9 @@ string MicroDVDIO::getExportString(Subtitle& sub){
 }
 
 //TODO handle error MicroDVDIO
-bool MicroDVDIO::handleInputError(inputError& inpError);
+bool MicroDVDIO::handleInputError(inputError& inpError){
+
+}
 
 //MplayerIO implementation
 
@@ -111,10 +114,34 @@ string MplayerIO::getInputData(ifstream& file){
 }
 
 //TODO parse Mplayer
-Subtitle * MplayerIO::parseInputData(string inputData);
+Subtitle * MplayerIO::parseInputData(string inputData) {
+    if (!regex_match(string, regex("\\{\\d+\\}\\{\\d+\\}.*$"))) throw ParsingError();
+    regex format("\\{(\\d+)\\}\\{(\\d+)\\}(.*)$");
+    std::sregex_iterator iter(imputData.begin(), inputData.end(), format);
+    return new Subtitle(mvTimeRange( convertFps((*iter)[1]), convertFps((*iter)[2]) ), replacePipe((*iter)[3]) );
+}
 
 //TODO exportString MplayerIO
-string MplayerIO::getExportString(Subtitle& sub);
+string MplayerIO::getExportString(Subtitle& sub){
+
+}
 
 //TODO handle error MplayerIO
-bool MplayerIO::handleInputError(inputError& inpError);
+bool MplayerIO::handleInputError(inputError& inpError){
+
+}
+
+mvTime MplayerIO::convertFromFps(int input){
+    lastTime=input/(fps*1000);
+    return mvTime(0,0,0,lastTime);
+}
+
+int MplayerIO::convertToFps(mvTime time){
+    return time.toMillisec()*fps*1000;  //TODO proveri racun
+}
+
+string MplayerIO::replacePipe(string content){
+    for(int i=0; i<content.length();i++)
+        if (content[i]=='|') content[i]='\n';
+    return content;
+}

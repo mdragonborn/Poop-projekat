@@ -29,14 +29,17 @@ template <class Format> class SingletonClass{
 protected:
     static Format * instance_;
 public:
-    static Format * operator new(std::size_t size){
+    static Format * createObject(){
         if (!instance_)
             instance_= new Format();
         return instance_;
     };
-    void operator delete(){
-        delete instance_;
+    void removeObject(void*){
+        delete instance_; instance_=nullptr;
     }
+    ~SingletonClass(){
+        if (instance_!=nullptr) delete instance_;
+    };
 };
 
 class SubtitleIO{
@@ -58,6 +61,7 @@ public:
     virtual Subtitle * parseInputData(string inputData)=0;
     virtual string getExportString(Subtitle& sub)=0;
     Subtitles * loadSubtitles(string file_path);
+    ~SubtitleIO(){};
 };
 
 class SubRipIO: public SingletonClass<SubRipIO>, public SubtitleIO{
@@ -71,7 +75,6 @@ public:
     virtual string getExportString(Subtitle& sub);
 };
 
-
 class MicroDVDIO: public SingletonClass<MicroDVDIO>, public SubtitleIO{
 private:
     mvTime lastTime;
@@ -82,21 +85,23 @@ public:
     virtual string getInputData(ifstream& file);
     virtual Subtitle * parseInputData(string inputData);
     virtual string getExportString(Subtitle& sub);
+    ~MicroDVDIO(){};
 };
-
 
 class MplayerIO: public SingletonClass<MplayerIO>, public SubtitleIO{
 private:
-    mvTime lastTime;
-    double fps; //??????
+    double fps=25; //??????
+    double lastTime;
     friend SingletonClass<MplayerIO>;
-    MplayerIO(){};
     virtual bool handleInputError(inputError& inpError);
-    friend SingletonClass<MplayerIO>;
+    //MplayerIO(){ return; };
 public:
     virtual string getInputData(ifstream& file);
     virtual Subtitle * parseInputData(string inputData);
     virtual string getExportString(Subtitle& sub);
+    mvTime convertFromFps(int input);
+    int convertToFps(mvTime time);
+    string replacePipe(string content);
 };
 
 
