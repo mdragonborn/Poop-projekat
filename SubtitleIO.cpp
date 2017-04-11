@@ -3,39 +3,34 @@
 //
 
 #include "SubtitleIO.h"
+#include "mvtime.h"
 #include <regex>
 
 using namespace std;
-
-//inicijalizacija statickih clanova instanciranih sablona
-
-//template SingletonClass<class Format> Format* SingletonClass<Format>::instance_=nullptr;
-//template SingletonClass<MicroDVDIO> SingletonClass<MicroDVDIO>::instance_= nullptr;
-//template SingletonClass<MplayerIO> SingletonClass<MplayerIO>::instance_=nullptr;
 
 Subtitles * SubtitleIO::loadSubtitles(string file_path){
     ifstream inputStream;
     try{
         inputStream.open(file_path);
-    }catch(std::ios_base::failure){return new FailedToOpenFile();} //ili samo throw; ?
+    }catch(std::ios_base::failure){ throw new FailedToOpenFile();} //ili samo throw; ?
 
-    string inputBuffer;     int i;
-    Subtitle * newSub; Subtitles * newTitles= new Subtitles(file_path);
+    string inputBuffer;
+    int i;
+    Subtitle * newSub; Subtitles * newTitles= new Subtitles();
     queue<inputError> inpErrors;
-
     while (!inputStream.eof()){
         try{ inputBuffer=getInputData(inputStream); }
         catch(TooBadFile) { throw; }
         try { newSub = parseInputData(inputBuffer); }
         catch(ParsingError){
-            inpError.push(new inputErrors(*inputBuffer,i));   //pozicija
+            inpErrors.push(inputError(inputBuffer,i));   //pozicija
             if(inpErrors.size()>5) {
                 delete newTitles; inputStream.close();
                 throw new TooBadFile();
             }
             newSub=new Subtitle(mvTimeRange(0,0),"");
         }
-        newTitles->insertNew(&newSub);
+        newTitles->insertNew(*newSub);
     }
     inputStream.close();
     if(handleInputErrors(inpErrors)) return newTitles;
@@ -53,7 +48,7 @@ bool SubtitleIO::handleInputErrors(queue<inputError> errorList){
 };
 
 //SubRipIO implementation
-
+/*
 string SubRipIO::getInputData(ifstream& file){
     string buffer, rtValue="";
     getline(file,buffer);
@@ -93,8 +88,9 @@ bool MicroDVDIO::handleInputError(inputError& inpError){
 
 }
 
-
+*/
 //MplayerIO implementation
+
 
 string MplayerIO::getInputData(ifstream& file){
     string buffer, rtValue="";
@@ -108,12 +104,16 @@ string MplayerIO::getInputData(ifstream& file){
 }
 
 //TODO parse Mplayer
-Subtitle * MplayerIO::parseInputData(string inputData) {
+
+Subtitle * MplayerIO::parseInputData(string inputData){
+    /*
     if (!regex_match(string, regex("\\{\\d+\\}\\{\\d+\\}.*$"))) throw ParsingError();
     regex format("\\{(\\d+)\\}\\{(\\d+)\\}(.*)$");
-    std::sregex_iterator iter(imputData.begin(), inputData.end(), format);
-    return new Subtitle(mvTimeRange( convertFps((*iter)[1]), convertFps((*iter)[2]) ), replacePipe((*iter)[3]) );
-}
+    std::sregex_iterator iter(inputData.begin(), inputData.end(), format);
+    return new Subtitle(mvTimeRange( convertFps(atoi((*iter)[1])), convertFps(atoi((*iter)[2])) ), replacePipe((*iter)[3]) );
+     */
+    return new Subtitle (mvTimeRange(convertToFps(mvTime()),convertToFps(mvTime())),"ok");
+};
 
 //TODO exportString MplayerIO
 string MplayerIO::getExportString(Subtitle& sub){
@@ -121,18 +121,17 @@ string MplayerIO::getExportString(Subtitle& sub){
 }
 
 //TODO handle error MplayerIO
+
 bool MplayerIO::handleInputError(inputError& inpError){
- return false;
+    return false;
 }
-
-
 mvTime MplayerIO::convertFromFps(int input){
     lastTime=input/(fps*1000);
-    return mvTime(0,0,0,lastTime);
+    return mvTime(0,0,0,(int)lastTime);
 }
 
 int MplayerIO::convertToFps(mvTime time){
-    return time.toMillisec()*fps*1000;  //TODO proveri racun
+    return (int)(time.toMillisec()*1000*fps);
 }
 
 string MplayerIO::replacePipe(string content){

@@ -4,33 +4,42 @@
 
 #include "mvtime.h"
 
+using namespace std;
+
 mvTime mvTime::operator+(mvTime t2){
     return mvTime(hour_+t2.hour_, minute_+t2.hour_, second_+t2.second_, millisec_+t2.millisec_);
 }
 mvTime mvTime::operator+(double sec){
-    return mvTime(hour_, minute_, second_+sec/1, millisec_+sec%1);
+    return mvTime(hour_, minute_, second_+sec/1, millisec_+sec);  //teeba sec mod 1
 }
 mvTime mvTime::operator-(mvTime t2){
-    mvtime temp(hour_-t2.hour_, minute_-t2.hour_, second_-t2.second_, millisec_-t2.millisec_);
+    mvTime temp(hour_-t2.hour_, minute_-t2.hour_, second_-t2.second_, millisec_-t2.millisec_);
     if(temp.hour_<0 || temp.minute_<0 || temp.second_<0 || millisec_<0) throw new NegativeTime();
     else return temp;
 }
 mvTime mvTime::operator-(double sec){
-    mvTime temp(hour_, minute_, second_-sec/1, millisec_-sec%1);
+    mvTime temp(hour_, minute_, second_-sec/1, millisec_-sec); //treba sec mod 1
     if(temp.hour_<0 || temp.minute_<0 || temp.second_<0 || millisec_<0) throw new NegativeTime();
     else return temp;
 }
-bool mvTime::operator>(mvtime t2){
+bool mvTime::operator>(mvTime t2){
     if (hour_>t2.hour_) return true;
-    else if (hour_==t2.hour)
+    else if (hour_==t2.hour_)
         if(minute_>t2.minute_) return true;
         else if (minute_==t2.minute_)
             if(second_>t2.second_) return true;
             else if (millisec_>t2.millisec_) return true;
             else return false;
+    return false;
 }
-bool operator<(mvTime t2){
-    return !(t2>*this) && (t2!=*this);
+
+
+bool mvTime::operator<(mvTime t2){
+    return !(t2>*this) && (t2!=(*this));
+}
+
+bool mvTime::operator!=(mvTime t2){
+    return hour_!=t2.hour_ || minute_!=t2.minute_ || second_!=t2.second_ || millisec_!=t2.millisec_;
 }
 
 mvTimeRange& mvTimeRange::shift(mvTime disp, dir direction){

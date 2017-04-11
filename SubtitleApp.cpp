@@ -3,17 +3,19 @@
 //
 
 #include "SubtitleApp.h"
+using namespace std;
 
-
-static void SubtitleApp::shiftAll(){
-    cout<< "Uneti za koliko " << io.unit() << " treba pomeriti ovaj i sve titlove posle njega: "<<flush;
+void SubtitleApp::shiftAll(){
+    string input;
+    cout<< "Uneti za koliko sekundi treba pomeriti ovaj i sve titlove posle njega: "<<flush;
     cin>>input;
-    io.shiftTitle(begin, end, input);  //dodaj neki exception
+    //TODO sta je pisac hteo da kaze?
+    //io->shiftTitle(begin, end, input);
     cout<< "Titlovi uspesno pomereni. Pritisnuti bilo sta za nastavak rada."<<endl; getch();
     cin>>input;
 }
-
-static void SubtitleApp::initListingOptions(){
+//TODO vidi kako se koristi mapa
+void SubtitleApp::initListingOptions(){/*
     listingOptions=new map<int, void(*)()>();
     listingOptions->insert(W, &goBack);
     listingOptions->insert(UP, &goBack);
@@ -25,13 +27,13 @@ static void SubtitleApp::initListingOptions(){
     listingOptions->insert(D, &splitTitle);
     listingOptions->insert(I, &insertTitle);
     listingOptions->insert(R, &removeTitle);
-    return;
+    return;*/
 }
 
-static void SubtitleApp::listSubtitles(SubtitleIO& io){
+void SubtitleApp::listSubtitles(SubtitleIO& io){
     if (listingOptions= nullptr) initListingOptions();
     int input=0;
-    begin=iter=io.begin(), end=io.end();
+    //begin=iter=io.begin(), end=io.end();
     while (1){
         while (1){
             if (_kbhit()){
@@ -43,8 +45,8 @@ static void SubtitleApp::listSubtitles(SubtitleIO& io){
                 listingOptions->at(input)();
             }catch(out_of_range){continue;};
             system("cls");
-            cout<<io.fileName() << listing_help_print() <<endl;
-            cout<<*iter<<endl;
+    //        cout<<io.fileName() << listing_help_print() <<endl;
+    //        cout<<*iter<<endl;
         }
     }
 }

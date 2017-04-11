@@ -13,7 +13,7 @@ class Subtitles {
 private:
     vector <Subtitle> SubLines;  //mapa?
     string filename;
-    void appendSubLine(Subtitle sub);
+    void appendSubLine(Subtitle sub){};
 public:
     Subtitles(){};
     //TODO istrazi ispavnu implementaciju SubtitleIter
@@ -21,18 +21,18 @@ public:
     typedef std::vector<Subtitle>::const_iterator SubtitleIter;
     SubtitleIter begin()const{ return SubLines.begin(); }
     SubtitleIter end()const{ return SubLines.end(); }
-    SubtitleIter findClosestTime(mvTime targetTime); //bin search, da li int ili iterator?
+    SubtitleIter findClosestTime(mvTime targetTime){}; //bin search, da li int ili iterator?
 
     //Izmene titlova
-    void insertNew(Subtitle subt);
-    void alterAtTime(mvTimeRange time);
-    Subtitle& getSubtitleAtTime(mvTimeRange time);
+    void insertNew(Subtitle subt){};
+    void alterAtTime(mvTimeRange time){};
+    Subtitle& getSubtitleAtTime(mvTimeRange time){return *(new Subtitle(time,""));};
 
     //vremenska izmena
-    void shiftCurrent(SubtitleIter current, mvTime displacement, mvTimeRange::dir direction);
-    void shiftInRange(mvTimeRange range, mvTime displacement, mvTimeRange::dir direction);
-    void mergeWithNext(SubtitleIter current);
-    void splitCurrent(SubtitleIter current);
+    void shiftCurrent(SubtitleIter current, mvTime displacement, mvTimeRange::dir direction){};
+    void shiftInRange(mvTimeRange range, mvTime displacement, mvTimeRange::dir direction){};
+    void mergeWithNext(SubtitleIter current){};
+    void splitCurrent(SubtitleIter current){};
 };
 
 

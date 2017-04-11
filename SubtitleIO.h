@@ -6,6 +6,7 @@
 #define POOP_SUBTITLEIO_H
 
 #include "Subtitles.h"
+#include "mvtime.h"
 #include <vector>
 #include <string>
 #include <queue>
@@ -24,17 +25,17 @@ class FailedToOpenFile: public exception{};
 class ParsingError: public exception{};
 class TooBadFile: public exception{};
 
-//TODO Da li je bezbednije da se svaki put brise i realocira instanca?
+
 template <typename Format> class SingletonClass{
 public:
     static Format * instance_;
-//public:
+public:
     static Format * createObject(){
         if (!instance_)
             instance_= new Format();
         return (Format*)instance_;
     };
-    void removeObject(void*){
+    static void removeObject(){
         delete instance_; instance_=nullptr;
     }
     ~SingletonClass(){
@@ -49,55 +50,53 @@ protected:
     public:
         string badFood;
         int positionInVector;
-        inputError(string input, int position);
+        inputError(){};
+        inputError(string input, int position):badFood(input),positionInVector(position){};
     };
     virtual bool handleInputError(inputError& inpError)=0;
     bool handleInputErrors(queue<inputError> errorList);
-    SubtitleIO(){};
 public:
-    struct SubtitleIter{
-        //nesto?
-    };
+    Subtitles * loadSubtitles(string file_path);
     virtual string getInputData(ifstream& file)=0;
     virtual Subtitle * parseInputData(string inputData)=0;
     virtual string getExportString(Subtitle& sub)=0;
-    Subtitles * loadSubtitles(string file_path);
+    virtual ~SubtitleIO(){};
 };
 
-class SubRipIO: public SingletonClass<SubRipIO>, public SubtitleIO{
+/*
+class SubRipIO: public SingletonClass<SubRipIO>, public SubtitleIO {
 private:
     SubRipIO(){};
     friend SingletonClass<SubRipIO>;
-    virtual bool handleInputError(inputError& inpError);
+ //   virtual bool handleInputError(inputError& inpError);
 public:
-    virtual string getInputData(ifstream& file);
+ /*   virtual string getInputData(ifstream& file);
     virtual Subtitle * parseInputData(string inputData);
     virtual string getExportString(Subtitle& sub);
-};
-
+    ~SubRipIO(){}
+};*/
+/*
 class MicroDVDIO: public SingletonClass<MicroDVDIO>, public SubtitleIO{
 private:
     mvTime lastTime;
     friend SingletonClass<MicroDVDIO>;
     MicroDVDIO(){};
-    virtual bool handleInputError(inputError& inpError);
+ //   virtual bool handleInputError(inputError& inpError);
 public:
-    virtual string getInputData(ifstream& file);
+  /*  virtual string getInputData(ifstream& file);
     virtual Subtitle * parseInputData(string inputData);
     virtual string getExportString(Subtitle& sub);
+    ~MicroDVDIO(){};
 };
-
-class MplayerIO: public SingletonClass<MplayerIO>, public SubtitleIO{
+*/
+class MplayerIO: public SingletonClass<MplayerIO>, public SubtitleIO {
 private:
-    double fps=25; //??????
+    double fps=25;
     double lastTime;
-    friend SingletonClass<MplayerIO>;
-    MplayerIO(){
-        lastTime=0;
-    };
     bool handleInputError(inputError& inpError) override;
+    friend class SingletonClass<MplayerIO>;
+    MplayerIO(){};
 public:
-
     string getInputData(ifstream& file) override;
     Subtitle * parseInputData(string inputData) override;
     string getExportString(Subtitle& sub) override;
@@ -106,10 +105,8 @@ public:
     string replacePipe(string content);
 };
 
-template class SingletonClass<MplayerIO>;
-template class SingletonClass<SubRipIO>;
-template class SingletonClass<MicroDVDIO>;
+template <typename Format> Format * SingletonClass<Format>::instance_=nullptr;
 
-template<class Format> Format* SingletonClass<Format>::instance_=nullptr;
+template class SingletonClass<MplayerIO>;
 
 #endif //POOP_SUBTITLEIO_H

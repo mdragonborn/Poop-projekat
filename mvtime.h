@@ -7,6 +7,7 @@
 
 #include <string>
 #include <exception>
+#include <iostream>
 
 using std::ostream;
 using std::string;
@@ -32,6 +33,7 @@ public:
     mvTime operator-(double sec);
     bool operator>(mvTime t2);
     bool operator<(mvTime t2);
+    bool operator!=(mvTime t2);
     friend ostream& operator<<(ostream& os, mvTime mvt){
         os<<mvt.hour_<<":"<<mvt.minute_<<":"<<mvt.second_<<"."<<mvt.millisec_;
         return os;
