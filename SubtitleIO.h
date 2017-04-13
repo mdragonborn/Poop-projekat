@@ -63,39 +63,47 @@ public:
     virtual ~SubtitleIO(){};
 };
 
-/*
+
 class SubRipIO: public SingletonClass<SubRipIO>, public SubtitleIO {
 private:
     SubRipIO(){};
-    friend SingletonClass<SubRipIO>;
- //   virtual bool handleInputError(inputError& inpError);
+    friend class SingletonClass<SubRipIO>;
+    virtual bool handleInputError(inputError& inpError);
 public:
- /*   virtual string getInputData(ifstream& file);
+    virtual string getInputData(ifstream& file);
+
     virtual Subtitle * parseInputData(string inputData);
     virtual string getExportString(Subtitle& sub);
     ~SubRipIO(){}
-};*/
-/*
-class MicroDVDIO: public SingletonClass<MicroDVDIO>, public SubtitleIO{
+};
+
+//TODO podrska za komentare?
+class MplayerIO: public SingletonClass<MplayerIO>, public SubtitleIO{
 private:
-    mvTime lastTime;
-    friend SingletonClass<MicroDVDIO>;
-    MicroDVDIO(){};
- //   virtual bool handleInputError(inputError& inpError);
+    int lastTime=0;
+    mvTime lastExportTime={0,0,0,0};
+    friend class SingletonClass<MplayerIO>;
+    MplayerIO(){};
+    virtual bool handleInputError(inputError& inpError){return false;};
 public:
-  /*  virtual string getInputData(ifstream& file);
+    virtual string getInputData(ifstream& file);
     virtual Subtitle * parseInputData(string inputData);
     virtual string getExportString(Subtitle& sub);
-    ~MicroDVDIO(){};
+
+    mvTime getTime(string extractedTime){
+        lastTime+=(stod(extractedTime))*1000;
+        return mvTime(0,0,0,lastTime);
+    }
+    ~MplayerIO(){};
 };
-*/
-class MplayerIO: public SingletonClass<MplayerIO>, public SubtitleIO {
+
+class MDVDIO: public SingletonClass<MDVDIO>, public SubtitleIO {
 private:
     double fps=25;
     double lastTime;
     bool handleInputError(inputError& inpError) override;
-    friend class SingletonClass<MplayerIO>;
-    MplayerIO(){};
+    friend class SingletonClass<MDVDIO>;
+    MDVDIO(){};
 public:
     string getInputData(ifstream& file) override;
     Subtitle * parseInputData(string inputData) override;
@@ -103,10 +111,13 @@ public:
     mvTime convertFromFps(int input);
     int convertToFps(mvTime time);
     string replacePipe(string content);
+    string setPipe(string content);
 };
 
 template <typename Format> Format * SingletonClass<Format>::instance_=nullptr;
 
+template class SingletonClass<MDVDIO>;
 template class SingletonClass<MplayerIO>;
+
 
 #endif //POOP_SUBTITLEIO_H
