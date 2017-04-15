@@ -71,7 +71,7 @@ Subtitle * SubRipIO::parseInputData(string inputData){
 string SubRipIO::getExportString(Subtitle& sub){
     string buffer="";
     buffer.append(itos(exportIndex++)).append("\n");
-    buffer.append(mvTimeToString(sub.getTime().getStart())).append(" --> ").append(mvTimeToString(sub.getTime().getStart())).append("\n");
+    buffer.append(mvTimeToString(sub.getTime().getStart())).append(" --> ").append(mvTimeToString(sub.getTime().getEnd())).append("\n");
     buffer.append(sub.getContent()).append("\n\n");
     return buffer;
 }

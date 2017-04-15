@@ -14,12 +14,13 @@ using std::exception;
 
 class TimeOutOfRange: public exception{};
 class OverlappingTimeRange: public exception{};
+class BadIterator: public exception{};
 
 class Subtitles {
 private:
     vector <Subtitle> SubLines;  //mapa?
     string filename;
-    void appendSubLine(Subtitle sub){};
+    void shiftEdges(SubtitleIter begin, SubtitleIter end, mvTimeRange range, mvTime disp, mvTimeRange::dir direction);
 public:
     Subtitles(){};
     //TODO istrazi ispavnu implementaciju SubtitleIter
@@ -30,16 +31,18 @@ public:
     SubtitleIter findClosestTime(mvTime targetTime);
 
     //Izmene titlova
-    void pushBackNew(Subtitle subt);
-    Subtitle& getSubtitleAtTime(mvTime time);
-    void insertBefore(SubtitleIter iter, Subtitle sub);
-    void insertAfter(Subtitle iter, Subtitle sub);
+    Subtitles& pushBackNew(Subtitle subt);
+    Subtitle& getSubtitleAtTime(mvTime timePoint);
+    Subtitles& insertBefore(SubtitleIter iter, Subtitle sub);
+    Subtitles& insert(Subtitle sub);
 
     //vremenska izmena
-    void shiftCurrent(SubtitleIter current, mvTime displacement, mvTimeRange::dir direction){};
-    void shiftInRange(mvTimeRange range, mvTime displacement, mvTimeRange::dir direction){};
-    void mergeWithNext(SubtitleIter current){};
-    void splitCurrent(SubtitleIter current){};
+    Subtitles& shiftCurrent(SubtitleIter current, mvTime displacement, mvTimeRange::dir direction);
+    Subtitles& shiftInRange(mvTimeRange range, mvTime displacement, mvTimeRange::dir direction);
+    Subtitles& mergeWithNext(SubtitleIter current);
+    Subtitles& splitCurrent(SubtitleIter current);
+    Subtitles& removeAtTime(mvTime timePoint);
+    Subtitles& remove(SubtitleIter iter);
 };
 
 

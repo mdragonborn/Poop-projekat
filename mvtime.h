@@ -59,6 +59,10 @@ public:
         startTime=start;
         endTime=end;
     }
+    mvTimeRange(mvTimeRange& m){
+        startTime=m.startTime;
+        endTime=m.endTime;
+    }
     mvTimeRange& shift(mvTime disp, dir direction);
     mvTimeRange& shiftStart(mvTime disp, dir direction);
     mvTimeRange& shiftEnd(mvTime disp, dir direction);

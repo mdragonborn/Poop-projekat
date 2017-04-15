@@ -15,15 +15,15 @@ private:
     string content_;
 public:
     Subtitle(mvTimeRange time, string content):content_(content), time_(time){}; //vidi ovde sa ovim polimorfizmom sta ces
-    Subtitle& shiftTime(int disp, mvTimeRange::dir direction){
+    Subtitle& shiftTime(mvTime disp, mvTimeRange::dir direction){
         time_.shift(disp, direction);
         return *this;
     }
-    Subtitle& extendFront(int disp, mvTimeRange::dir direction){
+    Subtitle& extendFront(mvTime disp, mvTimeRange::dir direction){
         time_.shiftStart(disp, direction);
         return *this;
     }
-    Subtitle& extendBack(int disp, mvTimeRange::dir direction){
+    Subtitle& extendBack(mvTime disp, mvTimeRange::dir direction){
         time_.shiftEnd(disp,direction);
         return *this;
     }
