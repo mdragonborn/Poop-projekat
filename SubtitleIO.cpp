@@ -12,7 +12,7 @@ Subtitles * SubtitleIO::loadSubtitles(string file_path){
     ifstream inputStream;
     try{
         inputStream.open(file_path);
-    }catch(std::ios_base::failure){ throw new FailedToOpenFile();} //ili samo throw; ?
+    }catch(ios_base::failure){ throw new FailedToOpenFile();} //ili samo throw; ?
 
     string inputBuffer;
     int i;
@@ -60,14 +60,49 @@ string SubRipIO::getInputData(ifstream& file){
 }
 
 Subtitle * SubRipIO::parseInputData(string inputData){
-    if (!regex_match(inputData, regex("\\d\n\\d{2}:\\d{2}:\\d{2}\\.\\d{3} --> \\d{2}:\\d{2}:\\d{2}\\.\\d{3}\n(.*\n?)+"))) throw ParsingError();
-    
+    if (!regex_match(inputData, regex("\\d\n\\d{2}:\\d{2}:\\d{2},\\d{3} --> \\d{2}:\\d{2}:\\d{2},\\d{3}\n(.*\n?)+"))) throw ParsingError();
+    regex format("\\d\n(\\d{2}):(\\d{2}):(\\d{2}),(\\d{3}) --> (\\d{2}):(\\d{2}):(\\d{2}),(\\d{3})\n(.*\n?)+");
+    sregex_iterator iter(inputData.begin(), inputData.end(),format);
+    mvTime begin(stoi((*iter)[1]), stoi((*iter)[2]), stoi((*iter)[3]),stoi((*iter)[4]));
+    mvTime end(stoi((*iter)[5]), stoi((*iter)[6]), stoi((*iter)[7]),stoi((*iter)[8]));
+    return new Subtitle(mvTimeRange(begin,end),(*iter)[9]);  //TODO multiline?
 }
 
 string SubRipIO::getExportString(Subtitle& sub){
-
+    string buffer="";
+    buffer.append(itos(exportIndex++)).append("\n");
+    buffer.append(mvTimeToString(sub.getTime().getStart())).append(" --> ").append(mvTimeToString(sub.getTime().getStart())).append("\n");
+    buffer.append(sub.getContent()).append("\n\n");
+    return buffer;
 }
 
+string SubRipIO::mvTimeToString(mvTime t){
+    string buffer;
+    buffer.append(zeroPadding(itos(t.getHour()))).append(":");
+    buffer.append(zeroPadding(itos(t.getMinute()))).append(":");
+    buffer.append(zeroPadding(itos(t.getSecond()))).append(",");
+    buffer.append(zeroPadding(itos(t.getMilli()),3));
+    return buffer;
+};
+
+string SubRipIO::zeroPadding(string s, int len){
+    if (s.length()<len) {
+        while(s.length()<len) s="0"+s;
+    }
+    return s;
+};
+
+void SubRipIO::exportPrep(){
+    exportIndex=1;
+};
+void SubRipIO::importPrep(){
+    return;
+}
+
+//TODO handle error SubRipIO
+bool SubRipIO::handleInputError(inputError& inpError){
+    return false;
+};
 
 //MplayerIO implementation
 
@@ -86,8 +121,8 @@ Subtitle * MplayerIO::parseInputData(string inputData){
     if (!regex_match(inputData, regex("\\d+\\.?\\d*?\\s\\d+\\.?\\d*?\n(.*\n?)+"))) throw ParsingError();
     // regex za multiline captione?
     regex format("(\\d+\\.?\\d*)\\s(\\d+\\.?\\d*)\n(.*\n?)");   //ovde kod regexa treba grupisai decimalu
-    std::sregex_iterator iter(inputData.begin(), inputData.end(), format);
-    std::sregex_iterator end;
+    sregex_iterator iter(inputData.begin(), inputData.end(), format);
+    sregex_iterator end;
     mvTime begin=getTime((*iter)[1]);
     mvTime endt=getTime((*iter)[2]);
     return new Subtitle(mvTimeRange(begin,endt),(*iter)[3]);
@@ -99,17 +134,25 @@ string MplayerIO::getExportString(Subtitle& sub){
     double start=((sub.getTime().getStart()-lastExportTime).toMillisec())/1000.;
     double end=(sub.getTime().getEnd()-sub.getTime().getStart()).toMillisec()/1000.;
     lastExportTime=sub.getTime().getEnd();
-    sprintf(temp, "%f",start);   //double to string, sklanjanje suvisnih decimala
-    buffer.append(temp).append(" ");
-    sprintf(temp, "%f",end);
-    buffer.append(temp).append("\n").append(sub.getContent());
+    buffer.append(dtos(start)).append(" ");  //TODO sklanjanje uvisnih decimala kod dtos
+    buffer.append(dtos(end)).append("\n").append(sub.getContent());
     return buffer;
 }
 
+//TODO handle eror MplayerIO
+bool MplayerIO::handleInputError(inputError& inpError){
+    return false;
+};
 
+void MplayerIO::exportPrep(){
+    lastExportTime={0,0,0,0};
+};
+
+void MplayerIO::importPrep(){
+    lastTime=0;
+}
 
 //MDVDIO implementation
-
 
 string MDVDIO::getInputData(ifstream& file){
     string buffer;
@@ -120,18 +163,16 @@ string MDVDIO::getInputData(ifstream& file){
 Subtitle * MDVDIO::parseInputData(string inputData){
     if (!regex_match(inputData, regex("\\{\\d+\\}\\{\\d+\\}.*$"))) throw ParsingError();
     regex format("\\{(\\d+)\\}\\{(\\d+)\\}(.*)$");
-    std::sregex_iterator iter(inputData.begin(), inputData.end(), format);
+    sregex_iterator iter(inputData.begin(), inputData.end(), format);
     return new Subtitle(mvTimeRange( convertFromFps(stoi((*iter)[1])), convertFromFps(stoi((*iter)[2])) ), replacePipe((*iter)[3]) );
 
     //return new Subtitle (mvTimeRange(convertToFps(mvTime()),convertToFps(mvTime())),"ok");
 };
 
 string MDVDIO::getExportString(Subtitle& sub){
-    string rtVal; char buffer[20];
-    sprintf(buffer,"%d",convertToFps(sub.getTime().getStart()));
-    rtVal.append("{").append(buffer).append("}{");
-    sprintf(buffer,"%d",convertToFps(sub.getTime().getEnd()));
-    rtVal.append(buffer).append("}").append(setPipe(sub.getContent()));
+    string rtVal;
+    rtVal.append("{").append(itos(convertToFps(sub.getTime().getStart()))).append("}{");
+    rtVal.append(itos(convertToFps(sub.getTime().getEnd()))).append("}").append(setPipe(sub.getContent()));
     return rtVal;
 }
 
@@ -162,4 +203,11 @@ string MDVDIO::setPipe(string content){
     return content;
 }
 
+void MDVDIO::exportPrep(){
+    return;
+};
+
+void MDVDIO::importPrep(){
+    lastTime=0;
+};
 
