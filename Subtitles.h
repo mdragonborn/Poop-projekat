@@ -7,7 +7,13 @@
 
 #include "Subtitle.h"
 #include <vector>
+#include <exception>
+
 using std::vector;
+using std::exception;
+
+class TimeOutOfRange: public exception{};
+class OverlappingTimeRange: public exception{};
 
 class Subtitles {
 private:
@@ -18,15 +24,16 @@ public:
     Subtitles(){};
     //TODO istrazi ispavnu implementaciju SubtitleIter
     //Navigacija kroz titlove
-    typedef std::vector<Subtitle>::const_iterator SubtitleIter;
-    SubtitleIter begin()const{ return SubLines.begin(); }
-    SubtitleIter end()const{ return SubLines.end(); }
-    SubtitleIter findClosestTime(mvTime targetTime){}; //bin search, da li int ili iterator?
+    typedef std::vector<Subtitle>::iterator SubtitleIter;
+    SubtitleIter begin();
+    SubtitleIter end();
+    SubtitleIter findClosestTime(mvTime targetTime);
 
     //Izmene titlova
-    void insertNew(Subtitle subt){};
-    void alterAtTime(mvTimeRange time){};
-    Subtitle& getSubtitleAtTime(mvTimeRange time){return *(new Subtitle(time,""));};
+    void pushBackNew(Subtitle subt);
+    Subtitle& getSubtitleAtTime(mvTime time);
+    void insertBefore(SubtitleIter iter, Subtitle sub);
+    void insertAfter(Subtitle iter, Subtitle sub);
 
     //vremenska izmena
     void shiftCurrent(SubtitleIter current, mvTime displacement, mvTimeRange::dir direction){};

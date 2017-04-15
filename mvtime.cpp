@@ -33,14 +33,24 @@ bool mvTime::operator>(mvTime t2){
     return false;
 }
 
-
 bool mvTime::operator<(mvTime t2){
     return !(t2>*this) && (t2!=(*this));
 }
 
 bool mvTime::operator!=(mvTime t2){
-    return hour_!=t2.hour_ || minute_!=t2.minute_ || second_!=t2.second_ || millisec_!=t2.millisec_;
+    return !(*this==t2);
 }
+
+bool mvTime::operator==(mvTime t2){
+    return hour_==t2.hour_ && minute_==t2.minute_ && second_==t2.second_ && millisec_==t2.millisec_;
+}
+
+bool mvTime::operator>=(mvTime t2){
+    return *this==t2 || *this>t2;
+};
+bool mvTime::operator<=(mvTime t2){
+    return *this==t2 || *this<t2;
+};
 
 mvTimeRange& mvTimeRange::shift(mvTime disp, dir direction){
     mvTime tempEnd, tempStart;
@@ -97,4 +107,8 @@ mvTimeRange& mvTimeRange::setEnd(mvTime newEnd){
 
 bool mvTimeRange::checkOverlap(mvTimeRange range){
     return (range.startTime>startTime && endTime>range.startTime) || (startTime>range.startTime && range.endTime>startTime);
+};
+
+bool mvTimeRange::contains(mvTime time){
+    return time>=startTime && time<=endTime;
 };

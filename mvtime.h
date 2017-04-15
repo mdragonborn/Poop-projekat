@@ -34,6 +34,9 @@ public:
     bool operator>(mvTime t2);
     bool operator<(mvTime t2);
     bool operator!=(mvTime t2);
+    bool operator==(mvTime t2);
+    bool operator>=(mvTime t2);
+    bool operator<=(mvTime t2);
     friend ostream& operator<<(ostream& os, mvTime mvt){
         os<<mvt.hour_<<":"<<mvt.minute_<<":"<<mvt.second_<<"."<<mvt.millisec_;
         return os;
@@ -62,6 +65,7 @@ public:
     mvTimeRange& setStart(mvTime newStart);
     mvTimeRange& setEnd(mvTime newEnd);
     bool checkOverlap(mvTimeRange range);
+    bool contains(mvTime time);
 
     mvTime getStart() const{ return startTime; }
     mvTime getEnd() const { return endTime; }
