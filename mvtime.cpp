@@ -10,16 +10,16 @@ mvTime mvTime::operator+(mvTime t2){
     return mvTime(hour_+t2.hour_, minute_+t2.hour_, second_+t2.second_, millisec_+t2.millisec_);
 }
 mvTime mvTime::operator+(double sec){
-    return mvTime(hour_, minute_, second_+sec/1, millisec_+sec);  //TODO teeba sec mod 1
+    return mvTime(hour_, minute_, second_+(long)sec, millisec_+(int)(1000*(sec-(long)sec)));  //TODO teeba sec mod 1
 }
 mvTime mvTime::operator-(mvTime t2){
     mvTime temp(hour_-t2.hour_, minute_-t2.hour_, second_-t2.second_, millisec_-t2.millisec_);
-    if(temp.hour_<0 || temp.minute_<0 || temp.second_<0 || millisec_<0) throw new NegativeTime();
+    if(temp.hour_<0 || temp.minute_<0 || temp.second_<0 || millisec_<0) throw NegativeTime();
     else return temp;
 }
 mvTime mvTime::operator-(double sec){
-    mvTime temp(hour_, minute_, second_-sec/1, millisec_-sec); //TODO treba sec mod 1
-    if(temp.hour_<0 || temp.minute_<0 || temp.second_<0 || millisec_<0) throw new NegativeTime();
+    mvTime temp(hour_, minute_, second_-(long)sec, millisec_-(int)(1000*(sec-(long)sec))); //TODO treba sec mod 1
+    if(temp.hour_<0 || temp.minute_<0 || temp.second_<0 || millisec_<0) throw NegativeTime();
     else return temp;
 }
 bool mvTime::operator>(mvTime t2){
@@ -72,7 +72,7 @@ mvTimeRange& mvTimeRange::shift(mvTime disp, dir direction){
 mvTimeRange& mvTimeRange::shiftStart(mvTime disp, dir direction){
     if(direction==FWD){
         startTime=startTime+disp;
-        if(startTime>endTime) throw new ImpossibleTimeRange();
+        if(startTime>endTime) throw  ImpossibleTimeRange();
     } else{
         try{
             startTime=startTime-disp;
@@ -88,19 +88,19 @@ mvTimeRange& mvTimeRange::shiftEnd(mvTime disp, dir direction){
         try{
             endTime=endTime-disp;
         } catch(NegativeTime){ throw; }
-        if (startTime>endTime) throw new ImpossibleTimeRange();
+        if (startTime>endTime) throw  ImpossibleTimeRange();
     }
     return *this;
 }
 
 mvTimeRange& mvTimeRange::setStart(mvTime newStart){
-    if (newStart>endTime) throw new ImpossibleTimeRange();
+    if (newStart>endTime) throw ImpossibleTimeRange();
     startTime=newStart;
     return *this;
 }
 
 mvTimeRange& mvTimeRange::setEnd(mvTime newEnd){
-    if (startTime>newEnd) throw new ImpossibleTimeRange();
+    if (startTime>newEnd) throw ImpossibleTimeRange();
     endTime=newEnd;
     return *this;
 }

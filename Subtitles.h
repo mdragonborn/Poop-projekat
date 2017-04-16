@@ -13,7 +13,12 @@ using std::vector;
 using std::exception;
 
 class TimeOutOfRange: public exception{};
-class OverlappingTimeRange: public exception{};
+class OverlappingTimeRange: public exception{
+public:
+    OverlappingTimeRange(){};
+    OverlappingTimeRange(Subtitle s):s_(&s){};
+    Subtitle*s_=nullptr;
+};
 class BadIterator: public exception{};
 typedef std::vector<Subtitle>::iterator SubtitleIter;
 

@@ -49,9 +49,8 @@ protected:
     struct inputError{
     public:
         string badFood;
-        int positionInVector;
         inputError(){};
-        inputError(string input, int position):badFood(input),positionInVector(position){};
+        inputError(string input):badFood(input){};
     };
     virtual bool handleInputError(inputError& inpError)=0;
     bool handleInputErrors(queue<inputError> errorList);
@@ -74,7 +73,6 @@ public:
     virtual void exportPrep()=0;
     virtual void importPrep()=0;
 };
-
 
 class SubRipIO: public SingletonClass<SubRipIO>, public SubtitleIO {
 private:

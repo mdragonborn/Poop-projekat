@@ -20,15 +20,14 @@ Subtitles * SubtitleIO::loadSubtitles(string file_path){
         catch(TooBadFile) { throw; }
         try { newSub = parseInputData(inputBuffer); }
         catch(ParsingError){
-            inpErrors.push(inputError(inputBuffer,i++));   //pozicija
+            inpErrors.push(inputError(inputBuffer));   //pozicija
             if(inpErrors.size()>5) {
                 delete newTitles; inputStream.close();
                 throw new TooBadFile();
             }
-            newSub=new Subtitle(mvTimeRange(0,0),"");
+            continue;
         }
         newTitles->insert(*newSub);
-        i++;  //TODO insert ne valja
     }
     inputStream.close();
     if(handleInputErrors(inpErrors)) return newTitles;
@@ -109,7 +108,7 @@ bool SubRipIO::handleInputError(inputError& inpError){
 string MplayerIO::getInputData(ifstream &file){
     string buffer, rtValue="";
     getline(file,buffer);   // kod ispravnog fajla
-    while(!regex_match(buffer, regex("^\\s*$"))){
+    while(!regex_match(buffer, regex("^\\s*$")) && !file.eof()){
         if(buffer[0]!='#') rtValue+=buffer+"\n";
         getline(file,buffer);
         if (regex_match(buffer, regex("^\\d+\\.?\\d*?\\s\\d+\\.?\\d*?$"))) throw new TooBadFile();
@@ -130,8 +129,8 @@ Subtitle * MplayerIO::parseInputData(string inputData){
 
 string MplayerIO::getExportString(Subtitle& sub){
     string buffer="";
-    double start=((sub.getTime().getStart()-lastExportTime).toMillisec())/1000.;
-    double end=(sub.getTime().getEnd()-sub.getTime().getStart()).toMillisec()/1000.;
+    double start = ((sub.getTime().getStart() - lastExportTime).toMillisec()) / 1000.;
+    double end = (sub.getTime().getEnd() - sub.getTime().getStart()).toMillisec() / 1000.;
     lastExportTime=sub.getTime().getEnd();
     buffer.append(dtos(start)).append(" ");  //TODO sklanjanje uvisnih decimala kod dtos
     buffer.append(dtos(end)).append("\n").append(sub.getContent());

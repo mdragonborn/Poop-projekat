@@ -36,14 +36,15 @@ SubtitleIter Subtitles::end(){
 }
 
 Subtitles& Subtitles::pushBackNew(Subtitle subt){
-    if(!SubLines.empty() && subt.getTime().getStart()<(*SubLines.end()).getTime().getEnd()) throw OverlappingTimeRange();
+    if(!SubLines.empty() && subt.getTime().getStart()<(*SubLines.end()).getTime().getEnd())
+        throw OverlappingTimeRange(subt);
     SubLines.push_back(subt);
     return *this;
 };
 
 Subtitles& Subtitles::insertBefore(SubtitleIter iter, Subtitle sub){
-    if ((*iter).getTime().checkOverlap(sub.getTime()) || (iter!=SubLines.begin() && (*(iter-1)).getTime().checkOverlap(sub.getTime())))
-        throw OverlappingTimeRange();
+    if ((iter!=end())&&((*iter).getTime().checkOverlap(sub.getTime()) || (iter!=SubLines.begin() && (*(iter-1)).getTime().checkOverlap(sub.getTime()))))
+        throw OverlappingTimeRange(sub);
     else SubLines.insert(iter,sub);
     return *this;
 };
@@ -52,9 +53,11 @@ Subtitles& Subtitles::shiftCurrent(SubtitleIter current, mvTime displacement, mv
     mvTimeRange temp((*current).getTime());
     temp.shift(displacement,direction);
     if(direction==mvTimeRange::FWD && current!=SubLines.end()) {
-        if (temp.checkOverlap((*(current + 1)).getTime())) throw OverlappingTimeRange();
+        if (temp.checkOverlap((*(current + 1)).getTime()))
+            throw OverlappingTimeRange(*current);
     } else if (direction==mvTimeRange::BACK && current!=SubLines.begin())
-        if (temp.checkOverlap((*(current - 1)).getTime())) throw OverlappingTimeRange();
+        if (temp.checkOverlap((*(current - 1)).getTime()))
+            throw OverlappingTimeRange(*current);
 
     (*current).shiftTime(displacement, direction);
     return *this;
