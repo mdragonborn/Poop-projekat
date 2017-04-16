@@ -1,10 +1,7 @@
 //
 // Created by Milena on 07/04/2017.
 //
-
 #include "SubtitleIO.h"
-#include "mvtime.h"
-#include <regex>
 
 using namespace std;
 
@@ -15,7 +12,7 @@ Subtitles * SubtitleIO::loadSubtitles(string file_path){
     }catch(ios_base::failure){ throw new FailedToOpenFile();} //ili samo throw; ?
 
     string inputBuffer;
-    int i;
+    int i=0;
     Subtitle * newSub; Subtitles * newTitles= new Subtitles();
     queue<inputError> inpErrors;
     while (!inputStream.eof()){
@@ -23,14 +20,15 @@ Subtitles * SubtitleIO::loadSubtitles(string file_path){
         catch(TooBadFile) { throw; }
         try { newSub = parseInputData(inputBuffer); }
         catch(ParsingError){
-            inpErrors.push(inputError(inputBuffer,i));   //pozicija
+            inpErrors.push(inputError(inputBuffer,i++));   //pozicija
             if(inpErrors.size()>5) {
                 delete newTitles; inputStream.close();
                 throw new TooBadFile();
             }
             newSub=new Subtitle(mvTimeRange(0,0),"");
         }
-        newTitles->insertNew(*newSub);
+        newTitles->insert(*newSub);
+        i++;  //TODO insert ne valja
     }
     inputStream.close();
     if(handleInputErrors(inpErrors)) return newTitles;
@@ -49,19 +47,21 @@ bool SubtitleIO::handleInputErrors(queue<inputError> errorList){
 
 //SubRipIO implementation
 
-string SubRipIO::getInputData(ifstream& file){
-    string buffer, rtValue="";
-    getline(file,buffer);
-    while(!regex_match(buffer, regex("^\\s*$"))){
-        rtValue+=buffer+"\n";
-        getline(file,buffer);
+string SubRipIO::getInputData(ifstream &file) {
+    string buffer;
+    string rtValue = "";
+    std::getline(file, buffer);
+    while (!regex_match(buffer, regex("^\\s*$"))) {
+        rtValue += buffer + "\n";
+        getline(file, buffer);
     }
-    return rtValue;
+        return rtValue;
 }
 
+
 Subtitle * SubRipIO::parseInputData(string inputData){
-    if (!regex_match(inputData, regex("\\d\n\\d{2}:\\d{2}:\\d{2},\\d{3} --> \\d{2}:\\d{2}:\\d{2},\\d{3}\n(.*\n?)+"))) throw ParsingError();
-    regex format("\\d\n(\\d{2}):(\\d{2}):(\\d{2}),(\\d{3}) --> (\\d{2}):(\\d{2}):(\\d{2}),(\\d{3})\n(.*\n?)+");
+    if (!regex_match(inputData, regex("\\d\n\\d{2}:\\d{2}:\\d{2},\\d{3} --> \\d{2}:\\d{2}:\\d{2},\\d{3}\n(.|\n)+"))) throw ParsingError();
+    regex format("\\d\n(\\d{2}):(\\d{2}):(\\d{2}),(\\d{3}) --> (\\d{2}):(\\d{2}):(\\d{2}),(\\d{3})\n((.|\n)+)");
     sregex_iterator iter(inputData.begin(), inputData.end(),format);
     mvTime begin(stoi((*iter)[1]), stoi((*iter)[2]), stoi((*iter)[3]),stoi((*iter)[4]));
     mvTime end(stoi((*iter)[5]), stoi((*iter)[6]), stoi((*iter)[7]),stoi((*iter)[8]));
@@ -106,7 +106,7 @@ bool SubRipIO::handleInputError(inputError& inpError){
 
 //MplayerIO implementation
 
-string MplayerIO::getInputData(ifstream& file){
+string MplayerIO::getInputData(ifstream &file){
     string buffer, rtValue="";
     getline(file,buffer);   // kod ispravnog fajla
     while(!regex_match(buffer, regex("^\\s*$"))){
@@ -118,11 +118,10 @@ string MplayerIO::getInputData(ifstream& file){
 }
 
 Subtitle * MplayerIO::parseInputData(string inputData){
-    if (!regex_match(inputData, regex("\\d+\\.?\\d*?\\s\\d+\\.?\\d*?\n(.*\n?)+"))) throw ParsingError();
+    if (!regex_match(inputData, regex("\\d+\\.?\\d*?\\s\\d+\\.?\\d*?\n(.|\n)+"))) throw ParsingError();
     // regex za multiline captione?
-    regex format("(\\d+\\.?\\d*)\\s(\\d+\\.?\\d*)\n(.*\n?)");   //ovde kod regexa treba grupisai decimalu
+    regex format("(\\d+\\.?\\d*)\\s(\\d+\\.?\\d*)\n((.|\n)+)");   //ovde kod regexa treba grupisai decimalu
     sregex_iterator iter(inputData.begin(), inputData.end(), format);
-    sregex_iterator end;
     mvTime begin=getTime((*iter)[1]);
     mvTime endt=getTime((*iter)[2]);
     return new Subtitle(mvTimeRange(begin,endt),(*iter)[3]);
@@ -130,7 +129,7 @@ Subtitle * MplayerIO::parseInputData(string inputData){
 }
 
 string MplayerIO::getExportString(Subtitle& sub){
-    string buffer=""; char temp[10];
+    string buffer="";
     double start=((sub.getTime().getStart()-lastExportTime).toMillisec())/1000.;
     double end=(sub.getTime().getEnd()-sub.getTime().getStart()).toMillisec()/1000.;
     lastExportTime=sub.getTime().getEnd();
@@ -154,7 +153,7 @@ void MplayerIO::importPrep(){
 
 //MDVDIO implementation
 
-string MDVDIO::getInputData(ifstream& file){
+string MDVDIO::getInputData(ifstream &file){
     string buffer;
     getline(file,buffer);
     return buffer;

@@ -10,7 +10,7 @@ mvTime mvTime::operator+(mvTime t2){
     return mvTime(hour_+t2.hour_, minute_+t2.hour_, second_+t2.second_, millisec_+t2.millisec_);
 }
 mvTime mvTime::operator+(double sec){
-    return mvTime(hour_, minute_, second_+sec/1, millisec_+sec);  //teeba sec mod 1
+    return mvTime(hour_, minute_, second_+sec/1, millisec_+sec);  //TODO teeba sec mod 1
 }
 mvTime mvTime::operator-(mvTime t2){
     mvTime temp(hour_-t2.hour_, minute_-t2.hour_, second_-t2.second_, millisec_-t2.millisec_);
@@ -18,7 +18,7 @@ mvTime mvTime::operator-(mvTime t2){
     else return temp;
 }
 mvTime mvTime::operator-(double sec){
-    mvTime temp(hour_, minute_, second_-sec/1, millisec_-sec); //treba sec mod 1
+    mvTime temp(hour_, minute_, second_-sec/1, millisec_-sec); //TODO treba sec mod 1
     if(temp.hour_<0 || temp.minute_<0 || temp.second_<0 || millisec_<0) throw new NegativeTime();
     else return temp;
 }
@@ -34,7 +34,7 @@ bool mvTime::operator>(mvTime t2){
 }
 
 bool mvTime::operator<(mvTime t2){
-    return !(t2>*this) && (t2!=(*this));
+    return (t2>*this);
 }
 
 bool mvTime::operator!=(mvTime t2){
@@ -110,5 +110,11 @@ bool mvTimeRange::checkOverlap(mvTimeRange range){
 };
 
 bool mvTimeRange::contains(mvTime time){
-    return time>=startTime && time<=endTime;
+    return time>startTime && time<endTime;
+};
+
+mvTimeRange& mvTimeRange::operator=(mvTimeRange r2){
+    startTime=r2.startTime;
+    endTime=r2.endTime;
+    return *this;
 };

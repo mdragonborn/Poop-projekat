@@ -31,7 +31,7 @@ void SubtitleApp::initListingOptions(){/*
 }
 
 void SubtitleApp::listSubtitles(SubtitleIO& io){
-    if (listingOptions= nullptr) initListingOptions();
+    if (listingOptions== nullptr) initListingOptions();
     int input=0;
     //begin=iter=io.begin(), end=io.end();
     while (1){
@@ -50,3 +50,6 @@ void SubtitleApp::listSubtitles(SubtitleIO& io){
         }
     }
 }
+
+void SubtitleApp::insertTitle(){};
+void SubtitleApp::removeTitle(){};

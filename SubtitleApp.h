@@ -28,7 +28,7 @@ using std::endl;
 class SubtitleApp {
 private:
     static map<int, void(*)()> * listingOptions;
-    static Subtitles::SubtitleIter begin, iter, end;
+    static SubtitleIter begin, iter, end;
 
     //Navigacija unutar listSubtitles
     static void listSubtitles(SubtitleIO& io);
@@ -67,6 +67,7 @@ private:
 
 public:
     static int main_app(){
+        return 0;
     }
 };
 

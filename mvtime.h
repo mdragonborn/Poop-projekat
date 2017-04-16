@@ -63,6 +63,14 @@ public:
         startTime=m.startTime;
         endTime=m.endTime;
     }
+    mvTimeRange(const mvTimeRange& m){
+        startTime=m.startTime;
+        endTime=m.endTime;
+    }
+    mvTimeRange(mvTimeRange&& m){
+        startTime=m.startTime;
+        endTime=m.endTime;
+    }
     mvTimeRange& shift(mvTime disp, dir direction);
     mvTimeRange& shiftStart(mvTime disp, dir direction);
     mvTimeRange& shiftEnd(mvTime disp, dir direction);
@@ -73,6 +81,8 @@ public:
 
     mvTime getStart() const{ return startTime; }
     mvTime getEnd() const { return endTime; }
+
+    mvTimeRange& operator=(mvTimeRange r2);
 };
 //izvesti za svaki format vremena
 

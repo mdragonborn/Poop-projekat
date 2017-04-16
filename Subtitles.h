@@ -15,6 +15,7 @@ using std::exception;
 class TimeOutOfRange: public exception{};
 class OverlappingTimeRange: public exception{};
 class BadIterator: public exception{};
+typedef std::vector<Subtitle>::iterator SubtitleIter;
 
 class Subtitles {
 private:
@@ -23,9 +24,9 @@ private:
     void shiftEdges(SubtitleIter begin, SubtitleIter end, mvTimeRange range, mvTime disp, mvTimeRange::dir direction);
 public:
     Subtitles(){};
+    //TODO destruktor treba da unistava elemente iz vektora jer su dinamicki alocirani
     //TODO istrazi ispavnu implementaciju SubtitleIter
     //Navigacija kroz titlove
-    typedef std::vector<Subtitle>::iterator SubtitleIter;
     SubtitleIter begin();
     SubtitleIter end();
     SubtitleIter findClosestTime(mvTime targetTime);

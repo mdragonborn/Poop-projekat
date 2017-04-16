@@ -14,7 +14,11 @@ private:
     mvTimeRange time_;
     string content_;
 public:
-    Subtitle(mvTimeRange time, string content):content_(content), time_(time){}; //vidi ovde sa ovim polimorfizmom sta ces
+    Subtitle(const Subtitle& copy):time_(copy.time_), content_(copy.content_){};
+    Subtitle(Subtitle& copy):time_(copy.time_), content_(copy.content_){};
+    Subtitle(Subtitle&& copy):time_(copy.time_), content_(copy.content_){};
+    Subtitle(mvTimeRange time, string content):content_(content), time_(time){};
+
     Subtitle& shiftTime(mvTime disp, mvTimeRange::dir direction){
         time_.shift(disp, direction);
         return *this;
@@ -35,12 +39,15 @@ public:
         content_=newContent;
         return *this;
     }
-    string getContent() const {
+    string getContent(){
         return content_;
     }
-    mvTimeRange getTime() const {
+    mvTimeRange getTime(){
         return time_;
     };
+
+    Subtitle& operator=(const Subtitle& s);
+    Subtitle& operator=(Subtitle& s);
 };
 
 

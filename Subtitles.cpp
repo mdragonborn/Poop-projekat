@@ -6,11 +6,14 @@
 
 SubtitleIter Subtitles::findClosestTime(mvTime targetTime){
     SubtitleIter begin=SubLines.begin();
-    SubtitleIter end=SubLines.end();
+    SubtitleIter end=SubLines.end()-1;
     SubtitleIter mid=SubLines.begin()+(end-begin)/2;
-    if (targetTime>(*end).getTime().getEnd()) throw TimeOutOfRange();
+    if (targetTime>(*(end)).getTime().getEnd()) throw TimeOutOfRange();
     while(begin!=end){
-        if((*mid).getTime().contains(targetTime)) break;
+        if((*mid).getTime().contains(targetTime)) {
+            std::cout<<(*mid).getTime().contains(targetTime);
+            break;
+        }
         if((*mid).getTime().getEnd()<targetTime)
             begin=mid+1;
         else
@@ -33,7 +36,7 @@ SubtitleIter Subtitles::end(){
 }
 
 Subtitles& Subtitles::pushBackNew(Subtitle subt){
-    if(subt.getTime().getStart()<(*SubLines.end()).getTime().getEnd()) throw OverlappingTimeRange();
+    if(!SubLines.empty() && subt.getTime().getStart()<(*SubLines.end()).getTime().getEnd()) throw OverlappingTimeRange();
     SubLines.push_back(subt);
     return *this;
 };
@@ -132,12 +135,18 @@ Subtitles& Subtitles::remove(SubtitleIter iter){
 
 Subtitles& Subtitles::insert(Subtitle sub){
     SubtitleIter place;
-    try {
+    if(!SubLines.empty())try {
         place = findClosestTime(sub.getTime().getStart());
-    }catch(TimeOutOfRange){  pushBackNew(sub);  }
+    }catch(TimeOutOfRange){  pushBackNew(sub);  return *this; }
+    else {
+        pushBackNew(sub);
+        return *this;
+    }
     //TODO kad testiras findClosestTime razmotri slucajeve ovde
     if(!(*place).getTime().checkOverlap(sub.getTime()))
-        insertBefore(place,sub);
+        if((*place).getTime().getStart()>sub.getTime().getEnd())
+            insertBefore(place,sub);
+        else
+            insertBefore(++place,sub);
     return *this;
 };
-

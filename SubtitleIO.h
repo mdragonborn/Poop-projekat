@@ -13,6 +13,7 @@
 #include <fstream>
 #include <exception>
 #include <regex>
+#include <iostream>
 
 using std::string;
 using std::queue;
@@ -32,13 +33,13 @@ public:
     static Format * createObject(){
         if (!instance_)
             instance_= new Format();
-        return (Format*)instance_;
+        return instance_;
     };
     static void removeObject(){
         delete instance_; instance_=nullptr;
     }
     ~SingletonClass(){
-        if (instance_!=nullptr) delete (Format*)instance_;
+        if (instance_!=nullptr) delete instance_;
     };
 };
 
@@ -66,7 +67,7 @@ public:
         sprintf(buffer, "%f", d);
         return string(buffer);
     }
-    virtual string getInputData(ifstream& file)=0;
+    virtual string getInputData(ifstream &file)=0;
     virtual Subtitle * parseInputData(string inputData)=0;
     virtual string getExportString(Subtitle& sub)=0;
     virtual ~SubtitleIO(){};
@@ -84,7 +85,7 @@ private:
     string mvTimeToString(mvTime t);
     string zeroPadding(string s, int len=2);
 public:
-    virtual string getInputData(ifstream& file) override;
+    virtual string getInputData(ifstream &file) override;
     virtual Subtitle * parseInputData(string inputData) override;
     virtual string getExportString(Subtitle& sub) override;
     ~SubRipIO(){}
@@ -106,7 +107,7 @@ private:
         return mvTime(0,0,0,lastTime);
     }
 public:
-    virtual string getInputData(ifstream& file);
+    virtual string getInputData(ifstream &file);
     virtual Subtitle * parseInputData(string inputData);
     virtual string getExportString(Subtitle& sub);
     virtual void exportPrep() override;
@@ -126,7 +127,7 @@ private:
     string replacePipe(string content);
     string setPipe(string content);
 public:
-    string getInputData(ifstream& file) override;
+    string getInputData(ifstream &file) override;
     Subtitle * parseInputData(string inputData) override;
     string getExportString(Subtitle& sub) override;
     virtual void exportPrep() override;
