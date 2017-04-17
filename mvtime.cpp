@@ -13,12 +13,38 @@ mvTime mvTime::operator+(double sec){
     return mvTime(hour_, minute_, second_+(long)sec, millisec_+(int)(1000*(sec-(long)sec)));  //TODO teeba sec mod 1
 }
 mvTime mvTime::operator-(mvTime t2){
-    mvTime temp(hour_-t2.hour_, minute_-t2.hour_, second_-t2.second_, millisec_-t2.millisec_);
+    cout<<"t1 "<<*this<<" t2 "<<t2<<endl;
+    mvTime temp(hour_-t2.hour_, minute_-t2.minute_, second_-t2.second_, millisec_-t2.millisec_);
+    if(temp.millisec_<0) {
+        temp.millisec_ += 1000;
+        temp.second_--;
+    }
+    if(temp.second_<0){
+        temp.second_+=60;
+        temp.minute_--;
+    }
+    if(temp.minute_<0){
+        temp.minute_+=60;
+        temp.hour_--;
+    }
     if(temp.hour_<0 || temp.minute_<0 || temp.second_<0 || millisec_<0) throw NegativeTime();
     else return temp;
 }
 mvTime mvTime::operator-(double sec){
-    mvTime temp(hour_, minute_, second_-(long)sec, millisec_-(int)(1000*(sec-(long)sec))); //TODO treba sec mod 1
+    cout<<"t1 "<<*this<<" s "<<sec<<endl;
+    mvTime temp(hour_, minute_, second_-(long)sec, millisec_-(int)(1000*(sec-(long)sec)));
+    if(temp.millisec_<0) {
+        temp.millisec_ += 1000;
+        temp.second_--;
+    }
+    if(temp.second_<0){
+        temp.second_+=60;
+        temp.minute_--;
+    }
+    if(temp.minute_<0){
+        temp.minute_+=60;
+        temp.hour_--;
+    }
     if(temp.hour_<0 || temp.minute_<0 || temp.second_<0 || millisec_<0) throw NegativeTime();
     else return temp;
 }

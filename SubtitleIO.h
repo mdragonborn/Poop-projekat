@@ -24,7 +24,7 @@ using std::ifstream;
 class FailedToOpenFile: public exception{};
 class ParsingError: public exception{};
 class TooBadFile: public exception{};
-
+struct OutputSubs;
 
 template <typename Format> class SingletonClass{
 public:
@@ -63,15 +63,15 @@ public:
     }
     static string dtos(double d){
         char buffer[15];
-        sprintf(buffer, "%f", d);
+        sprintf(buffer, "%.3f", d);
         return string(buffer);
     }
     virtual string getInputData(ifstream &file)=0;
     virtual Subtitle * parseInputData(string inputData)=0;
-    virtual string getExportString(Subtitle& sub)=0;
     virtual ~SubtitleIO(){};
     virtual void exportPrep()=0;
     virtual void importPrep()=0;
+    virtual string getExportString(Subtitle& sub)=0;
 };
 
 class SubRipIO: public SingletonClass<SubRipIO>, public SubtitleIO {
@@ -85,10 +85,10 @@ private:
 public:
     virtual string getInputData(ifstream &file) override;
     virtual Subtitle * parseInputData(string inputData) override;
-    virtual string getExportString(Subtitle& sub) override;
-    ~SubRipIO(){}
+    ~SubRipIO(){};
     virtual void exportPrep() override;
     virtual void importPrep() override;
+    virtual string getExportString(Subtitle& sub) override;
 };
 
 
@@ -107,9 +107,9 @@ private:
 public:
     virtual string getInputData(ifstream &file);
     virtual Subtitle * parseInputData(string inputData);
-    virtual string getExportString(Subtitle& sub);
     virtual void exportPrep() override;
     virtual void importPrep() override;
+    virtual string getExportString(Subtitle& sub) override;
     ~MplayerIO(){};
 };
 
@@ -127,15 +127,20 @@ private:
 public:
     string getInputData(ifstream &file) override;
     Subtitle * parseInputData(string inputData) override;
-    string getExportString(Subtitle& sub) override;
     virtual void exportPrep() override;
     virtual void importPrep() override;
+    virtual string getExportString(Subtitle& sub) override;
 };
 
 template <typename Format> Format * SingletonClass<Format>::instance_=nullptr;
 
-template class SingletonClass<MDVDIO>;
-template class SingletonClass<MplayerIO>;
+struct OutputSubs{
+public:
+    SubtitleIO* io;
+    Subtitles* subs;
+    OutputSubs(SubtitleIO* sio, Subtitles* subts):io(sio),subs(subts){};
+    OutputSubs(SubtitleIO* sio, Subtitles& subts):io(sio),subs(&subts){};
+};
 
 
 #endif //POOP_SUBTITLEIO_H

@@ -7,12 +7,12 @@ using namespace std;
 
 Subtitles * SubtitleIO::loadSubtitles(string file_path){
     ifstream inputStream;
+    importPrep();
     try{
         inputStream.open(file_path);
     }catch(ios_base::failure){ throw new FailedToOpenFile();} //ili samo throw; ?
 
     string inputBuffer;
-    int i=0;
     Subtitle * newSub; Subtitles * newTitles= new Subtitles();
     queue<inputError> inpErrors;
     while (!inputStream.eof()){
@@ -129,9 +129,14 @@ Subtitle * MplayerIO::parseInputData(string inputData){
 }
 
 string MplayerIO::getExportString(Subtitle& sub){
-    string buffer="";
-    double start = ((sub.getTime().getStart() - lastExportTime).toMillisec()) / 1000.;
-    double end = (sub.getTime().getEnd() - sub.getTime().getStart()).toMillisec() / 1000.;
+    string buffer=""; double start, end;
+    try {
+        start = ((sub.getTime().getStart() - lastExportTime).toMillisec()) / 1000.;
+        end = (sub.getTime().getEnd() - sub.getTime().getStart()).toMillisec() / 1000.;
+    }catch(NegativeTime){
+        cout<<sub.getContent();
+        exit(-1);
+    }
     lastExportTime=sub.getTime().getEnd();
     buffer.append(dtos(start)).append(" ");  //TODO sklanjanje uvisnih decimala kod dtos
     buffer.append(dtos(end)).append("\n").append(sub.getContent());
@@ -210,3 +215,10 @@ void MDVDIO::importPrep(){
     lastTime=0;
 };
 
+ostream& operator<<(ostream& os, OutputSubs& out){
+    SubtitleIter begin=out.subs->begin(), end=out.subs->end();
+    out.io->exportPrep();
+    for (; begin != end; begin++)
+        cout << out.io->getExportString(*begin)<<endl;
+    return os;
+};

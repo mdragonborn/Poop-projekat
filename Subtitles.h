@@ -24,13 +24,11 @@ typedef std::vector<Subtitle>::iterator SubtitleIter;
 
 class Subtitles {
 private:
-    vector <Subtitle> SubLines;  //mapa?
+    vector <Subtitle> SubLines;
     string filename;
     void shiftEdges(SubtitleIter begin, SubtitleIter end, mvTimeRange range, mvTime disp, mvTimeRange::dir direction);
 public:
     Subtitles(){};
-    //TODO destruktor treba da unistava elemente iz vektora jer su dinamicki alocirani
-    //TODO istrazi ispavnu implementaciju SubtitleIter
     //Navigacija kroz titlove
     SubtitleIter begin();
     SubtitleIter end();
@@ -49,6 +47,7 @@ public:
     Subtitles& splitCurrent(SubtitleIter current);
     Subtitles& removeAtTime(mvTime timePoint);
     Subtitles& remove(SubtitleIter iter);
+    ~Subtitles();
 };
 
 

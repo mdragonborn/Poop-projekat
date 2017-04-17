@@ -44,6 +44,24 @@ Subtitles& Subtitles::pushBackNew(Subtitle subt){
     return *this;
 };
 
+Subtitles& Subtitles::insert(Subtitle sub){
+    SubtitleIter place;
+    if(!SubLines.empty())try {
+            place = findClosestTime(sub.getTime().getStart());
+        }catch(TimeOutOfRange){  pushBackNew(sub);  return *this; }
+    else {
+        pushBackNew(sub);
+        return *this;
+    }
+    //TODO kad testiras findClosestTime razmotri slucajeve ovde
+    if(!(*place).getTime().checkOverlap(sub.getTime()))
+    if((*place).getTime().getStart()>sub.getTime().getEnd())
+        insertBefore(place,sub);
+    else
+        insertBefore(++place,sub);
+    return *this;
+};
+
 Subtitles& Subtitles::insertBefore(SubtitleIter iter, Subtitle sub){
     if ((iter!=end())&&((*iter).getTime().checkOverlap(sub.getTime()) || (iter!=SubLines.begin() && (*(iter-1)).getTime().checkOverlap(sub.getTime()))))
         throw OverlappingTimeRange(sub);
@@ -51,6 +69,12 @@ Subtitles& Subtitles::insertBefore(SubtitleIter iter, Subtitle sub){
     return *this;
 };
 
+///////
+// editovanje
+///////
+
+
+//TODO testiranje postojecih funkcija za editovanje
 Subtitles& Subtitles::shiftCurrent(SubtitleIter current, mvTime displacement, mvTimeRange::dir direction){
     mvTimeRange temp((*current).getTime());
     temp.shift(displacement,direction);
@@ -138,20 +162,7 @@ Subtitles& Subtitles::remove(SubtitleIter iter){
     return *this;
 };
 
-Subtitles& Subtitles::insert(Subtitle sub){
-    SubtitleIter place;
-    if(!SubLines.empty())try {
-        place = findClosestTime(sub.getTime().getStart());
-    }catch(TimeOutOfRange){  pushBackNew(sub);  return *this; }
-    else {
-        pushBackNew(sub);
-        return *this;
-    }
-    //TODO kad testiras findClosestTime razmotri slucajeve ovde
-    if(!(*place).getTime().checkOverlap(sub.getTime()))
-        if((*place).getTime().getStart()>sub.getTime().getEnd())
-            insertBefore(place,sub);
-        else
-            insertBefore(++place,sub);
-    return *this;
-};
+Subtitles::~Subtitles(){
+    for(auto begin=SubLines.begin(), end=SubLines.end();begin!=end;begin++)
+        delete (&(*begin));  //TODO smart pointers?
+}
