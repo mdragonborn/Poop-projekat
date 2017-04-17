@@ -24,12 +24,16 @@ mvTime mvTime::operator-(double sec){
 }
 bool mvTime::operator>(mvTime t2){
     if (hour_>t2.hour_) return true;
-    else if (hour_==t2.hour_)
-        if(minute_>t2.minute_) return true;
-        else if (minute_==t2.minute_)
-            if(second_>t2.second_) return true;
-            else if (millisec_>t2.millisec_) return true;
-            else return false;
+    else if (hour_==t2.hour_) {
+        if (minute_ > t2.minute_) return true;
+        else if (minute_ == t2.minute_) {
+            if (second_ > t2.second_) return true;
+            else if (second_==t2.second_){
+                if (millisec_ > t2.millisec_) return true;
+                else return false;
+            }
+        }
+    }
     return false;
 }
 

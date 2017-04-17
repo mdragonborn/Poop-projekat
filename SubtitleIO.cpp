@@ -21,21 +21,22 @@ Subtitles * SubtitleIO::loadSubtitles(string file_path){
         try { newSub = parseInputData(inputBuffer); }
         catch(ParsingError){
             inpErrors.push(inputError(inputBuffer));   //pozicija
-            if(inpErrors.size()>5) {
+            /*if(inpErrors.size()>5) {
                 delete newTitles; inputStream.close();
                 throw new TooBadFile();
-            }
+            }*/
             continue;
         }
         newTitles->insert(*newSub);
     }
     inputStream.close();
     if(handleInputErrors(inpErrors)) return newTitles;
-    else { delete newTitles; throw new TooBadFile(); }
+    //else { delete newTitles; throw new TooBadFile(); }
 }
 
 bool SubtitleIO::handleInputErrors(queue<inputError> errorList){
     inputError currentError;
+    return true;
     while(!errorList.empty()){
         currentError=errorList.front();
         errorList.pop();
@@ -59,8 +60,8 @@ string SubRipIO::getInputData(ifstream &file) {
 
 
 Subtitle * SubRipIO::parseInputData(string inputData){
-    if (!regex_match(inputData, regex("\\d\n\\d{2}:\\d{2}:\\d{2},\\d{3} --> \\d{2}:\\d{2}:\\d{2},\\d{3}\n(.|\n)+"))) throw ParsingError();
-    regex format("\\d\n(\\d{2}):(\\d{2}):(\\d{2}),(\\d{3}) --> (\\d{2}):(\\d{2}):(\\d{2}),(\\d{3})\n((.|\n)+)");
+    if (!regex_match(inputData, regex("\\d+\n\\d{2}:\\d{2}:\\d{2},\\d{3} --> \\d{2}:\\d{2}:\\d{2},\\d{3}\n(.|\n)+"))) throw ParsingError();
+    regex format("\\d+\n(\\d{2}):(\\d{2}):(\\d{2}),(\\d{3}) --> (\\d{2}):(\\d{2}):(\\d{2}),(\\d{3})\n((.|\n)+)");
     sregex_iterator iter(inputData.begin(), inputData.end(),format);
     mvTime begin(stoi((*iter)[1]), stoi((*iter)[2]), stoi((*iter)[3]),stoi((*iter)[4]));
     mvTime end(stoi((*iter)[5]), stoi((*iter)[6]), stoi((*iter)[7]),stoi((*iter)[8]));

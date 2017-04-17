@@ -36,8 +36,10 @@ SubtitleIter Subtitles::end(){
 }
 
 Subtitles& Subtitles::pushBackNew(Subtitle subt){
-    if(!SubLines.empty() && subt.getTime().getStart()<(*SubLines.end()).getTime().getEnd())
+    if(!SubLines.empty() && subt.getTime().checkOverlap(SubLines.back().getTime())){
+        subt.getTime().checkOverlap(SubLines.back().getTime());
         throw OverlappingTimeRange(subt);
+    }
     SubLines.push_back(subt);
     return *this;
 };
