@@ -1,11 +1,9 @@
 #include <iostream>
-#include <regex>
-#include "mvtime.h"
-#include "SubtitleIO.h"
+#include <curses.h>
 
 
 using namespace std;
-
+/*
 int main(){
     SubtitleIO * io=MplayerIO::createObject();
     Subtitles *subt;
@@ -16,4 +14,5 @@ int main(){
     for (auto& begin: *subt)
         cout << io->getExportString(begin)<<endl;
     cout<<(double)(e-b)/CLOCKS_PER_SEC;
-}
+}*/
+
