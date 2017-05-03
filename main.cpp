@@ -1,5 +1,5 @@
 #include <iostream>
-#include <curses.h>
+#include "Display.h"
 
 
 using namespace std;
@@ -16,3 +16,8 @@ int main(){
     cout<<(double)(e-b)/CLOCKS_PER_SEC;
 }*/
 
+int main(){
+    Display disp(30,100);
+    disp.initScrolling();
+    refresh();
+}

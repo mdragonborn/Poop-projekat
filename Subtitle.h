@@ -36,7 +36,7 @@ private:
         Formatting(bool i, bool b, bool u):italic(i),bold(b),underline(u){};
         Formatting(Formatting& f){
             if(f.color) color=new Color(*f.color);
-            if(f.font) font=new string(f.font);
+            if(f.font) font=new string(*f.font);
             italic=f.italic;
             bold=f.bold;
             underline=f.underline;
