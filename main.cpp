@@ -1,5 +1,6 @@
 #include <iostream>
-#include "Display.h"
+#include <conio.h>
+//#include "SubtitleApp.h"
 
 
 using namespace std;
@@ -17,7 +18,13 @@ int main(){
 }*/
 
 int main(){
-    Display disp(30,100);
-    disp.initScrolling();
-    refresh();
+    while(1) {int input;
+        if (_kbhit()) {
+            input = _getch();
+            if(input==224) input=_getch();
+            cout<<input<<endl;
+        }
+    }
+    //SubtitleApp::main_app();
+
 }

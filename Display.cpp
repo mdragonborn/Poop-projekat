@@ -104,7 +104,7 @@ void Display::generateFrame(int h, int w, Coord upperLeft){
 
 void Display::initScrolling(){
     putpictureMultiColor(4);
-    refresh();
+
 };
 /*void Display::displayTitles();
 void Display::displayMain();

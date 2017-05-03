@@ -12,10 +12,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="191fd960-9da9-4c56-b257-c131f2e05e14" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CMakeLists.txt" afterPath="$PROJECT_DIR$/CMakeLists.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Display.cpp" afterPath="$PROJECT_DIR$/Display.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Display.h" afterPath="$PROJECT_DIR$/Display.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Subtitle.h" afterPath="$PROJECT_DIR$/Subtitle.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SubtitleApp.cpp" afterPath="$PROJECT_DIR$/SubtitleApp.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SubtitleApp.h" afterPath="$PROJECT_DIR$/SubtitleApp.h" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.cpp" afterPath="$PROJECT_DIR$/main.cpp" />
     </list>
     <ignored path="poop.iws" />
@@ -37,25 +36,15 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="450">
-      <file leaf-file-name="main.cpp" pinned="false" current-in-tab="true">
+      <file leaf-file-name="main.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="200">
-              <caret line="19" column="19" selection-start-line="19" selection-start-column="19" selection-end-line="19" selection-end-column="19" />
+            <state relative-caret-position="249">
+              <caret line="23" column="26" selection-start-line="23" selection-start-column="26" selection-end-line="23" selection-end-column="26" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
-                <element signature="e#64#409#0" expanded="false" />
+                <element signature="e#89#434#0" expanded="false" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="iostream" pinned="false" current-in-tab="false">
-        <entry file="file://C:/MinGW/lib/gcc/mingw32/4.9.3/include/c++/iostream">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="249">
-              <caret line="73" column="0" selection-start-line="73" selection-start-column="0" selection-end-line="73" selection-end-column="0" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -63,8 +52,8 @@
       <file leaf-file-name="Display.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Display.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="258">
-              <caret line="66" column="35" selection-start-line="66" selection-start-column="35" selection-end-line="66" selection-end-column="35" />
+            <state relative-caret-position="305">
+              <caret line="106" column="0" selection-start-line="106" selection-start-column="0" selection-end-line="106" selection-end-column="0" />
               <folding>
                 <element signature="e#0#2#0" expanded="false" />
                 <element signature="e#122#350#0" expanded="false" />
@@ -74,7 +63,7 @@
                 <element signature="e#1702#1823#0" expanded="false" />
                 <element signature="e#1826#2298#0" expanded="false" />
                 <element signature="e#2301#3143#0" expanded="false" />
-                <element signature="e#3224#3561#0" expanded="false" />
+                <element signature="e#3210#3547#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -100,6 +89,30 @@
                 <element signature="e#2738#3380#1" expanded="false" />
                 <element signature="e#3382#4271#1" expanded="false" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SubtitleApp.h" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/SubtitleApp.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="105">
+              <caret line="75" column="23" selection-start-line="75" selection-start-column="23" selection-end-line="75" selection-end-column="23" />
+              <folding>
+                <element signature="e#98#116#0" expanded="true" />
+                <element signature="e#900#961#0" expanded="false" />
+                <element signature="e#966#1028#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SubtitleApp.cpp" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/SubtitleApp.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="380">
+              <caret line="130" column="4" selection-start-line="130" selection-start-column="4" selection-end-line="130" selection-end-column="4" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -146,16 +159,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CMakeLists.txt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="9" column="36" selection-start-line="9" selection-start-column="36" selection-end-line="9" selection-end-column="36" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
     </leaf>
   </component>
   <component name="Git.Settings">
@@ -168,8 +171,6 @@
         <option value="$PROJECT_DIR$/mvtime.h.cpp" />
         <option value="$PROJECT_DIR$/mvtime.h" />
         <option value="$PROJECT_DIR$/Subtitle.cpp" />
-        <option value="$PROJECT_DIR$/SubtitleApp.h" />
-        <option value="$PROJECT_DIR$/SubtitleApp.cpp" />
         <option value="$PROJECT_DIR$/Subtitles.cpp" />
         <option value="$PROJECT_DIR$/Subtitles.h" />
         <option value="$PROJECT_DIR$/mvtime.cpp" />
@@ -180,6 +181,8 @@
         <option value="$PROJECT_DIR$/Display.h" />
         <option value="$PROJECT_DIR$/Display.cpp" />
         <option value="$PROJECT_DIR$/main.cpp" />
+        <option value="$PROJECT_DIR$/SubtitleApp.h" />
+        <option value="$PROJECT_DIR$/SubtitleApp.cpp" />
       </list>
     </option>
   </component>
@@ -191,9 +194,10 @@
   </component>
   <component name="OCFindUsagesOptions" text="true" ivars="false" properties="true" derivedClasses="false" />
   <component name="ProjectFrameBounds">
-    <option name="x" value="-10" />
-    <option name="width" value="980" />
-    <option name="height" value="1030" />
+    <option name="x" value="-11" />
+    <option name="y" value="-11" />
+    <option name="width" value="1942" />
+    <option name="height" value="1042" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -543,22 +547,22 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-10" y="0" width="980" height="1030" extended-state="0" />
+    <frame x="-11" y="-11" width="1942" height="1042" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32467532" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.41437125" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.41322315" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3293979" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3293979" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33412042" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.34120426" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3293979" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23051947" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.112937436" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Statistic" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3270366" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3293979" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.08993576" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.31257486" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3081464" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -624,11 +628,6 @@
           <line>85</line>
           <option name="timeStamp" value="64" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/main.cpp</url>
-          <line>21</line>
-          <option name="timeStamp" value="93" />
-        </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
@@ -644,7 +643,7 @@
           <caret line="18" column="1" selection-start-line="18" selection-start-column="1" selection-end-line="18" selection-end-column="1" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
-            <element signature="e#64#409#0" expanded="false" />
+            <element signature="e#89#434#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -657,7 +656,6 @@
             <element signature="e#0#2#0" expanded="false" />
             <element signature="e#67#664#0" expanded="false" />
             <element signature="e#667#756#0" expanded="false" />
-            <element signature="e#759#822#0" expanded="false" />
             <element signature="e#824#883#0" expanded="false" />
             <element signature="e#885#1181#0" expanded="false" />
             <element signature="e#1184#1756#0" expanded="false" />
@@ -766,42 +764,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Subtitles.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4175">
-          <caret line="167" column="1" selection-start-line="167" selection-start-column="1" selection-end-line="167" selection-end-column="1" />
-          <folding>
-            <element signature="e#0#2#0" expanded="false" />
-            <element signature="e#67#664#0" expanded="false" />
-            <element signature="e#667#756#0" expanded="false" />
-            <element signature="e#759#822#0" expanded="false" />
-            <element signature="e#824#883#0" expanded="false" />
-            <element signature="e#885#1181#0" expanded="false" />
-            <element signature="e#1184#1756#0" expanded="false" />
-            <element signature="e#1759#2077#0" expanded="false" />
-            <element signature="e#2112#2783#0" expanded="false" />
-            <element signature="e#2786#3423#0" expanded="false" />
-            <element signature="e#3426#3774#0" expanded="false" />
-            <element signature="e#3777#3874#0" expanded="false" />
-            <element signature="e#3883#4776#0" expanded="false" />
-            <element signature="e#4778#4985#0" expanded="false" />
-            <element signature="e#4988#5082#0" expanded="false" />
-            <element signature="e#5085#5239#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Subtitles.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="650">
-          <caret line="26" column="31" selection-start-line="26" selection-start-column="31" selection-end-line="26" selection-end-column="31" />
-          <folding>
-            <element signature="e#0#2#0" expanded="false" />
-            <element signature="e#240#397#1" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mvtime.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="625">
@@ -865,14 +827,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/SubtitleApp.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-750">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="225">
@@ -899,20 +853,28 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Subtitle.h">
+    <entry file="file://C:/MinGW/lib/gcc/mingw32/4.9.3/include/c++/iostream">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="343">
-          <caret line="38" column="40" selection-start-line="38" selection-start-column="40" selection-end-line="38" selection-end-column="40" />
+        <state relative-caret-position="249">
+          <caret line="73" column="0" selection-start-line="73" selection-start-column="0" selection-end-line="73" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Display.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="305">
+          <caret line="106" column="0" selection-start-line="106" selection-start-column="0" selection-end-line="106" selection-end-column="0" />
           <folding>
-            <element signature="e#153#444#1" expanded="false" />
-            <element signature="e#1967#2094#0" expanded="false" />
-            <element signature="e#2099#2233#0" expanded="false" />
-            <element signature="e#2238#2368#0" expanded="false" />
-            <element signature="e#2373#2457#0" expanded="false" />
-            <element signature="e#2462#2562#0" expanded="false" />
-            <element signature="e#2567#2618#0" expanded="false" />
-            <element signature="e#2623#2673#0" expanded="false" />
-            <element signature="e#2679#2734#0" expanded="false" />
+            <element signature="e#0#2#0" expanded="false" />
+            <element signature="e#122#350#0" expanded="false" />
+            <element signature="e#353#424#0" expanded="false" />
+            <element signature="e#426#698#0" expanded="false" />
+            <element signature="e#700#777#0" expanded="false" />
+            <element signature="e#1702#1823#0" expanded="false" />
+            <element signature="e#1826#2298#0" expanded="false" />
+            <element signature="e#2301#3143#0" expanded="false" />
+            <element signature="e#3210#3547#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -939,40 +901,87 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://C:/MinGW/lib/gcc/mingw32/4.9.3/include/c++/iostream">
+    <entry file="file://$PROJECT_DIR$/Subtitle.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="249">
-          <caret line="73" column="0" selection-start-line="73" selection-start-column="0" selection-end-line="73" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Display.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="258">
-          <caret line="66" column="35" selection-start-line="66" selection-start-column="35" selection-end-line="66" selection-end-column="35" />
+        <state relative-caret-position="343">
+          <caret line="38" column="40" selection-start-line="38" selection-start-column="40" selection-end-line="38" selection-end-column="40" />
           <folding>
-            <element signature="e#0#2#0" expanded="false" />
-            <element signature="e#122#350#0" expanded="false" />
-            <element signature="e#353#424#0" expanded="false" />
-            <element signature="e#426#698#0" expanded="false" />
-            <element signature="e#700#777#0" expanded="false" />
-            <element signature="e#1702#1823#0" expanded="false" />
-            <element signature="e#1826#2298#0" expanded="false" />
-            <element signature="e#2301#3143#0" expanded="false" />
-            <element signature="e#3224#3561#0" expanded="false" />
+            <element signature="e#153#444#1" expanded="false" />
+            <element signature="e#1967#2094#0" expanded="false" />
+            <element signature="e#2099#2233#0" expanded="false" />
+            <element signature="e#2238#2368#0" expanded="false" />
+            <element signature="e#2373#2457#0" expanded="false" />
+            <element signature="e#2462#2562#0" expanded="false" />
+            <element signature="e#2567#2618#0" expanded="false" />
+            <element signature="e#2623#2673#0" expanded="false" />
+            <element signature="e#2679#2734#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="200">
-          <caret line="19" column="19" selection-start-line="19" selection-start-column="19" selection-end-line="19" selection-end-column="19" />
+        <state relative-caret-position="249">
+          <caret line="23" column="26" selection-start-line="23" selection-start-column="26" selection-end-line="23" selection-end-column="26" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
-            <element signature="e#64#409#0" expanded="false" />
+            <element signature="e#89#434#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Subtitles.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="183">
+          <caret line="29" column="5" selection-start-line="29" selection-start-column="5" selection-end-line="29" selection-end-column="5" />
+          <folding>
+            <element signature="e#0#2#0" expanded="false" />
+            <element signature="e#67#664#0" expanded="false" />
+            <element signature="e#667#756#0" expanded="false" />
+            <element signature="e#824#883#0" expanded="false" />
+            <element signature="e#885#1181#0" expanded="false" />
+            <element signature="e#1184#1756#0" expanded="false" />
+            <element signature="e#1759#2077#0" expanded="false" />
+            <element signature="e#2112#2783#0" expanded="false" />
+            <element signature="e#2786#3423#0" expanded="false" />
+            <element signature="e#3426#3774#0" expanded="false" />
+            <element signature="e#3777#3874#0" expanded="false" />
+            <element signature="e#3883#4776#0" expanded="false" />
+            <element signature="e#4778#4985#0" expanded="false" />
+            <element signature="e#4988#5082#0" expanded="false" />
+            <element signature="e#5085#5239#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Subtitles.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-251">
+          <caret line="22" column="40" selection-start-line="22" selection-start-column="40" selection-end-line="22" selection-end-column="40" />
+          <folding>
+            <element signature="e#0#2#0" expanded="false" />
+            <element signature="e#240#397#1" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SubtitleApp.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="75" column="23" selection-start-line="75" selection-start-column="23" selection-end-line="75" selection-end-column="23" />
+          <folding>
+            <element signature="e#98#116#0" expanded="true" />
+            <element signature="e#900#961#0" expanded="false" />
+            <element signature="e#966#1028#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SubtitleApp.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="380">
+          <caret line="130" column="4" selection-start-line="130" selection-start-column="4" selection-end-line="130" selection-end-column="4" />
+          <folding />
         </state>
       </provider>
     </entry>
