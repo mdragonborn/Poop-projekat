@@ -15,11 +15,12 @@
 #define A 97
 #define S 115
 #define D 100
-#define Q 666
-#define R 666
-#define I 666
-#define H 666
-#define E 666
+#define Q 113
+#define R 114
+#define I 105
+#define H 104
+#define E 101
+#define F 102 //? vrv
 #define UP 72
 #define DOWN 80
 #define LEFT 75
@@ -37,6 +38,7 @@ private:
     typedef void(*fun_ptr)();
     static map<int, fun_ptr> * listingOptions;
     static map<int, fun_ptr> * mainOptions;
+    static map<int, fun_ptr> * editOptions;
     static SubtitleIter begin, iter, end;
     static Display* display;
     static Subtitles * loaded;
@@ -66,26 +68,43 @@ private:
     static void printListingHelp();
     static void initListingOptions();
     static void initMainOptions();
+    static void initEditOptions();
     static void printMenu();
 
-    static void splitTitle();
-    static void mergeTitles();
-
+    /*
+     * MAIN MENU NAVIGATION
+     * */
     static void mainGoUp();
     static void mainGoDown();
     static void mainSelect();
-
+    /*
+     * MAIN MENU OPTIONS
+     * */
     static void subExport();
+
     static void edit();
     static void showAbout();
     static void quitApp();
     static void load();
+    /*
+     * EDITING MENU METHODS
+     * */
+    static void removeCurrent();
+
+    static void insertNew();
+    static void scrollUp();
+    static void scrollDown();
+    static void find(SubtitleIter s= nullptr);
+    static void splitTitle();
+    static void mergeTitles();
 public:
     static int main_app();
 };
 
 map<int, void(*)()> * SubtitleApp::listingOptions=nullptr;
 map<int, void(*)()> * SubtitleApp::mainOptions=nullptr;
+map<int, void(*)()> * SubtitleApp::editOptions=nullptr;
+
 Display* SubtitleApp::display=nullptr;
 SubtitleIter SubtitleApp::begin=SubtitleIter(), SubtitleApp::iter=SubtitleIter(), SubtitleApp::end=SubtitleIter();
 Subtitles * SubtitleApp::loaded;

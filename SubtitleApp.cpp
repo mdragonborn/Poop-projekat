@@ -74,14 +74,21 @@ void SubtitleApp::printMenu(){
 void SubtitleApp::printListingHelp(){};
 
 int SubtitleApp::main_app() {
+    int input;
+
     if (display == nullptr) display = new Display(40, 80);
     if (mainOptions == nullptr) initMainOptions();
     mainCursor=0;
-    if (loaded) mainCursorMax=3;
-    else mainCursorMax=4;
+    if (!loaded) {
+        mainCursorMax=3;
+        display->setNewMenu(&mainNotLoadedStr,3);
+    }
+    else {
+        mainCursorMax = 4;
+        display->setNewMenu(&mainLoadedStr,3);
+    }
 
     display->generateHomeScr(false);
-    int input;
     while (1) {
         while(1) {
             if (_kbhit()) {
@@ -93,6 +100,8 @@ int SubtitleApp::main_app() {
         if (input == Q) return 0;
         try {
             mainOptions->at(input)();
+            if (!loaded) mainCursorMax=3;
+            else mainCursorMax=4;
         } catch (out_of_range) { continue; };
     }
 };
@@ -168,8 +177,39 @@ void SubtitleApp::subExport() {
 
 
 void SubtitleApp::edit(){
-
+    if(!loaded) return;
+    if(!editOptions) initEditOptions();
+    int input=0;
+    display->initScrolling(loaded);
+    while (1) {
+        while(1) {
+            if (_kbhit()) {
+                input = _getch();
+                if(input==ARROW) input=_getch();
+                break;
+            }
+        }
+        if (input == Q) {display->displayMain(); mainCursor=0; return;}
+        try{
+            editOptions->at(input)();
+        }catch(out_of_range){continue;}
+    }
 };
+
+void SubtitleApp::initEditOptions(){
+    editOptions=new map<int, fun_ptr>;
+    editOptions->emplace(A, &shiftAll);
+    editOptions->emplace(R, &removeCurrent);
+    editOptions->emplace(I, &insertNew);
+    editOptions->emplace(D, &merge);
+    editOptions->emplace(Q, &exit);
+    editOptions->emplace(W, &scrollUp);
+    editOptions->emplace(UP, &scrollUp);
+    editOptions->emplace(S, &scrollDown);
+    editOptions->emplace(DOWN, &scrollDown);
+    editOptions->emplace(F,&find);
+};
+
 
 void SubtitleApp::showAbout(){
     display->displayText("Projektni zadatak iz praktikuma iz objektno orjentisanog programiranja\nMilena Markovic 2015/436\nApril 2017.");
@@ -202,4 +242,36 @@ void SubtitleApp::quitApp(){
 };
 void SubtitleApp::load(){
   //TODO ovde mora da odradi prepoznavanje formata tj biranej IO objekta, ucitavanje i smestanje u loaded. vraca se u main
+};
+
+void SubtitleApp::removeCurrent(){
+    SubtitleIter next=iter+1;
+    if(iter==end) next=iter-1;
+    loaded->remove(iter);
+    find(next);
+};
+void SubtitleApp::insertNew(){};
+
+void SubtitleApp::scrollUp(){
+    if((iter-2)>=begin)
+        display->scrollUp(&*(iter - 2));
+    else
+        display->scrollUp(nullptr);
+    iter--;
+};
+void SubtitleApp::scrollDown(){
+    if(iter+2<=end)
+        display->scrollDown(&*(iter+2));
+    else
+        display->scrollDown(nullptr);
+    iter++;
+};
+
+void SubtitleApp::find(SubtitleIter s){
+    if(s){
+
+    }
+    else{
+
+    }
 };
