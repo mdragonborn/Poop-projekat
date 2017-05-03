@@ -8,6 +8,7 @@
 
 #include "mvtime.h"
 #include <string.h>
+
 using std::string;
 
 class Color{
@@ -24,7 +25,7 @@ public:
 
 class Subtitle {
 private:
-    struct Formatting{
+  /*  struct Formatting{
     private:
         Color * color= nullptr;
         bool italic=false, bold=false, underline=false;
@@ -62,15 +63,20 @@ private:
             return *font;
         }
     };
-
+*/
     mvTimeRange time_;
     string content_;
-    Formatting * format_;
+    //Formatting * format_;
 public:
-    Subtitle(const Subtitle& copy):time_(copy.time_), content_(copy.content_), format_(new Formatting(*copy.format_)){};
-    Subtitle(Subtitle& copy):time_(copy.time_), content_(copy.content_), format_(new Formatting(*copy.format_)){};
-    Subtitle(Subtitle&& copy):time_(copy.time_), content_(copy.content_),  format_(new Formatting(*copy.format_)){};
-    Subtitle(mvTimeRange time, string content, Formatting* formatting= nullptr):content_(content), time_(time), format_(formatting){};
+    Subtitle(const Subtitle& copy):time_(copy.time_), content_(copy.content_)//, format_(new Formatting(*copy.format_))
+    {};
+    Subtitle(Subtitle& copy):time_(copy.time_), content_(copy.content_)//, format_(new Formatting(*copy.format_))
+    {};
+    Subtitle(Subtitle&& copy):time_(copy.time_), content_(copy.content_)//,  format_(new Formatting(*copy.format_))
+     {};
+    Subtitle(mvTimeRange time, string content//, Formatting* formatting= nullptr
+    ):content_(content), time_(time)//, format_(formatting)
+    {};
 
     Subtitle& shiftTime(mvTime disp, mvTimeRange::dir direction){
         time_.shift(disp, direction);
@@ -98,12 +104,14 @@ public:
     mvTimeRange getTime(){
         return time_;
     };
-    Formatting *getFormat_(){
+    /*Formatting *getFormat_(){
         return format_;
-    }
+    }*/
+    string* splitInLines(int n, int len);
 
     Subtitle& operator=(const Subtitle& s);
     Subtitle& operator=(Subtitle& s);
+    operator string();
 };
 
 

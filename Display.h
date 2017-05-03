@@ -148,22 +148,31 @@ private:
     int winW, winH;
     AsciiPicture** asciiArt;
     void initAscii();
+    string ** currentMenu= nullptr;
+    int menuOptions=0;
+    Coord sub1,sub2, sub3;
+    int selectedSub;
 public:
     Display(int h, int w);
     void generateHomeScr(bool loaded=false);
     void putpictureMultiColor(int picID);
     void generateFrame(int h, int w, Coord upperLeft);
-    void initScrolling();
+    void initScrolling(Subtitles * subs);
+    void setNewMenu(string * newOptions[], int optionCount);  //TODO cuva u currentMenu i menuOpotions
     void initSearch();
-    void displayTitles();
     void displayMain();
+    void mainUp();
+    void mainDown();
     void displaySettings();
     void displayGetAddress();
-    void scrollUp();
-    void scrollDown();
+    void quitSavePrompt();  //TODO do you want to save before you exit?
+    void savePromptShift();
+    void scrollUp(Subtitle* prev);
+    void scrollDown(Subtitle* next);
     void setCurentSubs(Subtitles& subs);
     void editableText(string str, Coord upperLeft);
-    string stringInput(Coord upperLeft);
+    void displayText(string str);
+    string stringInput(Coord upperLeft, string prompt);
 };
 
 #endif //POOP_DISPLAY_H

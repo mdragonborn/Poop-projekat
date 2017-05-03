@@ -22,7 +22,10 @@
 #define E 666
 #define UP 72
 #define DOWN 80
+#define LEFT 75
+#define RIGHT 77
 #define ARROW 224
+#define ENTER 13
 
 
 using std::map;
@@ -43,6 +46,7 @@ private:
     static string mainNotLoadedStr[3];
 
     static int mainCursor;
+    static int mainCursorMax;
     static void callMainOption();
 
     //Navigacija unutar listSubtitles
@@ -71,10 +75,10 @@ private:
     static void mainGoDown();
     static void mainSelect();
 
-    static void export();
+    static void subExport();
     static void edit();
     static void showAbout();
-    static void exit();
+    static void quitApp();
     static void load();
 public:
     static int main_app();
@@ -85,9 +89,11 @@ map<int, void(*)()> * SubtitleApp::mainOptions=nullptr;
 Display* SubtitleApp::display=nullptr;
 SubtitleIter SubtitleApp::begin=SubtitleIter(), SubtitleApp::iter=SubtitleIter(), SubtitleApp::end=SubtitleIter();
 Subtitles * SubtitleApp::loaded;
-SubtitleApp::fun_ptr SubtitleApp::mainLoaded[4]={&SubtitleApp::export, &SubtitleApp::edit, &SubtitleApp::showAbout, &SubtitleApp::exit};
-SubtitleApp::fun_ptr SubtitleApp::mainNotLoaded[3]={&SubtitleApp::load, &SubtitleApp::showAbout, &SubtitleApp::exit};
+SubtitleApp::fun_ptr SubtitleApp::mainLoaded[4]={&SubtitleApp::subExport, &SubtitleApp::edit, &SubtitleApp::showAbout, &SubtitleApp::quitApp};
+SubtitleApp::fun_ptr SubtitleApp::mainNotLoaded[3]={&SubtitleApp::load, &SubtitleApp::showAbout, &SubtitleApp::quitApp};
 string SubtitleApp::mainLoadedStr[4]={"Export", "Edit", "About subWars", "Exit"};
-string SubtitleApp::mainNotLoadedStr[3]=;{"Load","About subWars", "Exit"};
+string SubtitleApp::mainNotLoadedStr[3]={"Load","About subWars", "Exit"};
+int SubtitleApp::mainCursor=0;
+int SubtitleApp::mainCursorMax=0;
 
 #endif //POOP_SUBTITLEAPP_H

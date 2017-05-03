@@ -21,6 +21,12 @@ protected:
     int hour_, minute_, second_, millisec_;
     static const int minuteMod=60, secondMod=60, milliMod=1000;
 public:
+    static string itos(int i){
+        char buffer[10];
+        sprintf(buffer,"%d",i);
+        return string(buffer);
+    }
+
     mvTime(int hour=0, int minute=0, int second=0, int millisec=0) {
         millisec_ = millisec % milliMod;
         second_ = (second + millisec / milliMod) % secondMod;
@@ -40,6 +46,9 @@ public:
     friend ostream& operator<<(ostream& os, mvTime mvt){
         os<<mvt.hour_<<":"<<mvt.minute_<<":"<<mvt.second_<<"."<<mvt.millisec_;
         return os;
+    }
+    operator string(){
+        return mvTime::itos(getHour())+":"+mvTime::itos(getMinute())+":"+mvTime::itos(getSecond())+"."+mvTime::itos(getMilli());
     }
     int getHour() const{ return hour_; }
     int getMinute() const { return minute_; }
@@ -83,6 +92,7 @@ public:
     mvTime getEnd() const { return endTime; }
 
     mvTimeRange& operator=(mvTimeRange r2);
+
 };
 //izvesti za svaki format vremena
 

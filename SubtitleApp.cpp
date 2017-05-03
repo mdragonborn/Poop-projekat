@@ -3,7 +3,7 @@
 //
 
 #include "SubtitleApp.h"
-
+#include "Display.h"
 
 
 using namespace std;
@@ -76,6 +76,10 @@ void SubtitleApp::printListingHelp(){};
 int SubtitleApp::main_app() {
     if (display == nullptr) display = new Display(40, 80);
     if (mainOptions == nullptr) initMainOptions();
+    mainCursor=0;
+    if (loaded) mainCursorMax=3;
+    else mainCursorMax=4;
+
     display->generateHomeScr(false);
     int input;
     while (1) {
@@ -100,33 +104,102 @@ void SubtitleApp::mergeTitles(){};
 void SubtitleApp::mainGoUp(){
     if(mainCursor>0) {
         mainCursor--;
-        display.mainUp();
+        display->mainUp();
     }
 };
 void SubtitleApp::mainGoDown(){
     if(mainCursor<mainCursorMax){
         mainCursor++;
-        display.mainDown();
+        display->mainDown();
     }
 };
 void SubtitleApp::mainSelect(){
     if(loaded== nullptr){
         (*mainNotLoaded[mainCursor])();
     } else (*mainLoaded[mainCursor])();
+    display->displayMain(); mainCursor=0;
 };
 
-void SubtitleApp::export(){
+void SubtitleApp::subExport() {
+    int input, expCursor;
+    SubtitleIO *IO;
+    string extension;
+    string options[] = {"SubRip", "MicroDVD", "Mplayer"};
+    //display->setNewMenu(&options, 3);
+    display->displayMain();
+    while (1) {
+        while (1) {
+            if (_kbhit()) {
+                input = _getch();
+                if (input == ARROW) input = _getch();
+                break;
+            }
+        }
+        if (input == DOWN || input == S && expCursor < 2) {
+            expCursor++;
+            display->mainDown();
+        }
+        else if (input == UP || input == W && expCursor != 0) {
+            expCursor--;
+            display->mainUp();
+        }
+        else if (input == ENTER) {
+            switch (expCursor) {
+                case 0:
+                    IO = SubRipIO::instance_;
+                    extension = ".srt";
+                    break;
+                case 1:
+                    IO = MDVDIO::instance_;
+                    extension = ".sub";
+                    break;
+                case 2:
+                    IO = MplayerIO::instance_;
+                    extension = ".sub";
+                    break;
+            }
 
+            string path = display->stringInput(Coord(0, 0), "Folder path:"); //TODO zavrsi ovo
+            string fname = display->stringInput(Coord(0, 0), "File name:");
+            //save(path+"\\"+fname+extension);
+        }
+    }
 };
+
+
 void SubtitleApp::edit(){
 
 };
+
 void SubtitleApp::showAbout(){
-
+    display->displayText("Projektni zadatak iz praktikuma iz objektno orjentisanog programiranja\nMilena Markovic 2015/436\nApril 2017.");
+    while(!_kbhit());
+    display->displayMain(); mainCursor=0;
+    return;
 };
-void SubtitleApp::exit(){
 
+void SubtitleApp::quitApp(){
+    if(!loaded) exit(1);
+    display->quitSavePrompt();
+    int optionToggle=0, input;
+    while (1) {
+        while(1) {
+            if (_kbhit()) {
+                input = _getch();
+                if(input==ARROW) input=_getch();
+                break;
+            }
+        }
+        if (input == Q) {display->displayMain(); mainCursor=0; return;}
+        if(input==LEFT || input==A || input==RIGHT || input==D) {
+            optionToggle=(optionToggle+1)%2; display->savePromptShift();
+        }
+        if(input==ENTER) if(optionToggle) exit(1);
+        else {
+            subExport(); exit(1);
+        }
+    }
 };
 void SubtitleApp::load(){
-
+  //TODO ovde mora da odradi prepoznavanje formata tj biranej IO objekta, ucitavanje i smestanje u loaded. vraca se u main
 };

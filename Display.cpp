@@ -8,6 +8,14 @@ extern "C" {
 };
 using namespace std;
 
+chtype  * strtoch(char * string){
+    int len=strlen(string), i;
+    chtype * converted=new chtype[len+1];
+    for (i=0;i<len+1;i++)
+        converted[i]=(chtype)string[i];
+    return converted;
+}
+
 int Yoda::getColorPair(int x, int y){
     int rt=1;
     switch(getCh(x,y)){
@@ -35,8 +43,8 @@ int TIEfighter::getColorPair(int x, int y){
     return Display::R2D2W_PAIR;
 };
 
-
-Display::Display(int h, int w):winW(w), winH(h) {
+//TODO hardcodovane koordinate odredi racunski
+Display::Display(int h, int w):winW(w), winH(h), sub1(3,5),sub2(13,5), sub3(20,5) {
     initscr();
     BCGD_COLOR=COLOR_BLACK;
     TEXT_COLOR=COLOR_YELLOW;
@@ -56,15 +64,17 @@ Display::Display(int h, int w):winW(w), winH(h) {
     raw();
     resize_term(h,w);
     initAscii();
+
 };
 
 void Display::initAscii(){
-    asciiArt=new AsciiPicture*[5];
+    asciiArt=new AsciiPicture*[6];
     asciiArt[0]=new Yoda(Coord(6,38));
     asciiArt[1]=new C3P0(Coord(12,20));
     asciiArt[2]=new R2D2(Coord(12,20));
     asciiArt[3]=new TIEfighter(Coord(20,20));
-    asciiArt[4]=new Yoda(Coord(0,74));
+    asciiArt[4]=new Yoda(Coord(0,winW-24));
+    asciiArt[5]=new R2D2(Coord(winH-4, winW-13));
 }
 
 void Display::generateHomeScr(bool loaded) {
@@ -102,10 +112,46 @@ void Display::generateFrame(int h, int w, Coord upperLeft){
     }
 };
 
-void Display::initScrolling(){
+void Display::initScrolling(Subtitles * subs){
+    clear();
     putpictureMultiColor(4);
+    putpictureMultiColor(5);
+    string str="Press h";
+    mvaddstr(winH-8, winW-12, str.c_str());
+    str="H for";
+    mvaddstr(winH-7,winW-12,str.c_str());
+    str="help!";
+    mvaddstr(winH-6,winW-12,str.c_str());
+    SubtitleIter iter=subs->begin();
+
+    mvaddstr(sub1.getX(),sub1.getY(),((string)(*iter).getTime().getStart()).c_str());
+    mvaddstr(sub1.getX()+1,sub1.getY(),((string)(*iter).getTime().getEnd()).c_str());
+    mvaddstr(sub1.getX()+2,sub1.getY(),(*iter).getContent().c_str());
+
+    iter++;
+
+    mvaddstr(sub2.getX(),sub2.getY(),((string)(*iter).getTime().getStart()).c_str());
+    mvaddstr(sub2.getX()+1,sub2.getY(),((string)(*iter).getTime().getEnd()).c_str());
+    mvaddstr(sub2.getX()+2,sub2.getY(),(*iter).getContent().c_str());
+
+    iter++;
+
+    mvaddstr(sub3.getX(),sub3.getY(),((string)(*iter).getTime().getStart()).c_str());
+    mvaddstr(sub3.getX()+1,sub3.getY(),((string)(*iter).getTime().getEnd()).c_str());
+    mvaddstr(sub3.getX()+2,sub3.getY(),(*iter).getContent().c_str());
+
+    refresh();
 
 };
+
+void Display::displayMain(){};
+void Display::mainUp(){};
+void Display::mainDown(){};
+void Display::quitSavePrompt(){};  //TODO do you want to save before you exit?
+void Display::savePromptShift(){};
+void Display::displayText(string str){};
+string Display::stringInput(Coord upperLeft, string prompt){};
+
 /*void Display::displayTitles();
 void Display::displayMain();
 void Display::displaySettings();
