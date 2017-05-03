@@ -152,6 +152,7 @@ private:
     int menuOptions=0;
     Coord sub1,sub2, sub3;
     int selectedSub;
+    Subtitle* lastThree[3]={nullptr,nullptr,nullptr};
 public:
     Display(int h, int w);
     void generateHomeScr(bool loaded=false);
@@ -170,7 +171,7 @@ public:
     void scrollUp(Subtitle* prev);
     void scrollDown(Subtitle* next);
     void setCurentSubs(Subtitles& subs);
-    void editableText(string str, Coord upperLeft);
+    void editableText(string str, Coord upperLeft);   //TODO JAKO BITNO!!!!!!!!!
     void displayText(string str);
     string stringInput(Coord upperLeft, string prompt);
 };

@@ -24,7 +24,3 @@ Subtitle::operator string() {
     rtvalue+=content_;
     return rtvalue;
 }
-
-string* Subtitle::splitInLines(int n, int len){
-    string * rtValue=new string[n]();
-};

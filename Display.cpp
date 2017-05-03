@@ -123,28 +123,33 @@ void Display::initScrolling(Subtitles * subs){
     str="help!";
     mvaddstr(winH-6,winW-12,str.c_str());
     SubtitleIter iter=subs->begin();
-
+    lastThree[0]=&(*iter);
     mvaddstr(sub1.getX(),sub1.getY(),((string)(*iter).getTime().getStart()).c_str());
     mvaddstr(sub1.getX()+1,sub1.getY(),((string)(*iter).getTime().getEnd()).c_str());
-    mvaddstr(sub1.getX()+2,sub1.getY(),(*iter).getContent().c_str());
+    for(int i=0;i<(*iter).getlineCount();i++)
+        mvaddstr(sub1.getX()+2+i,sub1.getY(),(*iter).getLines()[i].c_str());
 
     iter++;
-
+    lastThree[1]=&(*iter);
     mvaddstr(sub2.getX(),sub2.getY(),((string)(*iter).getTime().getStart()).c_str());
     mvaddstr(sub2.getX()+1,sub2.getY(),((string)(*iter).getTime().getEnd()).c_str());
-    mvaddstr(sub2.getX()+2,sub2.getY(),(*iter).getContent().c_str());
+    for(int i=0;i<(*iter).getlineCount();i++)
+        mvaddstr(sub2.getX()+2+i,sub2.getY(),(*iter).getLines()[i].c_str());
 
     iter++;
-
+    lastThree[2]=&(*iter);
     mvaddstr(sub3.getX(),sub3.getY(),((string)(*iter).getTime().getStart()).c_str());
     mvaddstr(sub3.getX()+1,sub3.getY(),((string)(*iter).getTime().getEnd()).c_str());
-    mvaddstr(sub3.getX()+2,sub3.getY(),(*iter).getContent().c_str());
+    for(int i=0;i<(*iter).getlineCount();i++)
+        mvaddstr(sub3.getX()+2+i,sub3.getY(),(*iter).getLines()[i].c_str());
 
     refresh();
 
 };
 
-void Display::displayMain(){};
+void Display::displayMain(){
+
+};
 void Display::mainUp(){};
 void Display::mainDown(){};
 void Display::quitSavePrompt(){};  //TODO do you want to save before you exit?
