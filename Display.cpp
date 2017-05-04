@@ -125,17 +125,17 @@ void Display::putpictureMultiColor(int picID){
 
 void Display::generateFrame(int h, int w, Coord upperLeft, int pair){
     mvaddch(upperLeft.getX(),upperLeft.getY(),ACS_ULCORNER|COLOR_PAIR(pair));
-    mvaddch(upperLeft.getX(),upperLeft.getY()+w,ACS_URCORNER|COLOR_PAIR(pair));
+    mvaddch(upperLeft.getX(),upperLeft.getY()+w-1,ACS_URCORNER|COLOR_PAIR(pair));
     mvaddch(upperLeft.getX()+h,upperLeft.getY(),ACS_LLCORNER|COLOR_PAIR(pair));
-    mvaddch(upperLeft.getX()+h,upperLeft.getY()+w,ACS_LRCORNER|COLOR_PAIR(pair));
+    mvaddch(upperLeft.getX()+h,upperLeft.getY()+w-1,ACS_LRCORNER|COLOR_PAIR(pair));
 
-    for(int i=1; i<w;i++) {
+    for(int i=1; i<w-1;i++) {
         mvaddch(upperLeft.getX(), upperLeft.getY() + i, ACS_HLINE | COLOR_PAIR(pair));
         mvaddch(upperLeft.getX()+h, upperLeft.getY() + i, ACS_HLINE | COLOR_PAIR(pair));
     }
     for(int i=1;i<h;i++){
         mvaddch(upperLeft.getX()+i, upperLeft.getY(), ACS_VLINE|COLOR_PAIR(pair));
-        mvaddch(upperLeft.getX()+i, upperLeft.getY()+w, ACS_VLINE|COLOR_PAIR(pair));
+        mvaddch(upperLeft.getX()+i, upperLeft.getY()+w-1, ACS_VLINE|COLOR_PAIR(pair));
     }
 };
 void Display::clearFrame(int h, int w, Coord upperLeft){
@@ -236,6 +236,8 @@ bool Display::menuUp(){
                         (*currentMenu)[currentMenuOption].length() / 2 + j,
                         currentOption[j] | format);
         }
+        currentMenuOption++;
+        refresh();
         return true;
     }
     return false;
@@ -251,6 +253,8 @@ bool Display::menuDown(){
                         (*currentMenu)[currentMenuOption].length() / 2 + j,
                         currentOption[j] | format);
         }
+        currentMenuOption--;
+        refresh();
         return true;
     }
     return false;
@@ -469,7 +473,7 @@ string Display::editableText(string str, Coord upperLeft, int winh, int winw){
 }
 
 string Display::contentEditCurrent(){
-    string rtvalue=editableText(lastThree[currentSub]->getContent(),Coord(subCoord[currentSub].getX()-2, subCoord[currentSub].getY()), TEXT_HEIGHT-2, TEXT_WIDTH);
+    string rtvalue=editableText(lastThree[currentSub]->getContent(),Coord(subCoord[currentSub].getX()+2, subCoord[currentSub].getY()), TEXT_HEIGHT-2, TEXT_WIDTH);
     return rtvalue;
 };
 
@@ -483,6 +487,70 @@ void Display::setNewMenu(string ** newOptions, int optionCount){
     menuOptions=optionCount;
     currentMenu=newOptions;
 };
+
+string Display::timeInput() {
+    int winw = 12;
+    int winh = 1;
+    Coord upperLeft = Coord(14, winW - 14);
+    const char *clear = clearBlock(winw);
+    int textCursor = 0;
+    string inputstr = "00:00:00.000";
+    auto winCursor = Coord(upperLeft.getX(), upperLeft.getY());
+    mvaddstr(upperLeft.getX(),upperLeft.getY(),inputstr.c_str());
+    mvaddch(winCursor.getX(), winCursor.getY(), inputstr[textCursor] | A_REVERSE | COLOR_PAIR(BASE_PAIR));
+    refresh();
+    int input = 0;
+    while (1) {
+        while (1) {
+            if (_kbhit()) {
+                input = _getch();
+                if (input == ARROW_KEY) input = _getch();
+                break;
+            }
+        }
+        if (input == ENTER_KEY) {
+            delete clear;
+            return inputstr;
+        }
+        switch (input) {
+            case BACKSPACE_KEY:
+            case RIGHT_KEY: {
+                if (textCursor != inputstr.length() - 1) {
+                    textCursor++;
+                    if (inputstr[textCursor] == ':' || inputstr[textCursor] == '.') textCursor++;
+
+                }
+                break;
+            }
+            case LEFT_KEY: {
+                if (textCursor != 0) {
+                    textCursor--;
+                    if (inputstr[textCursor] == ':' || inputstr[textCursor] == '.') textCursor--;
+                }
+                break;
+            }
+            default: {
+                if (input >= 48 && input <= 57) {
+                    if(!(textCursor%3) && textCursor!=9 && input>53) break;
+                    inputstr[textCursor] = (char) input;
+                    if (textCursor != inputstr.length() - 1) {
+                        textCursor++;
+                        if (inputstr[textCursor] == ':' || inputstr[textCursor] == '.') textCursor++;
+                    }
+                }
+                    break;
+            }
+        }
+        mvaddstr(upperLeft.getX(), upperLeft.getY(), clear);
+        mvaddstr(upperLeft.getX(),upperLeft.getY(),inputstr.c_str());
+        winCursor = Coord(upperLeft.getX(), + upperLeft.getY()+textCursor);
+        mvaddch(winCursor.getX(), winCursor.getY(),
+                inputstr[textCursor] | A_REVERSE |
+                COLOR_PAIR(BASE_PAIR));
+        refresh();
+    }
+}
+
 /*void Display::displayTitles();
 void Display::displayMain();
 void Display::displaySettings();

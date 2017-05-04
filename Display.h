@@ -206,7 +206,7 @@ public:
     void  clearScrollWindow();
     char * clearBlock(int size);
     void setNewMenu(string ** newOptions, int optionCount);  //TODO cuva u currentMenu i menuOpotions
-    void initSearch();
+    //void initSearch();
     void displayMain();
     bool menuUp();
     bool menuDown();
@@ -219,7 +219,7 @@ public:
     void setCurentSubs(Subtitles& subs);
     void refreshScrolled();
     string editableText(string str, Coord upperLeft, int winh=-1, int winw=-1);   //TODO JAKO BITNO!!!!!!!!!
-    mvTimeRange timeInput(); //TODO time edit??
+    string timeInput();//TODO time edit??
     void displayText(string str);
     string stringInput(Coord upperLeft, string prompt);
     static void testWW();
@@ -228,6 +228,7 @@ public:
     void putWrappedString(string content, Coord upperLeft, int lineW=-1);
     void putLastThree();
     string contentEditCurrent();
+    void scrollSkip(SubtitleIter target);
 };
 
 class WordWrapError: public exception{};

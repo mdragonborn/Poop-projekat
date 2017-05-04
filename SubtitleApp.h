@@ -56,11 +56,11 @@ private:
     void listSubtitles(Subtitles &subs);
 
     void goBack() {
-        //if(iter!=begin) iter--;
+        if(iter!=begin) iter--;
     }
 
     void goForward() {
-        //if(iter!=end) iter++;
+        if(iter!=back) iter++;
     }
 
     //opcije iz menija

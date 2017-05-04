@@ -39,7 +39,7 @@ void SubtitleApp::initMainOptions(){
     mainOptions->emplace(S, &SubtitleApp::mainGoDown);
     mainOptions->emplace(UP_KEY, &SubtitleApp::mainGoUp);
     mainOptions->emplace(DOWN_KEY, &SubtitleApp::mainGoDown);
-    mainOptions->emplace(KEY_ENTER, &SubtitleApp::mainSelect);
+    mainOptions->emplace(13, &SubtitleApp::mainSelect);
 };
 
 
@@ -97,7 +97,7 @@ int SubtitleApp::main_app() {
         }
         if (input == Q) return 0;
         try {
-            (this->*mainOptions->at(input))();
+            (*this.*mainOptions->at(input))();
             if (!loaded) mainCursorMax=3;
             else mainCursorMax=4;
         } catch (out_of_range) { continue; };
@@ -115,15 +115,15 @@ void SubtitleApp::mainGoUp(){
     }
 };
 void SubtitleApp::mainGoDown(){
-    if(mainCursor<mainCursorMax){
+    if(mainCursor!=mainCursorMax-1){
         mainCursor++;
-        display->menu();
+        display->menuDown();
     }
 };
 void SubtitleApp::mainSelect(){
     if(loaded== nullptr){
-        (this->*mainNotLoaded[mainCursor])();
-    } else (this->*mainLoaded[mainCursor])();
+        (*this.*mainNotLoaded[mainCursor])();
+    } else (*this.*mainLoaded[mainCursor])();
     if (!loaded) {
         mainCursorMax=3;
         display->setNewMenu(&mainNotLoadedStr,3);
@@ -139,9 +139,12 @@ void SubtitleApp::subExport() {
     int input, expCursor;
     SubtitleIO *IO;
     string extension;
-    string options[] = {"SubRip", "MicroDVD", "Mplayer"};
-    //display->setNewMenu(&options, 3);
-    display->displayMain();
+    string * options =new string[3];
+    options[0]="SubRip";
+    options[1]="MicroDVD";
+    options[2]="Mplayer";
+    display->setNewMenu(&options, 3);
+    display->generateHomeScr();
     while (1) {
         while (1) {
             if (_kbhit()) {
@@ -152,13 +155,13 @@ void SubtitleApp::subExport() {
         }
         if (input == DOWN_KEY || input == S && expCursor < 2) {
             expCursor++;
-            display->mainDown();
+            display->menuDown();
         }
         else if (input == UP_KEY || input == W && expCursor != 0) {
             expCursor--;
-            display->mainUp();
+            display->menuUp();
         }
-        else if (input == ENTER_KEY) {
+        else if (input == 13) {
             switch (expCursor) {
                 case 0:
                     IO = SubRipIO::instance_;
@@ -177,6 +180,7 @@ void SubtitleApp::subExport() {
             string path = display->stringInput(Coord(0, 0), "Folder path:"); //TODO zavrsi ovo
             string fname = display->stringInput(Coord(0, 0), "File name:");
             //save(path+"\\"+fname+extension);
+            return;
         }
     }
 };
@@ -184,6 +188,9 @@ void SubtitleApp::subExport() {
 
 void SubtitleApp::edit(){
     if(!loaded) return;
+    iter=begin=loaded->begin();
+    back=loaded->back();
+    end=loaded->end();
     if(!editOptions) initEditOptions();
     int input=0;
     display->initScrolling(loaded);
@@ -197,8 +204,9 @@ void SubtitleApp::edit(){
         }
         if (input == Q) {display->displayMain(); mainCursor=0; return;}
         try{
-            (this->*editOptions->at(input))();
-        }catch(out_of_range){continue;}
+            (*this.*editOptions->at(input))();
+        }catch(out_of_range)
+        {continue;}
     }
 };
 
@@ -212,6 +220,7 @@ void SubtitleApp::initEditOptions(){
     editOptions->emplace(W, &scrollUp);
     editOptions->emplace(UP_KEY, &scrollUp);
     editOptions->emplace(S, &scrollDown);
+    editOptions->emplace(F, &find);
     editOptions->emplace(DOWN_KEY, &scrollDown);
     editOptions->emplace();
 };
@@ -268,7 +277,7 @@ void SubtitleApp::scrollUp(){
 };
 void SubtitleApp::scrollDown(){
     if(iter==back) return;
-    if(iter+2<=end)
+    if(iter+2<end)
         display->scrollDown(&*(iter + 2));
     else
         display->scrollDown(nullptr);
@@ -276,6 +285,10 @@ void SubtitleApp::scrollDown(){
 };
 
 void SubtitleApp::find(){
+    string timeTarg=display->timeInput();
+    //TODO string to mvtime
+    //iter=loaded->findClosestTime(timeTarg);
+//    display->scrollSkip(iter);
 };
 
 void SubtitleApp::editContent(){
