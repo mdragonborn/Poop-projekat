@@ -8,7 +8,7 @@
 #include <conio.h>
 #include <map>
 #include "SubtitleIO.h"
-#include "Display.h"
+//#include "Display.h"
 #include <iostream>
 
 #define W 119
@@ -21,12 +21,12 @@
 #define H 104
 #define E 101
 #define F 102 //? vrv
-#define UP 72
-#define DOWN 80
+#define UP_KEY 72
+#define DOWN_KEY 80
 #define LEFT 75
 #define RIGHT 77
-#define ARROW 224
-#define ENTER 13
+#define ARROW_KEY 224
+#define ENTER_KEY 13
 
 
 using std::map;
@@ -39,7 +39,7 @@ private:
     static map<int, fun_ptr> * listingOptions;
     static map<int, fun_ptr> * mainOptions;
     static map<int, fun_ptr> * editOptions;
-    static SubtitleIter begin, iter, end;
+    static SubtitleIter begin, iter, end, back;
     static Display* display;
     static Subtitles * loaded;
     static fun_ptr mainLoaded[4];
@@ -81,7 +81,6 @@ private:
      * MAIN MENU OPTIONS
      * */
     static void subExport();
-
     static void edit();
     static void showAbout();
     static void quitApp();
@@ -94,19 +93,23 @@ private:
     static void insertNew();
     static void scrollUp();
     static void scrollDown();
-    static void find(SubtitleIter s);
+    static void find();
     static void splitTitle();
     static void mergeTitles();
 public:
     static int main_app();
 };
 
+/*
+ * INIT STATIC MEMBERS
+ * */
+
 map<int, void(*)()> * SubtitleApp::listingOptions=nullptr;
 map<int, void(*)()> * SubtitleApp::mainOptions=nullptr;
 map<int, void(*)()> * SubtitleApp::editOptions=nullptr;
 
 Display* SubtitleApp::display=nullptr;
-SubtitleIter SubtitleApp::begin=SubtitleIter(), SubtitleApp::iter=SubtitleIter(), SubtitleApp::end=SubtitleIter();
+SubtitleIter SubtitleApp::begin=SubtitleIter(), SubtitleApp::iter=SubtitleIter(), SubtitleApp::end=SubtitleIter(), SubtitleApp::back=SubtitleIter();
 Subtitles * SubtitleApp::loaded;
 SubtitleApp::fun_ptr SubtitleApp::mainLoaded[4]={&SubtitleApp::subExport, &SubtitleApp::edit, &SubtitleApp::showAbout, &SubtitleApp::quitApp};
 SubtitleApp::fun_ptr SubtitleApp::mainNotLoaded[3]={&SubtitleApp::load, &SubtitleApp::showAbout, &SubtitleApp::quitApp};

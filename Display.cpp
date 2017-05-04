@@ -1,13 +1,17 @@
 //
 // Created by Milena on 01/05/2017.
 //
-
+#include <conio.h>
 #include "Display.h"
+#include <vector>
+#include <windows.h>
 extern "C" {
 #include <curses.h>
 };
 
-#include <vector>
+
+
+
 using namespace std;
 
 chtype  * strtoch(char * string){
@@ -51,11 +55,16 @@ Display::Display(int h, int w):winW(w), winH(h){
     if(w<50) {
         w=50; winW=50;
     }
+    timeInputCoord=Coord(30,w-16);
     subCoord[0]=Coord(3,5);
     subCoord[1]=Coord(13,5);
     subCoord[2]=Coord(23,5);
+
     TEXT_WIDTH=(unsigned)w-30;
     TEXT_HEIGHT=8; //TODO
+    TIMEIN_WIDTH=16;
+    TIMEIN_HEIGHT=5;
+
     BCGD_COLOR=COLOR_BLACK;
     TEXT_COLOR=COLOR_YELLOW;
     SELECTION_COLOR=COLOR_BLACK; //TODO ???
@@ -74,7 +83,6 @@ Display::Display(int h, int w):winW(w), winH(h){
     raw();
     resize_term(h,w);
     initAscii();
-
 };
 
 void Display::initAscii(){
@@ -162,25 +170,33 @@ void Display::initScrolling(Subtitles * subs){
 };
 
 void Display::scrollUp(Subtitle* prev){
-    if(prev!=prev!=lastThree[1]){
+    if(prev && currentSub==1){
         lastThree[2]=lastThree[1];
         lastThree[1]=lastThree[0];
+        lastThree[0]=prev;
         putLastThree();
-        scrollBox(1);
-    } else if(prev==lastThree[1]) scrollBox(1);
-    else scrollBox(0);
+        scrollBox(1); currentSub=1;
+    } else if(prev && currentSub==2) {
+        scrollBox(1); currentSub=1;
+    }
+    else {
+        scrollBox(0); currentSub=0;
+    }
     refresh();
 };
 void Display::scrollDown(Subtitle* next){
-    if(next && next!=lastThree[1]){
+    if(next && currentSub==1){
         lastThree[0]=lastThree[1];
         lastThree[1]=lastThree[2];
+        lastThree[2]=next;
         putLastThree();
-        scrollBox(1);
-    } else if(next!=lastThree[1]){
-        scrollBox(1);
-    }else
+        scrollBox(1); currentSub=1;
+    } else if(next && currentSub==0){
+        scrollBox(1); currentSub=1;
+    }else {
         scrollBox(2);
+        currentSub = 2;
+    }
     refresh();
 };
 
@@ -288,6 +304,85 @@ void Display::putLastThree(){
     }
 };
 
+string Display::editableText(string str, Coord upperLeft, int winH=TEXT_HEIGHT, int winW=TEXT_WIDTH){
+    //Coord winCursor=upperLeft;
+    Coord textCursor=Coord(0,0);
+    auto winCursor=[=](){return textCursor+upperLeft;}
+    vector<string*>* wrapped=wordWrap(str,winW);
+    putVector(wrapped,upperLeft);
+    textCursor=Coord(wrapped->size()-1,wrapped->back()->length()-1);
+    //TODO makoi za enter, slova, strelice
+    refresh();
+    int input=0;
+    short shiftKeyState;
+    while (1) {
+        while(1) {
+            shiftKeyState=GetAsyncKeyState(VK_SHIFT);
+            if (_kbhit()) {
+                input = _getch();
+                if(input==SHIFT_KEY_R || input==SHIFT_KEY_L) continue;
+                if(input==ARROW_KEY) input=_getch();
+                break;
+            }
+        }
+        if (input == ENTER_KEY) { return unwrap(wrapped);}
+        switch(input){
+            case UP_KEY:{
+                if(textCursor.getX()!=0){
+                    textCursor.setX(textCursor.getX()-1);
+                    if((*wrapped)[textCursor.getX()]->length() && (*wrapped)[textCursor.getX()]->length()<=textCursor.getY())
+                        textCursor.setY((*wrapped)[textCursor.getX()]->length()-1);
+                    else if(!(*wrapped)[textCursor.getX()]->length()) textCursor.setY(0); //TODO ?????
+                }
+                break;
+            }
+            case DOWN_KEY:{
+                if(textCursor.getX()!=wrapped->size()-1){
+                    textCursor.setX(textCursor.getX()+1);
+                    if((*wrapped)[textCursor.getX()]->length() && (*wrapped)[textCursor.getX()]->length()<=textCursor.getY())
+                        textCursor.setY((*wrapped)[textCursor.getX()]->length()-1);
+                    else if(!(*wrapped)[textCursor.getX()]->length()) textCursor.setY(0); //TODO ?????
+                }
+                break;
+            }
+            case RIGHT_KEY:{
+                if(textCursor.getY()!=(*wrapped)[textCursor.getX()]->length()-1){
+                    textCursor.setY(textCursor.getY()+1);
+                }else if(textCursor.getX()!=wrapped->size()-1){
+                    textCursor.set(textCursor.getX()+1,0);
+                }
+                break;
+            }
+            case LEFT_KEY:{
+                if(textCursor.getY()!=0){
+                    textCursor.setY(textCursor.getY()-1);
+                }else if(textCursor.getX()!=0){
+                    textCursor.set(textCursor.getX()-1,(*wrapped)[textCursor.getX()]->length()-1));
+                }  //TODO sta ako je prazan red?
+            }
+            case BACKSPACE_KEY:{
+                if(textCursor.getY()!=0){
+                    (*wrapped)[textCursor.getX()]->erase(textCursor.getY()-1);
+                }else{
+                    //merge redovi
+                } break;
+            }
+            case DEL_KEY:{
+                if(textCursor.getY()!=(*wrapped)[textCursor.getX()]->length()-1){
+                    (*wrapped)[textCursor.getX()]->erase(textCursor.getY());
+                }else{
+                    //merge redovi
+                } break;
+            }
+            default:{
+                if(input>=A_KEY && input<=Z_KEY){
+                    input-=A_KEY;
+                    char newChar='a'+(char)input+(shiftKeyState&(1<<15))?('A'-'a'):'\0';
+                    (*wrapped)[textCursor.getX()]->insert()
+                }
+            }
+        }}
+}
 
 /*void Display::displayTitles();
 void Display::displayMain();

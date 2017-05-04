@@ -19,11 +19,11 @@ void SubtitleApp::shiftAll(){
 }
 //TODO vidi kako se koristi mapa
 void SubtitleApp::initListingOptions(){
-    listingOptions=new map<int, void(*)()>();
+    listingOptions=new map<int, fun_ptr>();
     listingOptions->emplace(W, &goBack);
-    listingOptions->emplace(UP, &goBack);
+    listingOptions->emplace(UP_KEY, &goBack);
     listingOptions->emplace(S, &goForward);
-    listingOptions->emplace(DOWN, &goForward);
+    listingOptions->emplace(DOWN_KEY, &goForward);
     listingOptions->emplace(A, &shiftAll);
     listingOptions->emplace(H, &printListingHelp);
     listingOptions->emplace(E, &mergeTitles);
@@ -37,8 +37,8 @@ void SubtitleApp::initMainOptions(){
     mainOptions=new map<int,void(*)()>();
     mainOptions->emplace(W, &mainGoUp);
     mainOptions->emplace(S, &mainGoDown);
-    mainOptions->emplace(UP, &mainGoUp);
-    mainOptions->emplace(DOWN, &mainGoDown);
+    mainOptions->emplace(UP_KEY, &mainGoUp);
+    mainOptions->emplace(DOWN_KEY, &mainGoDown);
     mainOptions->emplace(KEY_ENTER, &mainSelect);
 };
 
@@ -52,7 +52,7 @@ void SubtitleApp::listSubtitles(Subtitles &subs){
         while (1) {
             if (_kbhit()) {
                 input = _getch();
-                if(input==ARROW) input=_getch();
+                if(input==ARROW_KEY) input=_getch();
                 break;
             }
         }
@@ -93,7 +93,7 @@ int SubtitleApp::main_app() {
         while(1) {
             if (_kbhit()) {
                 input = _getch();
-                if(input==ARROW) input=_getch();
+                if(input==ARROW_KEY) input=_getch();
                 break;
             }
         }
@@ -140,19 +140,19 @@ void SubtitleApp::subExport() {
         while (1) {
             if (_kbhit()) {
                 input = _getch();
-                if (input == ARROW) input = _getch();
+                if (input == ARROW_KEY) input = _getch();
                 break;
             }
         }
-        if (input == DOWN || input == S && expCursor < 2) {
+        if (input == DOWN_KEY || input == S && expCursor < 2) {
             expCursor++;
             display->mainDown();
         }
-        else if (input == UP || input == W && expCursor != 0) {
+        else if (input == UP_KEY || input == W && expCursor != 0) {
             expCursor--;
             display->mainUp();
         }
-        else if (input == ENTER) {
+        else if (input == ENTER_KEY) {
             switch (expCursor) {
                 case 0:
                     IO = SubRipIO::instance_;
@@ -185,7 +185,7 @@ void SubtitleApp::edit(){
         while(1) {
             if (_kbhit()) {
                 input = _getch();
-                if(input==ARROW) input=_getch();
+                if(input==ARROW_KEY) input=_getch();
                 break;
             }
         }
@@ -199,15 +199,14 @@ void SubtitleApp::edit(){
 void SubtitleApp::initEditOptions(){
     editOptions=new map<int, fun_ptr>;
     editOptions->emplace(A, &shiftAll);
-/*    editOptions->emplace(R, &removeCurrent);
+    editOptions->emplace(R, &removeCurrent);
     editOptions->emplace(I, &insertNew);
-    editOptions->emplace(D, &merge);
-    editOptions->emplace(Q, &exit);
+    editOptions->emplace(D, &mergeTitles);
     editOptions->emplace(W, &scrollUp);
-    editOptions->emplace(UP, &scrollUp);
+    editOptions->emplace(UP_KEY, &scrollUp);
     editOptions->emplace(S, &scrollDown);
-    editOptions->emplace(DOWN, &scrollDown);
-    editOptions->emplace(F,&find);*/
+    editOptions->emplace(DOWN_KEY, &scrollDown);
+    editOptions->emplace();
 };
 
 
@@ -226,7 +225,7 @@ void SubtitleApp::quitApp(){
         while(1) {
             if (_kbhit()) {
                 input = _getch();
-                if(input==ARROW) input=_getch();
+                if(input==ARROW_KEY) input=_getch();
                 break;
             }
         }
@@ -234,7 +233,7 @@ void SubtitleApp::quitApp(){
         if(input==LEFT || input==A || input==RIGHT || input==D) {
             optionToggle=(optionToggle+1)%2; display->savePromptShift();
         }
-        if(input==ENTER) if(optionToggle) exit(1);
+        if(input==ENTER_KEY) if(optionToggle) exit(1);
         else {
             subExport(); exit(1);
         }
@@ -248,11 +247,12 @@ void SubtitleApp::removeCurrent(){
     SubtitleIter next=iter+1;
     if(iter==end) next=iter-1;
     loaded->remove(iter);
-    find(next);
+    find();
 };
 void SubtitleApp::insertNew(){};
 
 void SubtitleApp::scrollUp(){
+    if(iter==begin) return;
     if((iter-2)>=begin)
         display->scrollUp(&*(iter - 2));
     else
@@ -260,12 +260,13 @@ void SubtitleApp::scrollUp(){
     iter--;
 };
 void SubtitleApp::scrollDown(){
+    if(iter==back) return;
     if(iter+2<=end)
-        display->scrollDown(&*(iter+2));
+        display->scrollDown(&*(iter + 2));
     else
         display->scrollDown(nullptr);
     iter++;
 };
 
-void SubtitleApp::find(SubtitleIter s){
+void SubtitleApp::find(){
 };

@@ -31,6 +31,7 @@ public:
     Subtitles(){};
     //Navigacija kroz titlove
     SubtitleIter begin();
+    SubtitleIter back();
     SubtitleIter end();
     SubtitleIter findClosestTime(mvTime targetTime);
 

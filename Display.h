@@ -10,6 +10,16 @@
 #include <curses.h>
 #include <functional>
 
+#define UP_KEY 72
+#define DOWN_KEY 80
+#define LEFT_KEY 75
+#define RIGHT_KEY 77
+#define ARROW_KEY 224
+#define ENTER_KEY 13
+#define BACKSPACE_KEY 664
+#define DEL_KEY 666
+#define SHIFT_KEY 665
+
 class Coord{
 private:
     int x, y;
@@ -22,12 +32,29 @@ public:
         y=c.y;
         return *this;
     }
+    Coord operator+(Coord c){
+        return Coord(x+c.x,y+c.y);
+    }
+    Coord operator-(Coord c){
+        return Coord(x-c.x,y-c.y);
+    }
+
     int getX() const {
         return x;
     }
-
     int getY() const {
         return y;
+    }
+
+    void setX(int x) {
+        Coord::x = x;
+    }
+
+    void setY(int y) {
+        Coord::y = y;
+    }
+    void set(int X, int Y){
+        x=X; y=Y;
     }
 };
 
@@ -147,7 +174,7 @@ private:
     friend class R2D2;
     friend class TIEfighter;
     static const short BASE_PAIR=1, C3P0_PAIR=2, R2D2W_PAIR=3, R2D2B_PAIR=4, R2D2R_PAIR=5, YODA_PAIR=6; //TODO osmisliti koji us potrebni
-    unsigned TEXT_WIDTH, TEXT_HEIGHT;
+    unsigned TEXT_WIDTH, TEXT_HEIGHT, TIMEIN_WIDTH, TIMEIN_HEIGHT;
     // Subtitles* currentSubs_= nullptr;
     short BCGD_COLOR, TEXT_COLOR, SELECTION_COLOR;
     int winW, winH;
@@ -158,6 +185,7 @@ private:
     int selectedSub;
     Subtitle* lastThree[3]={nullptr,nullptr,nullptr};
     Coord subCoord[3];
+    Coord timeInputCoord;
     unsigned currentSub;
     static vector<string*> * wordWrap(string str, int lineSize);
     static void freeWordWrapBuffer(vector<string*> * v);
@@ -183,7 +211,8 @@ public:
     void scrollUp(Subtitle* prev);
     void scrollDown(Subtitle* next);
     void setCurentSubs(Subtitles& subs);
-    void editableText(string str, Coord upperLeft);   //TODO JAKO BITNO!!!!!!!!!
+ //   string editableText(string str, Coord upperLeft, int winH=TEXT_HEIGHT, int winW=TEXT_WIDTH);   //TODO JAKO BITNO!!!!!!!!!
+    mvTimeRange timeInput(); //TODO time edit??
     void displayText(string str);
     string stringInput(Coord upperLeft, string prompt);
     static void testWW();

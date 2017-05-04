@@ -31,6 +31,10 @@ SubtitleIter Subtitles::begin(){
     return SubLines.begin();
 }
 
+SubtitleIter Subtitles::back(){
+    return SubLines.end()-1;
+};
+
 SubtitleIter Subtitles::end(){
     return SubLines.end();
 }
