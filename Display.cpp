@@ -76,6 +76,7 @@ Display::Display(int h, int w):winW(w), winH(h){
         init_pair(R2D2B_PAIR, COLOR_BLUE,BCGD_COLOR);
         init_pair(R2D2R_PAIR,COLOR_RED,BCGD_COLOR);
         init_pair(YODA_PAIR,COLOR_GREEN,BCGD_COLOR);
+        init_pair(SELECTION_PAIR,TEXT_COLOR,COLOR_GREEN);
     }
     noecho();
     curs_set(0);
@@ -96,8 +97,16 @@ void Display::initAscii(){
 }
 
 void Display::generateHomeScr(bool loaded) {
+    clear();
     putpictureMultiColor(0);
-   // putpictureMultiColor(1);
+    //putpictureMultiColor(1);
+    chtype format=A_BOLD|COLOR_PAIR(SELECTION_PAIR)|A_REVERSE;
+    for(int i=0; i<menuOptions; i++,format=A_BOLD|COLOR_PAIR(BASE_PAIR)){
+        const char * currentOption=(*currentMenu)[i].c_str();
+        for(int j=0;j<(*currentMenu)[i].length();j++)
+            mvaddch(20+2*i,winW/2-(*currentMenu)[i].length()/2+j,currentOption[j]|format);
+    }
+    currentMenuOption=0;
     refresh();
 };
 
@@ -199,25 +208,60 @@ void Display::scrollDown(Subtitle* next){
     }
     refresh();
 };
+char * Display::clearBlock(int size){
+    char* clearblock=new char[size+1];
+    for(int i=0;i<size;i++) clearblock[i]=' ';
+    clearblock[size]=0;
+    return clearblock;
+}
 
 void  Display::clearScrollWindow(){
-    string clearBlock; Coord start(subCoord[0].getX()-1, subCoord[1].getY()-1);
-    for(int i=0;i<TEXT_WIDTH+2;i++) clearBlock+=' ';
+    char* clearblock=clearBlock(TEXT_WIDTH+2); Coord start(subCoord[0].getX()-1, subCoord[1].getY()-1);
     for(int i=0;i<(3*TEXT_HEIGHT+6);i++)
-        mvaddstr(start.getX()+i,start.getY(),clearBlock.c_str());
+        mvaddstr(start.getX()+i,start.getY(),clearblock);
+    delete clearblock;
 }
 
 void Display::displayMain(){
 
 };
-void Display::mainUp(){};
-void Display::mainDown(){};
+bool Display::menuUp(){
+    if(currentMenuOption!=0) {
+        chtype format = A_BOLD | COLOR_PAIR(BASE_PAIR);
+        for (int i = 0; i < 2; i++, currentMenuOption--, format = A_BOLD
+                            | COLOR_PAIR(SELECTION_PAIR) | A_REVERSE) {
+            const char *currentOption = (*currentMenu)[currentMenuOption].c_str();
+            for (int j = 0; j < (*currentMenu)[currentMenuOption].length(); j++)
+                mvaddch(20 + 2 * currentMenuOption, winW / 2 -
+                        (*currentMenu)[currentMenuOption].length() / 2 + j,
+                        currentOption[j] | format);
+        }
+        return true;
+    }
+    return false;
+};
+bool Display::menuDown(){
+    if(currentMenuOption!=menuOptions-1) {
+        chtype format = A_BOLD | COLOR_PAIR(BASE_PAIR);
+        for (int i = 0; i < 2; i++, currentMenuOption++, format = A_BOLD
+                               | COLOR_PAIR(SELECTION_PAIR) | A_REVERSE) {
+            const char *currentOption = (*currentMenu)[currentMenuOption].c_str();
+            for (int j = 0; j < (*currentMenu)[currentMenuOption].length(); j++)
+                mvaddch(20 + 2 * currentMenuOption, winW / 2 -
+                        (*currentMenu)[currentMenuOption].length() / 2 + j,
+                        currentOption[j] | format);
+        }
+        return true;
+    }
+    return false;
+};
+
 void Display::quitSavePrompt(){};  //TODO do you want to save before you exit?
 void Display::savePromptShift(){};
 void Display::displayText(string str){};
 string Display::stringInput(Coord upperLeft, string prompt){};
 
-vector<string*> * Display::wordWrap(string str, int lineSize){
+vector<string *> * Display::wordWrap(string str, int lineSize, bool editable) {
     int i=0, cnt;
     std::vector <string*> * lineBuffer=new vector<string*>;
     string * newstr;
@@ -247,7 +291,8 @@ vector<string*> * Display::wordWrap(string str, int lineSize){
                 }
             }
         }
-        if(str[i]==' ') newstr->append(" (->)");
+        if(str[i]==' ' && !editable)newstr->append(" (->)");
+        else if(str[i]=='\n' && editable) newstr->append("\n");
         lineBuffer->push_back(newstr);
         if(isspace(str[i])) i++;
         newstr=new string();
@@ -256,37 +301,48 @@ vector<string*> * Display::wordWrap(string str, int lineSize){
 };
 
 void Display::freeWordWrapBuffer(vector<string*> * v){
-    for(vector<string*>::iterator i=v->begin(); i<v->end(); i++)
+    for(vector<string*>::iterator i=v->begin(); i<v->end(); i++);
         //if((*i)!= nullptr) delete (*i);
     delete v;
 };
 
-void Display::putVector(vector<string*> * lines, Coord c){
+string Display::unwrap(vector<string*>* buffer){
+    string rtVal="";
+    for(vector<string*>::iterator i=buffer->begin(); i<buffer->end(); i++) {
+        if ((*i)->length()>7 && !(*i)->substr((*i)->length() - 6, (*i)->length() - 1).compare(" (->)"))
+            (*i)->erase((*i)->length() - 5, (*i)->length() - 1);
+        rtVal.append(**i);
+    }
+    freeWordWrapBuffer(buffer);
+    return rtVal;
+};
+
+void Display::putVector(vector<string*> * lines, Coord c, bool del){
     int i=0;
     for(vector<string*>::iterator it=lines->begin();it<lines->end();it++, i++){
         mvaddstr(c.getX()+i,c.getY(),(*it)->c_str());
     }
-    freeWordWrapBuffer(lines);
+    if(del) freeWordWrapBuffer(lines);
 }
 
 void Display::testWW() {
     string s = "Subtitles downloaded from www.OpenSubtitles.org";
-    vector<string *> *v = wordWrap(s, 23);
+    vector<string *> *v = wordWrap(s, 23, false);
     for (vector<string *>::iterator i = v->begin(); i < v->end(); i++)
         cout << (**i) << endl;
     s = "- Captain.\n- Yes, sir?";
-    v = wordWrap(s, 23);
+    v = wordWrap(s, 23, false);
     for (vector<string *>::iterator i = v->begin(); i < v->end(); i++)
         cout << (**i) << endl;
     s = "the ambassadors for the supreme\nchancellor wish to board immediately.";
-    v = wordWrap(s, 23);
+    v = wordWrap(s, 23, false);
     for (vector<string *>::iterator i = v->begin(); i < v->end(); i++)
         cout << (**i) << endl;
 }
 
 void Display::putWrappedString(string content, Coord upperLeft, int lineW){
     if(lineW=-1) lineW=TEXT_WIDTH;
-    vector<string*> *printbuffer=wordWrap(content,lineW);
+    vector<string*> *printbuffer= wordWrap(content, lineW, false);
     putVector(printbuffer,upperLeft);
     freeWordWrapBuffer(printbuffer);
 };
@@ -304,28 +360,29 @@ void Display::putLastThree(){
     }
 };
 
-string Display::editableText(string str, Coord upperLeft, int winH=TEXT_HEIGHT, int winW=TEXT_WIDTH){
+string Display::editableText(string str, Coord upperLeft, int winh, int winw){
     //Coord winCursor=upperLeft;
+    if(winw==-1) winw=20;
+    if(winh==-1) winh=TEXT_HEIGHT;
+    const char* clear=clearBlock(winw);
     Coord textCursor=Coord(0,0);
-    auto winCursor=[=](){return textCursor+upperLeft;}
-    vector<string*>* wrapped=wordWrap(str,winW);
-    putVector(wrapped,upperLeft);
-    textCursor=Coord(wrapped->size()-1,wrapped->back()->length()-1);
-    //TODO makoi za enter, slova, strelice
+    vector<string*>* wrapped= wordWrap(str, winw, true);
+    putVector(wrapped,upperLeft, false);
+    textCursor=Coord(wrapped->size()-1,wrapped->back()->length()-2);
+    auto winCursor=Coord(textCursor.getX()+upperLeft.getX(),textCursor.getY()+upperLeft.getY());
+    mvaddch(winCursor.getX(),winCursor.getY(),(*(*wrapped)[textCursor.getX()])[textCursor.getY()]|A_REVERSE|COLOR_PAIR(BASE_PAIR));
     refresh();
     int input=0;
     short shiftKeyState;
     while (1) {
         while(1) {
-            shiftKeyState=GetAsyncKeyState(VK_SHIFT);
             if (_kbhit()) {
                 input = _getch();
-                if(input==SHIFT_KEY_R || input==SHIFT_KEY_L) continue;
                 if(input==ARROW_KEY) input=_getch();
                 break;
             }
         }
-        if (input == ENTER_KEY) { return unwrap(wrapped);}
+        if (input == ENTER_KEY) { delete clear; return unwrap(wrapped);}
         switch(input){
             case UP_KEY:{
                 if(textCursor.getX()!=0){
@@ -346,7 +403,8 @@ string Display::editableText(string str, Coord upperLeft, int winH=TEXT_HEIGHT, 
                 break;
             }
             case RIGHT_KEY:{
-                if(textCursor.getY()!=(*wrapped)[textCursor.getX()]->length()-1){
+                string*thisRow=(*wrapped)[textCursor.getX()];
+                if(textCursor.getY()!=thisRow->length()-1 && (*thisRow)[textCursor.getY()+1]!='\n'){
                     textCursor.setY(textCursor.getY()+1);
                 }else if(textCursor.getX()!=wrapped->size()-1){
                     textCursor.set(textCursor.getX()+1,0);
@@ -357,33 +415,74 @@ string Display::editableText(string str, Coord upperLeft, int winH=TEXT_HEIGHT, 
                 if(textCursor.getY()!=0){
                     textCursor.setY(textCursor.getY()-1);
                 }else if(textCursor.getX()!=0){
-                    textCursor.set(textCursor.getX()-1,(*wrapped)[textCursor.getX()]->length()-1));
+                    string * current=(*wrapped)[textCursor.getX()];
+                    textCursor.set(textCursor.getX()-1,(*wrapped)[textCursor.getX()-1]->length()-1);
+                    if((*current)[current->length()-1]=='\n') textCursor.setY(textCursor.getY()-1);
                 }  //TODO sta ako je prazan red?
+                break;
             }
             case BACKSPACE_KEY:{
                 if(textCursor.getY()!=0){
-                    (*wrapped)[textCursor.getX()]->erase(textCursor.getY()-1);
+                    (*wrapped)[textCursor.getX()]->erase(textCursor.getY()-1,1);
+                    textCursor.setY(textCursor.getY()-1);
                 }else{
-                    //merge redovi
+                    if(textCursor.getX()!=0){
+                        string*prev=(*wrapped)[textCursor.getX()-1];
+                        int nextY=prev->length()-1;
+                        if((*prev)[prev->length()-1]=='\n')
+                            prev->erase(prev->length()-1,1);
+                        prev->append(*(*wrapped)[textCursor.getX()]);
+                        wrapped->erase(((*wrapped).begin()+textCursor.getX()));
+                        textCursor.set(textCursor.getX()-1, nextY);
+                    }
                 } break;
             }
             case DEL_KEY:{
                 if(textCursor.getY()!=(*wrapped)[textCursor.getX()]->length()-1){
-                    (*wrapped)[textCursor.getX()]->erase(textCursor.getY());
+                    (*wrapped)[textCursor.getX()]->erase(textCursor.getY(),1);
                 }else{
-                    //merge redovi
+                    if(textCursor.getX()!=wrapped->size()-1){
+                        int newY=(*wrapped)[textCursor.getX()]->length();
+                        string *current=(*wrapped)[textCursor.getX()];
+                        current->append(*(*wrapped)[textCursor.getX()+1]);
+                        wrapped->erase(((*wrapped).begin()+textCursor.getX()+1));
+                    }
                 } break;
             }
             default:{
-                if(input>=A_KEY && input<=Z_KEY){
-                    input-=A_KEY;
-                    char newChar='a'+(char)input+(shiftKeyState&(1<<15))?('A'-'a'):'\0';
-                    (*wrapped)[textCursor.getX()]->insert()
+                if(input>=0 && input<=127){
+                    (*wrapped)[textCursor.getX()]->insert(textCursor.getY(),1,(char)input);
+                    textCursor.setY(textCursor.getY()+1);
                 }
+                break;
             }
-        }}
+        }
+        for(int i=0;i<winh;i++) {
+            mvaddstr(upperLeft.getX() + i, upperLeft.getY(), clear);
+            refresh();
+        }
+        putVector(wrapped,upperLeft,false);
+        winCursor=Coord(textCursor.getX()+upperLeft.getX(),textCursor.getY()+upperLeft.getY());
+        mvaddch(winCursor.getX(),winCursor.getY(),(*(*wrapped)[textCursor.getX()])[textCursor.getY()]|A_REVERSE|A_BOLD|COLOR_PAIR(BASE_PAIR));
+        refresh();
+    }
 }
 
+string Display::contentEditCurrent(){
+    string rtvalue=editableText(lastThree[currentSub]->getContent(),Coord(subCoord[currentSub].getX()-2, subCoord[currentSub].getY()), TEXT_HEIGHT-2, TEXT_WIDTH);
+    return rtvalue;
+};
+
+void Display::refreshScrolled(){
+    putLastThree();
+    scrollBox(currentSub);
+
+};
+
+void Display::setNewMenu(string ** newOptions, int optionCount){
+    menuOptions=optionCount;
+    currentMenu=newOptions;
+};
 /*void Display::displayTitles();
 void Display::displayMain();
 void Display::displaySettings();
@@ -391,6 +490,5 @@ void Display::displayGetAddress();
 void Display::scrollUp();
 void Display::scrollDown();
 void Display::setCurentSubs(Subtitles& subs);
-string Display::editableText(string str, Coord upperLeft);
 string Display::stringInput(Coord upperLeft);
 */

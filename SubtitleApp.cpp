@@ -20,26 +20,26 @@ void SubtitleApp::shiftAll(){
 //TODO vidi kako se koristi mapa
 void SubtitleApp::initListingOptions(){
     listingOptions=new map<int, fun_ptr>();
-    listingOptions->emplace(W, &goBack);
-    listingOptions->emplace(UP_KEY, &goBack);
-    listingOptions->emplace(S, &goForward);
-    listingOptions->emplace(DOWN_KEY, &goForward);
-    listingOptions->emplace(A, &shiftAll);
-    listingOptions->emplace(H, &printListingHelp);
-    listingOptions->emplace(E, &mergeTitles);
-    listingOptions->emplace(D, &splitTitle);
-    listingOptions->emplace(I, &insertTitle);
-    listingOptions->emplace(R, &removeTitle);
+    listingOptions->emplace(W, &SubtitleApp::goBack);
+    listingOptions->emplace(UP_KEY, &SubtitleApp::goBack);
+    listingOptions->emplace(S, &SubtitleApp::goForward);
+    listingOptions->emplace(DOWN_KEY, &SubtitleApp::goForward);
+    listingOptions->emplace(A, &SubtitleApp::shiftAll);
+    listingOptions->emplace(H, &SubtitleApp::printListingHelp);
+    listingOptions->emplace(E, &SubtitleApp::mergeTitles);
+    listingOptions->emplace(D, &SubtitleApp::splitTitle);
+    listingOptions->emplace(I, &SubtitleApp::insertTitle);
+    listingOptions->emplace(R, &SubtitleApp::removeTitle);
     return;
 }
 
 void SubtitleApp::initMainOptions(){
-    mainOptions=new map<int,void(*)()>();
-    mainOptions->emplace(W, &mainGoUp);
-    mainOptions->emplace(S, &mainGoDown);
-    mainOptions->emplace(UP_KEY, &mainGoUp);
-    mainOptions->emplace(DOWN_KEY, &mainGoDown);
-    mainOptions->emplace(KEY_ENTER, &mainSelect);
+    mainOptions=new map<int,fun_ptr>();
+    mainOptions->emplace(W, &SubtitleApp::mainGoUp);
+    mainOptions->emplace(S, &SubtitleApp::mainGoDown);
+    mainOptions->emplace(UP_KEY, &SubtitleApp::mainGoUp);
+    mainOptions->emplace(DOWN_KEY, &SubtitleApp::mainGoDown);
+    mainOptions->emplace(KEY_ENTER, &SubtitleApp::mainSelect);
 };
 
 
@@ -58,7 +58,7 @@ void SubtitleApp::listSubtitles(Subtitles &subs){
         }
             if(input==Q) return;
             try{
-                listingOptions->at(input)();
+                (this->*listingOptions->at(input))();
             }catch(out_of_range){continue;};
     //        cout<<io.fileName() << listing_help_print() <<endl;
     //        cout<<*iter<<endl;
@@ -69,25 +69,23 @@ void SubtitleApp::listSubtitles(Subtitles &subs){
 void SubtitleApp::insertTitle(){};
 void SubtitleApp::removeTitle(){};
 
-void SubtitleApp::printMenu(){
-}
 void SubtitleApp::printListingHelp(){};
 
 int SubtitleApp::main_app() {
     int input;
-
-    if (display == nullptr) display = new Display(40, 80);
+    SubtitleIO * io=MplayerIO::createObject();
+    loaded = io->loadSubtitles("C:\\Users\\Milena\\Desktop\\Primer.sub");
+    if (display == nullptr) display = new Display(35, 100);
     if (mainOptions == nullptr) initMainOptions();
     mainCursor=0;
     if (!loaded) {
         mainCursorMax=3;
-//  TODO      display->setNewMenu(&mainNotLoadedStr,3);
+        display->setNewMenu(&mainNotLoadedStr,3);
     }
     else {
         mainCursorMax = 4;
-  // TODO     display->setNewMenu(&mainLoadedStr,3);
+        display->setNewMenu(&mainLoadedStr,3);
     }
-
     display->generateHomeScr(false);
     while (1) {
         while(1) {
@@ -99,7 +97,7 @@ int SubtitleApp::main_app() {
         }
         if (input == Q) return 0;
         try {
-            mainOptions->at(input)();
+            (this->*mainOptions->at(input))();
             if (!loaded) mainCursorMax=3;
             else mainCursorMax=4;
         } catch (out_of_range) { continue; };
@@ -113,20 +111,28 @@ void SubtitleApp::mergeTitles(){};
 void SubtitleApp::mainGoUp(){
     if(mainCursor>0) {
         mainCursor--;
-        display->mainUp();
+        display->menuUp();
     }
 };
 void SubtitleApp::mainGoDown(){
     if(mainCursor<mainCursorMax){
         mainCursor++;
-        display->mainDown();
+        display->menu();
     }
 };
 void SubtitleApp::mainSelect(){
     if(loaded== nullptr){
-        (*mainNotLoaded[mainCursor])();
-    } else (*mainLoaded[mainCursor])();
-    display->displayMain(); mainCursor=0;
+        (this->*mainNotLoaded[mainCursor])();
+    } else (this->*mainLoaded[mainCursor])();
+    if (!loaded) {
+        mainCursorMax=3;
+        display->setNewMenu(&mainNotLoadedStr,3);
+    }
+    else {
+        mainCursorMax = 4;
+        display->setNewMenu(&mainLoadedStr,3);
+    }
+    display->generateHomeScr((bool)loaded); mainCursor=0;
 };
 
 void SubtitleApp::subExport() {
@@ -191,7 +197,7 @@ void SubtitleApp::edit(){
         }
         if (input == Q) {display->displayMain(); mainCursor=0; return;}
         try{
-            editOptions->at(input)();
+            (this->*editOptions->at(input))();
         }catch(out_of_range){continue;}
     }
 };
@@ -199,6 +205,7 @@ void SubtitleApp::edit(){
 void SubtitleApp::initEditOptions(){
     editOptions=new map<int, fun_ptr>;
     editOptions->emplace(A, &shiftAll);
+    editOptions->emplace(E,&editContent);
     editOptions->emplace(R, &removeCurrent);
     editOptions->emplace(I, &insertNew);
     editOptions->emplace(D, &mergeTitles);
@@ -269,4 +276,9 @@ void SubtitleApp::scrollDown(){
 };
 
 void SubtitleApp::find(){
+};
+
+void SubtitleApp::editContent(){
+    (*iter).changeContent(display->contentEditCurrent());
+    display->refreshScrolled();
 };

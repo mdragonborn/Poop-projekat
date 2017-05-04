@@ -9,6 +9,7 @@
 #include "Subtitles.h"
 #include <curses.h>
 #include <functional>
+#include <vector>
 
 #define UP_KEY 72
 #define DOWN_KEY 80
@@ -16,9 +17,8 @@
 #define RIGHT_KEY 77
 #define ARROW_KEY 224
 #define ENTER_KEY 13
-#define BACKSPACE_KEY 664
-#define DEL_KEY 666
-#define SHIFT_KEY 665
+#define BACKSPACE_KEY 8
+#define DEL_KEY 83
 
 class Coord{
 private:
@@ -33,6 +33,9 @@ public:
         return *this;
     }
     Coord operator+(Coord c){
+        return Coord(x+c.x,y+c.y);
+    }
+    const Coord operator+(const Coord c)const{
         return Coord(x+c.x,y+c.y);
     }
     Coord operator-(Coord c){
@@ -173,25 +176,27 @@ private:
     friend class C3P0;
     friend class R2D2;
     friend class TIEfighter;
-    static const short BASE_PAIR=1, C3P0_PAIR=2, R2D2W_PAIR=3, R2D2B_PAIR=4, R2D2R_PAIR=5, YODA_PAIR=6; //TODO osmisliti koji us potrebni
+    static const short BASE_PAIR=1, C3P0_PAIR=2, R2D2W_PAIR=3, R2D2B_PAIR=4, R2D2R_PAIR=5, YODA_PAIR=6, SELECTION_PAIR=7; //TODO osmisliti koji us potrebni
     unsigned TEXT_WIDTH, TEXT_HEIGHT, TIMEIN_WIDTH, TIMEIN_HEIGHT;
     // Subtitles* currentSubs_= nullptr;
     short BCGD_COLOR, TEXT_COLOR, SELECTION_COLOR;
     int winW, winH;
-    AsciiPicture** asciiArt;
+    AsciiPicture** asciiArt=nullptr;
     void initAscii();
     string ** currentMenu= nullptr;
     int menuOptions=0;
+    int currentMenuOption;
     int selectedSub;
     Subtitle* lastThree[3]={nullptr,nullptr,nullptr};
     Coord subCoord[3];
     Coord timeInputCoord;
     unsigned currentSub;
-    static vector<string*> * wordWrap(string str, int lineSize);
+    static vector<string *> *wordWrap(string str, int lineSize, bool editable=false);
     static void freeWordWrapBuffer(vector<string*> * v);
+    static string unwrap(vector<string*>* buffer);
 public:
     Display(int h, int w);
-    void putVector(vector<string*> * lines, Coord c);
+    void putVector(vector<string*> * lines, Coord c, bool del=true);
     void generateHomeScr(bool loaded=false);
     void putpictureMultiColor(int picID);
     void generateFrame(int h, int w, Coord upperLeft, int pair=BASE_PAIR);
@@ -199,11 +204,12 @@ public:
     void scrollBox(int i);
     void initScrolling(Subtitles * subs);
     void  clearScrollWindow();
-    void setNewMenu(string * newOptions[], int optionCount);  //TODO cuva u currentMenu i menuOpotions
+    char * clearBlock(int size);
+    void setNewMenu(string ** newOptions, int optionCount);  //TODO cuva u currentMenu i menuOpotions
     void initSearch();
     void displayMain();
-    void mainUp();
-    void mainDown();
+    bool menuUp();
+    bool menuDown();
     void displaySettings();
     void displayGetAddress();
     void quitSavePrompt();  //TODO do you want to save before you exit?
@@ -211,7 +217,8 @@ public:
     void scrollUp(Subtitle* prev);
     void scrollDown(Subtitle* next);
     void setCurentSubs(Subtitles& subs);
- //   string editableText(string str, Coord upperLeft, int winH=TEXT_HEIGHT, int winW=TEXT_WIDTH);   //TODO JAKO BITNO!!!!!!!!!
+    void refreshScrolled();
+    string editableText(string str, Coord upperLeft, int winh=-1, int winw=-1);   //TODO JAKO BITNO!!!!!!!!!
     mvTimeRange timeInput(); //TODO time edit??
     void displayText(string str);
     string stringInput(Coord upperLeft, string prompt);
@@ -220,6 +227,7 @@ public:
     void setTextW(unsigned i){ TEXT_WIDTH=i;}
     void putWrappedString(string content, Coord upperLeft, int lineW=-1);
     void putLastThree();
+    string contentEditCurrent();
 };
 
 class WordWrapError: public exception{};
