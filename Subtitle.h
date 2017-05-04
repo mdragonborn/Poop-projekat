@@ -66,30 +66,17 @@ private:
 */
     mvTimeRange time_;
     string content_;
-    string * lines_;
-    int lineCnt;
     //Formatting * format_;
-    void parseLines(){
-        lineCnt=1; int lastI=0, j=0;
-        for(int i=0; i<content_.length(); i++)
-            if(content_[i]=='\n') lineCnt++;
-        lines_=new string[lineCnt];
-        for(int i=0;i<content_.length(); i++)
-            if(content_[i]=='\n' || i==content_.length()-1){
-                lines_[j++]=content_.substr(lastI, i-lastI);
-                lastI=i;
-            }
-    }
 public:
     Subtitle(const Subtitle& copy):time_(copy.time_), content_(copy.content_)//, format_(new Formatting(*copy.format_))
-    {parseLines();};
+    {};
     Subtitle(Subtitle& copy):time_(copy.time_), content_(copy.content_)//, format_(new Formatting(*copy.format_))
-    {parseLines();};
+    {};
     Subtitle(Subtitle&& copy):time_(copy.time_), content_(copy.content_)//,  format_(new Formatting(*copy.format_))
-     {parseLines();};
+     {};
     Subtitle(mvTimeRange time, string content//, Formatting* formatting= nullptr
     ):time_(time), content_(content)//, format_(formatting)
-    {parseLines();};
+    {};
 
     Subtitle& shiftTime(mvTime disp, mvTimeRange::dir direction){
         time_.shift(disp, direction);
@@ -117,8 +104,6 @@ public:
     mvTimeRange getTime(){
         return time_;
     };
-    string* getLines(){return lines_;};
-    int getlineCount(){return lineCnt;}
     /*Formatting *getFormat_(){
         return format_;
     }*/

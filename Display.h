@@ -17,7 +17,11 @@ public:
     Coord(int X=0, int Y=0):x(X),y(Y){}
     Coord(Coord& c):x(c.x),y(c.y){}
     Coord(Coord&& c):x(c.x),y(c.y){}
-
+    Coord& operator=(Coord c){
+        x=c.x;
+        y=c.y;
+        return *this;
+    }
     int getX() const {
         return x;
     }
@@ -143,6 +147,7 @@ private:
     friend class R2D2;
     friend class TIEfighter;
     static const short BASE_PAIR=1, C3P0_PAIR=2, R2D2W_PAIR=3, R2D2B_PAIR=4, R2D2R_PAIR=5, YODA_PAIR=6; //TODO osmisliti koji us potrebni
+    unsigned TEXT_WIDTH, TEXT_HEIGHT;
     // Subtitles* currentSubs_= nullptr;
     short BCGD_COLOR, TEXT_COLOR, SELECTION_COLOR;
     int winW, winH;
@@ -150,15 +155,22 @@ private:
     void initAscii();
     string ** currentMenu= nullptr;
     int menuOptions=0;
-    Coord sub1,sub2, sub3;
     int selectedSub;
     Subtitle* lastThree[3]={nullptr,nullptr,nullptr};
+    Coord subCoord[3];
+    unsigned currentSub;
+    static vector<string*> * wordWrap(string str, int lineSize);
+    static void freeWordWrapBuffer(vector<string*> * v);
 public:
     Display(int h, int w);
+    void putVector(vector<string*> * lines, Coord c);
     void generateHomeScr(bool loaded=false);
     void putpictureMultiColor(int picID);
-    void generateFrame(int h, int w, Coord upperLeft);
+    void generateFrame(int h, int w, Coord upperLeft, int pair=BASE_PAIR);
+    void clearFrame(int h, int w, Coord upperLeft);
+    void scrollBox(int i);
     void initScrolling(Subtitles * subs);
+    void  clearScrollWindow();
     void setNewMenu(string * newOptions[], int optionCount);  //TODO cuva u currentMenu i menuOpotions
     void initSearch();
     void displayMain();
@@ -174,6 +186,13 @@ public:
     void editableText(string str, Coord upperLeft);   //TODO JAKO BITNO!!!!!!!!!
     void displayText(string str);
     string stringInput(Coord upperLeft, string prompt);
+    static void testWW();
+    int getTextW(){return TEXT_WIDTH;}
+    void setTextW(unsigned i){ TEXT_WIDTH=i;}
+    void putWrappedString(string content, Coord upperLeft, int lineW=-1);
+    void putLastThree();
 };
+
+class WordWrapError: public exception{};
 
 #endif //POOP_DISPLAY_H

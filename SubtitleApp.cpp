@@ -81,11 +81,11 @@ int SubtitleApp::main_app() {
     mainCursor=0;
     if (!loaded) {
         mainCursorMax=3;
-        display->setNewMenu(&mainNotLoadedStr,3);
+//  TODO      display->setNewMenu(&mainNotLoadedStr,3);
     }
     else {
         mainCursorMax = 4;
-        display->setNewMenu(&mainLoadedStr,3);
+  // TODO     display->setNewMenu(&mainLoadedStr,3);
     }
 
     display->generateHomeScr(false);
@@ -199,7 +199,7 @@ void SubtitleApp::edit(){
 void SubtitleApp::initEditOptions(){
     editOptions=new map<int, fun_ptr>;
     editOptions->emplace(A, &shiftAll);
-    editOptions->emplace(R, &removeCurrent);
+/*    editOptions->emplace(R, &removeCurrent);
     editOptions->emplace(I, &insertNew);
     editOptions->emplace(D, &merge);
     editOptions->emplace(Q, &exit);
@@ -207,7 +207,7 @@ void SubtitleApp::initEditOptions(){
     editOptions->emplace(UP, &scrollUp);
     editOptions->emplace(S, &scrollDown);
     editOptions->emplace(DOWN, &scrollDown);
-    editOptions->emplace(F,&find);
+    editOptions->emplace(F,&find);*/
 };
 
 
@@ -268,10 +268,4 @@ void SubtitleApp::scrollDown(){
 };
 
 void SubtitleApp::find(SubtitleIter s){
-    if(s){
-
-    }
-    else{
-
-    }
 };

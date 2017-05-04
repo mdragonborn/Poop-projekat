@@ -94,7 +94,7 @@ private:
     static void insertNew();
     static void scrollUp();
     static void scrollDown();
-    static void find(SubtitleIter s= nullptr);
+    static void find(SubtitleIter s);
     static void splitTitle();
     static void mergeTitles();
 public:
